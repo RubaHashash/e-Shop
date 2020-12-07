@@ -22,34 +22,12 @@ InputDecoration registerInputDecoration({String hintText}) {
   );
 }
 
-InputDecoration signInEmailDecoration() {
+InputDecoration signInDecoration({String hintText, IconData data}) {
   return InputDecoration(
     contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
     hintStyle: const TextStyle(fontSize: 18),
-    hintText: 'E-mail',
-    prefixIcon: Icon(Icons.email),
-    focusedBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(width: 2, color: Palette.darkBlue),
-    ),
-    enabledBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(color: Palette.darkBlue),
-    ),
-    errorBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(color: Palette.darkOrange),
-    ),
-    focusedErrorBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(width: 2.0, color: Palette.darkOrange),
-    ),
-    errorStyle: const TextStyle(color: Palette.darkOrange),
-  );
-}
-
-InputDecoration signInPasswordDecoration() {
-  return InputDecoration(
-    contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
-    hintStyle: const TextStyle(fontSize: 18),
-    hintText: 'Password',
-    prefixIcon: Icon(Icons.lock),
+    hintText: hintText,
+    prefixIcon: Icon(data),
     focusedBorder: const UnderlineInputBorder(
       borderSide: BorderSide(width: 2, color: Palette.darkBlue),
     ),
@@ -67,12 +45,12 @@ InputDecoration signInPasswordDecoration() {
 }
 
 
-InputDecoration signInNameDecoration() {
+InputDecoration signUpDecoration({String hintText, IconData data}) {
   return InputDecoration(
     contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
-    hintStyle: const TextStyle(fontSize: 18),
-    hintText: 'Name',
-    prefixIcon: Icon(Icons.person),
+    hintStyle: const TextStyle(fontSize: 18, color: Colors.white),
+    hintText: hintText,
+    prefixIcon: Icon(data, color: Colors.white),
     focusedBorder: const UnderlineInputBorder(
       borderSide: BorderSide(width: 2, color: Palette.darkBlue),
     ),
@@ -85,6 +63,6 @@ InputDecoration signInNameDecoration() {
     focusedErrorBorder: const UnderlineInputBorder(
       borderSide: BorderSide(width: 2.0, color: Palette.darkOrange),
     ),
-    errorStyle: const TextStyle(color: Palette.darkOrange),
+    errorStyle: const TextStyle(color: Palette.darkOrange, fontSize: 14),
   );
 }

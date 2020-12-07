@@ -1,7 +1,11 @@
+import '../StoreHome.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/config/decoration_functions.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_shop_app/DialogBox/errorDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AdminHomePage.dart';
 import '../config/palette.dart';
@@ -19,54 +23,53 @@ class _SignInFormState extends State<SignInForm>  {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _email, _password;
 
-
-  checkAuthentification() async {
-    _auth.onAuthStateChanged.listen((user) {
-      if (user != null) {
-        Navigator.push(
-            this.context,
-            MaterialPageRoute(builder: (context) => AdminHomePage()));
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    this.checkAuthentification();
-  }
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
 
   login() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      try {
-        FirebaseUser user = (await _auth.signInWithEmailAndPassword(
-            email: _email, password: _password)) as FirebaseUser;
-      } catch (e) {
-        showError(e.errormessage);
+      FirebaseUser firebaseUser;
+      await _auth.signInWithEmailAndPassword(
+          email: _email.text.trim(), 
+          password: _password.text.trim()
+      ).then((authUser){
+        firebaseUser = authUser.user;
+      }).catchError((error){
+        showDialog(
+            context: context,
+            builder: (c){
+              return ErrorAlertDialog(message: error.message.toString());
+            }
+        );
+      });
+
+      if(firebaseUser != null){
+        readData(firebaseUser).then((s){
+          Navigator.pop(context);
+          Route route = MaterialPageRoute(builder: (c) => StoreHome());
+          Navigator.pushReplacement(context, route);
+        });
       }
     }
+
   }
 
-  showError(String errormessage) {
-    showDialog(
-        context: this.context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('ERROR'),
-            content: Text(errormessage),
-            actions: <Widget>[
-              FlatButton(onPressed: () {
-                Navigator.of(context).pop();
-              }, child: Text('OK'))
-            ],
-          );
-        });
+  Future readData(FirebaseUser fUser) async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    Firestore.instance.collection("users").document(fUser.uid).get().then((dataSnapshot) async {
+      await sharedPreferences.setString("uid", dataSnapshot.data["uid"]);
+      await sharedPreferences.setString("email", dataSnapshot.data["email"]);
+      await sharedPreferences.setString("name", dataSnapshot.data["name"]);
+      List<String> cartList = dataSnapshot.data["userCart"].cast<String>();
+      await sharedPreferences.setStringList("userCart", cartList);
+    });
   }
+
 
 
   @override
@@ -96,29 +99,34 @@ class _SignInFormState extends State<SignInForm>  {
                     children: [
                       Padding(padding: EdgeInsets.symmetric(vertical: 16),
                         child: TextFormField(
+                          controller: _email,
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Enter your E-mail';
                             }
+                            if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(input)){
+                              return 'Invalid E-mail';
+                            }
                             return null;
                           },
-                          decoration: signInEmailDecoration(),
-                          onSaved: (input) => _email = input,
+                          decoration: signInDecoration(hintText: 'E-mail', data: Icons.email),
+                          onSaved: (input) => _email.text = input,
 
                         ),
                       ),
 
                       Padding(padding: EdgeInsets.symmetric(vertical: 16),
                         child: TextFormField(
+                          controller: _password,
                           validator: (input) {
                             if (input.length < 6) {
                               return 'Provide Minimum 6 Characters';
                             }
                             return null;
                           },
-                          decoration: signInPasswordDecoration(),
+                          decoration: signInDecoration(hintText: 'Password', data: Icons.lock),
                           obscureText: true,
-                          onSaved: (input) => _password = input,
+                          onSaved: (input) => _password.text = input,
 
                         ),
                       ),

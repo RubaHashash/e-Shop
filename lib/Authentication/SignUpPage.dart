@@ -1,7 +1,11 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/AdminHomePage.dart';
+import 'package:e_shop_app/DialogBox/errorDialog.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/palette.dart';
 import '../config/decoration_functions.dart';
@@ -9,8 +13,10 @@ import '../config/decoration_functions.dart';
 
 
 class SignUpPage extends StatefulWidget {
+
   const SignUpPage({Key key, this.onSignInClicked}) : super(key: key);
   final VoidCallback onSignInClicked;
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -20,23 +26,18 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
 
-  String _email,_password, _name;
-  AnimationController _controller;
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _cPassword = TextEditingController();
 
-  checkAuthentication() async{
-    _auth.onAuthStateChanged.listen((user) async{
-      if(user != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
-      }
-    });
-  }
+  AnimationController _controller;
 
   @override
   void initState(){
     super.initState();
     _controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    this.checkAuthentication();
   }
 
   @override
@@ -47,35 +48,62 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
 
 
   signUp() async{
-    if(_formKey.currentState.validate()){
-      _formKey.currentState.save();
 
-      try{
-        FirebaseUser user = (await _auth.createUserWithEmailAndPassword(email: _email, password: _password)) as FirebaseUser;
-        if(user != null){
-          UserUpdateInfo updateuser = UserUpdateInfo();
-          updateuser.displayName = _name;
-          user.updateProfile(updateuser);
-        }
-      }catch(e){
-        showError(e.errormessage);
-      }
-    }
-  }
-  showError(String errormessage){
-    showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            title: Text('ERROR'),
-            content: Text(errormessage),
-            actions: <Widget>[
-              FlatButton(onPressed: (){
-                Navigator.of(context).pop();
-              }, child: Text('OK'))
-            ],
+      if(_formKey.currentState.validate()){
+        _formKey.currentState.save();
+        FirebaseUser firebaseUser;
+        await _auth.createUserWithEmailAndPassword(email: _email.text.trim(), password: _password.text.trim())
+            .then((auth) {
+          firebaseUser = auth.user;
+        }).catchError((error){
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (c){
+                return ErrorAlertDialog(message: error.message.toString());
+              }
           );
         });
+
+        if(firebaseUser != null){
+          saveUserInfoToFireStore(firebaseUser).then((value) {
+            Navigator.pop(context);
+            Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+            Navigator.pushReplacement(context, route);
+          });
+        }
+      }
+
+  }
+
+
+  Future saveUserInfoToFireStore(FirebaseUser fUser) async{
+    Firestore.instance.collection("users").document(fUser.uid).setData({
+      "uid": fUser.uid,
+      "email": fUser.email,
+      "name": _name.text.trim(),
+      "userCart": ["garbageValue"],
+    });
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    await sharedPreferences.setString("uid", fUser.uid);
+    await sharedPreferences.setString("email", fUser.email);
+    await sharedPreferences.setString("name", _name.text);
+    await sharedPreferences.setStringList("userCart", ["garbageValue"]);
+
+
+
+  }
+
+  void displayDialog(String errormessage){
+    showDialog(
+        context: context,
+        builder: (c)
+        {
+          return ErrorAlertDialog(message: errormessage);
+        }
+    );
   }
 
 
@@ -105,45 +133,76 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                 child: ListView(
                   children: [
 
-                    Padding(padding: EdgeInsets.symmetric(vertical: 16),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10),
                       child: TextFormField(
+                        controller: _name,
+
                         validator: (input) {
                           if (input.isEmpty) {
                             return 'Enter your Name';
                           }
                           return null;
                         },
-                        decoration: signInNameDecoration(),
-                        onSaved: (input) => _name = input,
+                        decoration: signUpDecoration(hintText: 'Name', data: Icons.person),
+                        style: TextStyle(color: Colors.white),
+                        onSaved: (input) => _name.text = input,
 
                       ),
                     ),
 
-                    Padding(padding: EdgeInsets.symmetric(vertical: 16),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10),
                       child: TextFormField(
+                        controller: _email,
+
                         validator: (input) {
                           if (input.isEmpty) {
                             return 'Enter your E-mail';
                           }
+                          if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(input)){
+                            return 'Invalid E-mail';
+                          }
                           return null;
                         },
-                        decoration: signInEmailDecoration(),
-                        onSaved: (input) => _email = input,
+                        decoration: signUpDecoration(hintText: 'E-mail', data: Icons.email),
+                        style: TextStyle(color: Colors.white),
+                        onSaved: (input) => _email.text = input,
 
                       ),
                     ),
 
-                    Padding(padding: EdgeInsets.symmetric(vertical: 16),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 1),
                       child: TextFormField(
+                        controller: _password,
                         validator: (input) {
                           if (input.length < 6) {
                             return 'Provide Minimum 6 Characters';
                           }
                           return null;
                         },
-                        decoration: signInPasswordDecoration(),
+                        decoration: signUpDecoration(hintText: 'Password', data: Icons.lock),
+                        style: TextStyle(color: Colors.white),
                         obscureText: true,
-                        onSaved: (input) => _password = input,
+                        onSaved: (input) => _password.text = input,
+
+                      ),
+                    ),
+
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(
+                        controller: _cPassword,
+                        validator: (input) {
+                          if (input.length < 6) {
+                            return 'Provide Minimum 6 Characters';
+                          }
+                          if (input != _password.text) {
+                            return "Password doesn't match";
+                          }
+                          return null;
+                        },
+                        decoration: signUpDecoration(hintText: 'Confirm Password', data: Icons.lock),
+                        style: TextStyle(color: Colors.white),
+                        obscureText: true,
+                        onSaved: (input) => _cPassword.text = input,
 
                       ),
                     ),
