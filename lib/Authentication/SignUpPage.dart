@@ -2,10 +2,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/AdminHomePage.dart';
 import 'package:e_shop_app/DialogBox/errorDialog.dart';
+import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/palette.dart';
 import '../config/decoration_functions.dart';
@@ -67,9 +68,8 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
 
         if(firebaseUser != null){
           saveUserInfoToFireStore(firebaseUser).then((value) {
-            Navigator.pop(context);
-            Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
-            Navigator.pushReplacement(context, route);
+            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+            Navigator.push(context, route);
           });
         }
       }
@@ -85,12 +85,10 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
       "userCart": ["garbageValue"],
     });
 
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    await sharedPreferences.setString("uid", fUser.uid);
-    await sharedPreferences.setString("email", fUser.email);
-    await sharedPreferences.setString("name", _name.text);
-    await sharedPreferences.setStringList("userCart", ["garbageValue"]);
+    await shopApp.sharedPreferences.setString("uid", fUser.uid);
+    await shopApp.sharedPreferences.setString("email", fUser.email);
+    await shopApp.sharedPreferences.setString("name", _name.text);
+    await shopApp.sharedPreferences.setStringList("userCart", ["garbageValue"]);
 
 
 

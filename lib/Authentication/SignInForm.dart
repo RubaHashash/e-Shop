@@ -1,13 +1,13 @@
-import '../StoreHome.dart';
+import '../Store/StoreHome.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/config/decoration_functions.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/DialogBox/errorDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:e_shop_app/config/config.dart';
 
-import '../AdminHomePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config/palette.dart';
 
 
@@ -51,7 +51,7 @@ class _SignInFormState extends State<SignInForm>  {
         readData(firebaseUser).then((s){
           Navigator.pop(context);
           Route route = MaterialPageRoute(builder: (c) => StoreHome());
-          Navigator.pushReplacement(context, route);
+          Navigator.push(context, route);
         });
       }
     }
@@ -59,14 +59,13 @@ class _SignInFormState extends State<SignInForm>  {
   }
 
   Future readData(FirebaseUser fUser) async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     Firestore.instance.collection("users").document(fUser.uid).get().then((dataSnapshot) async {
-      await sharedPreferences.setString("uid", dataSnapshot.data["uid"]);
-      await sharedPreferences.setString("email", dataSnapshot.data["email"]);
-      await sharedPreferences.setString("name", dataSnapshot.data["name"]);
+      await shopApp.sharedPreferences.setString("uid", dataSnapshot.data["uid"]);
+      await shopApp.sharedPreferences.setString("email", dataSnapshot.data["email"]);
+      await shopApp.sharedPreferences.setString("name", dataSnapshot.data["name"]);
       List<String> cartList = dataSnapshot.data["userCart"].cast<String>();
-      await sharedPreferences.setStringList("userCart", cartList);
+      await shopApp.sharedPreferences.setStringList("userCart", cartList);
     });
   }
 
