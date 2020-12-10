@@ -143,7 +143,7 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
                                   Navigator.pushReplacement(context, route);
                                 },
                                 child: const Text(
-                                  "I don't have a shop?",
+                                  "I don't have a store?",
                                   style: TextStyle(
                                     fontSize: 16,
                                     decoration: TextDecoration.underline,

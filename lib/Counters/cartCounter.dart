@@ -9,4 +9,15 @@ class CartItemCounter extends ChangeNotifier{
         .length - 1;
 
   int get count => _counter;
+
+  Future<void> displayResult() async{
+    int _counter = shopApp.sharedPreferences
+        .getStringList("userCart")
+        .length - 1;
+
+    await Future.delayed(const Duration(microseconds: 100), (){
+      notifyListeners();
+    });
+
+  }
 }

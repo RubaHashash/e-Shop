@@ -162,7 +162,7 @@ class _SignInFormState extends State<SignInForm>  {
                               Navigator.pushReplacement(context, route);
                             },
                             child: const Text(
-                              'I have a shop?',
+                              'I have a store?',
                               style: TextStyle(
                                 fontSize: 16,
                                 decoration: TextDecoration.underline,

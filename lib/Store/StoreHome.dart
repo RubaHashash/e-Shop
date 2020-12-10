@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Widgets/MyDrawer.dart';
+import 'package:e_shop_app/Widgets/SearchBox.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _StoreHomeState extends State<StoreHome> {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -52,22 +54,23 @@ class _StoreHomeState extends State<StoreHome> {
                   ),
                   Positioned(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
+                      padding: const EdgeInsets.only(top: 10.0),
                       child: Stack(
                         children: [
                           Icon(
                             Icons.brightness_1,
                             size: 20.0,
-                            color: Palette.orange,
+                            color: Palette.lightBlue,
                           ),
                           Positioned(
                             top: 3.0,
                             bottom: 4.0,
+                            left: 6.0,
                             child: Consumer<CartItemCounter>(
                               builder: (context, counter, _){
                                 return Text(
                                   counter.count.toString(),
-                                  style: TextStyle(color: Palette.darkBlue, fontSize: 12.0, fontWeight: FontWeight.w500),
+                                  style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
                                 );
                               }
                             ),
@@ -85,6 +88,15 @@ class _StoreHomeState extends State<StoreHome> {
         drawer: Padding(
           padding: const EdgeInsets.only(top: 5.0),
           child: MyDrawer(),
+        ),
+
+        body: CustomScrollView(
+          slivers: [
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: SearchBoxDelegate(),
+            )
+          ],
         ),
       ),
     );
