@@ -54,7 +54,7 @@ class MyDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 40.0, bottom: 5.0),
                   child: ListTile(
-                    leading: Icon(Icons.home_outlined, color: Palette.darkBlue, size: 30),
+                    leading: Icon(Icons.home, color: Palette.darkBlue, size: 30),
                     title: Text("Home", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
                       Route route = MaterialPageRoute(builder: (c) => StoreHome());
@@ -67,7 +67,7 @@ class MyDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                   child: ListTile(
-                    leading: Icon(Icons.list_outlined, color: Palette.darkBlue, size: 30),
+                    leading: Icon(Icons.reorder, color: Palette.darkBlue, size: 30),
                     title: Text("My Orders", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
                       Route route = MaterialPageRoute(builder: (c) => StoreHome());
@@ -81,7 +81,7 @@ class MyDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                   child: ListTile(
-                    leading: Icon(Icons.shopping_cart_outlined, color: Palette.darkBlue, size: 30),
+                    leading: Icon(Icons.shopping_cart, color: Palette.darkBlue, size: 30),
                     title: Text("My Cart", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
                       Route route = MaterialPageRoute(builder: (c) => CartPage());
@@ -107,7 +107,7 @@ class MyDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                   child: ListTile(
-                    leading: Icon(Icons.add_outlined, color: Palette.darkBlue, size: 30),
+                    leading: Icon(Icons.add_location, color: Palette.darkBlue, size: 30),
                     title: Text("Add New Address", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
                       Route route = MaterialPageRoute(builder: (c) => StoreHome());
@@ -120,7 +120,7 @@ class MyDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 70.0, bottom: 3.0),
                   child: ListTile(
-                    leading: Icon(Icons.logout, color: Palette.darkBlue, size: 30),
+                    leading: Icon(Icons.exit_to_app, color: Palette.darkBlue, size: 30),
                     title: Text("Logout", style: TextStyle(color: Palette.darkBlue, fontSize: 24, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
                       shopApp.auth.signOut().then((value){

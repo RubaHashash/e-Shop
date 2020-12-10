@@ -23,7 +23,13 @@ class SearchBoxDelegate extends SliverPersistentHeaderDelegate {
             height: 55.0,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20)
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 1.0
+                ),
+              ]
             ),
             child: Row(
               children: [
@@ -47,10 +53,10 @@ class SearchBoxDelegate extends SliverPersistentHeaderDelegate {
 
 
   @override
-  double get maxExtent => 80;
+  double get maxExtent => 78;
 
   @override
-  double get minExtent => 80;
+  double get minExtent => 78;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;

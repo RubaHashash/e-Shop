@@ -342,8 +342,8 @@ class _AdminHomeState extends State<AdminHome> {
     itemRef.document(productID).setData({
       "shortInfo": _shortInfo.text.trim(),
       "longDescription": _description.text.trim(),
-      "price": _price.text.trim(),
-      "publishDate": DateTime.now(),
+      "price": int.parse(_price.text),
+      "publishedDate": DateTime.now(),
       "status": "available",
       "thumbnailUrl": downloadUrl,
       "title": _title.text.trim(),
