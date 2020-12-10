@@ -127,6 +127,7 @@ class _StoreHomeState extends State<StoreHome> {
 
 
 Widget sourceInfo(ItemModel model, BuildContext context, {Color background, removeCartFunction}){
+  double width = MediaQuery.of(context).size.width;
 
   return InkWell(
     onTap: (){
@@ -138,7 +139,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
       padding: EdgeInsets.all(8.0),
       child: Container(
         height: 190.0,
-        width: 190.0,
+        width: width,
         child: Row(
           children: [
             ClipRRect(
@@ -286,7 +287,6 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
 
                       ),
                     ),
-
 
                   ],
                 ),
