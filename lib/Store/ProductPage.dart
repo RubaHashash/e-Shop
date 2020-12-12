@@ -1,4 +1,5 @@
 import 'package:e_shop_app/Models/items.dart';
+import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/Widgets/customAppBar.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -122,7 +123,7 @@ class _ProductPageState extends State<ProductPage> {
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Center(
                               child: InkWell(
-                                onTap: () => print("clicked"),
+                                onTap: () => checkItemInCart(widget.itemModel.shortInfo, context),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: Palette.darkBlue,
@@ -166,75 +167,3 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 }
-
-
-
-// body: Stack(
-// children: [
-// Positioned.fill(
-// child: Column(
-// children: [
-// Expanded(
-// child: Container(
-// color: Colors.grey,
-// ),
-// ),
-// Expanded(
-// child: Container(
-// color: Colors.white,
-// ),
-// ),
-// ],
-// ),
-// ),
-// Container(
-// margin: EdgeInsets.only(top: 40.0),
-// child: Align(
-// alignment: Alignment.topCenter,
-// child: Row(
-// mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// children: [
-// IconButton(
-// icon: Icon(Icons.arrow_back_ios),
-// onPressed: (){
-// Navigator.pop(context);
-// }
-// ),
-// IconButton(
-// icon: Icon(Icons.add_shopping_cart),
-// onPressed: (){
-// Navigator.pop(context);
-// }
-// )
-// ],
-// ),
-// ),
-// ),
-//
-// Container(
-// margin: EdgeInsets.only(top: 90.0),
-// child: Align(
-// alignment: Alignment.topCenter,
-// child: Image.network(widget.itemModel.thumbnailUrl),
-// ),
-// ),
-//
-// Align(
-// alignment: Alignment.center,
-// child: Container(
-// height: 100,
-// margin: EdgeInsets.symmetric(horizontal: 20),
-// decoration: BoxDecoration(
-// color: Colors.white,
-// borderRadius: BorderRadius.circular(20),
-// boxShadow: [
-// BoxShadow(
-// color: Colors.grey,
-// blurRadius: 5.0
-// ),
-// ]
-// ),
-// ),
-// )
-// ],
-// ),

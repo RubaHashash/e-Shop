@@ -8,10 +8,12 @@ import 'package:e_shop_app/Store/ProductPage.dart';
 import 'package:e_shop_app/Widgets/MyDrawer.dart';
 import 'package:e_shop_app/Widgets/SearchBox.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 
@@ -74,7 +76,7 @@ class _StoreHomeState extends State<StoreHome> {
                             child: Consumer<CartItemCounter>(
                               builder: (context, counter, _){
                                 return Text(
-                                  counter.count.toString(),
+                                  (shopApp.sharedPreferences.getStringList("userCart").length - 1).toString(),
                                   style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
                                 );
                               }
@@ -144,12 +146,12 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(14.0),
-              child: Image.network(model.thumbnailUrl, width: 160, height: 160,fit: BoxFit.fill),
+              child: Image.network(model.thumbnailUrl, width: 165, height: 165,fit: BoxFit.fill),
             ),
             SizedBox(width: 4.0,),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(top: 20, bottom: 25),
+                margin: EdgeInsets.only(top: 16, bottom: 17),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -166,7 +168,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 15.0),
+                    SizedBox(height: 8.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Container(
@@ -180,7 +182,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.0,),
+                    SizedBox(height: 3.0,),
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12.0),
@@ -194,7 +196,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 10.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Row(
@@ -275,18 +277,43 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                                   ],
                                 ),
                               ),
-
                             ],
-                          )
+                          ),
+
                         ],
                       ),
                     ),
+                    Container(
+                      padding: EdgeInsets.only(left: 175),
+                      child: Row(
+                        children: [
+                          removeCartFunction == null
+                              ? IconButton(
+                            icon: Icon(Icons.add_shopping_cart, color: Palette.darkBlue),
+                            onPressed: (){
+                              checkItemInCart(model.shortInfo, context);
+                            },
+                          )
+                              : IconButton(
+                            icon: Icon(Icons.remove_shopping_cart, color: Palette.darkBlue),
+                            onPressed: (){
+                              removeCartFunction();
+                              Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                              Navigator.pushReplacement(context, route);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
 
                     Flexible(
                       child: Container(
 
                       ),
                     ),
+
+
 
                   ],
                 ),
@@ -298,4 +325,25 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
     ),
   );
 
+}
+
+void checkItemInCart(String shortInfoAsID, BuildContext context){
+
+  shopApp.sharedPreferences.getStringList("userCart").contains(shortInfoAsID)
+      ? Fluttertoast.showToast(msg: "Item is already in Cart.")
+      : addItemToCart(shortInfoAsID, context);
+}
+
+addItemToCart(String shortInfoAsID, BuildContext context){
+
+  List shopList = shopApp.sharedPreferences.getStringList("userCart");
+  shopList.add(shortInfoAsID);
+
+  shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+  .updateData({"userCart": shopList}).then((value) {
+    Fluttertoast.showToast(msg: "Item Added to Cart Successfully.");
+    shopApp.sharedPreferences.setStringList("userCart", shopList);
+
+    Provider.of<CartItemCounter>(context, listen: false).displayResult();
+  });
 }

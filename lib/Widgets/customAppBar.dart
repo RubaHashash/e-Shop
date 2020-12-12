@@ -1,6 +1,7 @@
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
                           child: Consumer<CartItemCounter>(
                               builder: (context, counter, _){
                                 return Text(
-                                  counter.count.toString(),
+                                  (shopApp.sharedPreferences.getStringList("userCart").length - 1).toString(),
                                   style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
                                 );
                               }

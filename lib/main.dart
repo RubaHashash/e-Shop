@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Counters/ItemQuantity.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Counters/changeAddress.dart';
@@ -17,6 +18,7 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   shopApp.auth = FirebaseAuth.instance;
+  shopApp.firestore = Firestore.instance;
   shopApp.sharedPreferences = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
