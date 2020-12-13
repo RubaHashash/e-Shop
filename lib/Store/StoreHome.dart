@@ -312,8 +312,6 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                       ),
                     ),
 
-
-
                   ],
                 ),
               ),

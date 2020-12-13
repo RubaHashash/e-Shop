@@ -1,4 +1,5 @@
 import 'package:e_shop_app/Authentication/LoginPage.dart';
+import 'package:e_shop_app/Orders/myOrders.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/config/config.dart';
@@ -70,7 +71,7 @@ class MyDrawer extends StatelessWidget {
                     leading: Icon(Icons.reorder, color: Palette.darkBlue, size: 30),
                     title: Text("My Orders", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                      Route route = MaterialPageRoute(builder: (c) => MyOrders());
                       Navigator.pushReplacement(context, route);
                     },
                   ),
