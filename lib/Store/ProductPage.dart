@@ -1,9 +1,12 @@
+import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
+import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Widgets/customAppBar.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
 
@@ -25,7 +28,78 @@ class _ProductPageState extends State<ProductPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
-        appBar: MyAppBar(),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            flexibleSpace: Container(
+              decoration:  BoxDecoration(
+                  color: Colors.white
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Text(
+                "Quick Shop",
+                style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              ),
+            ),
+            centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Palette.darkBlue,
+                onPressed: (){
+                  Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                  Navigator.pushReplacement(context, route);
+                },
+              ),
+            ),
+            actions: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: IconButton(
+                      icon: Icon(Icons.shopping_cart, color: Palette.darkBlue),
+                      onPressed: (){
+                        Route route = MaterialPageRoute(builder: (c) => CartPage());
+                        Navigator.pushReplacement(context, route);
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Stack(
+                        children: [
+                          Icon(
+                            Icons.brightness_1,
+                            size: 20.0,
+                            color: Palette.lightBlue,
+                          ),
+                          Positioned(
+                            top: 3.0,
+                            bottom: 4.0,
+                            left: 6.0,
+                            child: Consumer<CartItemCounter>(
+                                builder: (context, counter, _){
+                                  return Text(
+                                    (shopApp.sharedPreferences.getStringList("userCart").length - 1).toString(),
+                                    style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
+                                  );
+                                }
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
         body: ListView(
           children: [
             Padding(

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
@@ -325,6 +324,26 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
     ),
   );
 
+}
+
+Widget card({Color primaryColor = Colors.redAccent, String imgPath}){
+
+  return Container(
+    height: 150.0,
+    width: 150.0,
+    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    decoration: BoxDecoration(
+      color: primaryColor,
+      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      boxShadow: <BoxShadow>[
+        BoxShadow(offset: Offset(0 , 5), blurRadius: 10.0, color: Palette.darkBlue)
+      ]
+    ),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(20.0),
+    child: Image.network(imgPath, height: 150.0, width: 150.0,fit: BoxFit.fill),
+      ),
+  );
 }
 
 void checkItemInCart(String shortInfoAsID, BuildContext context){

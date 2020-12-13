@@ -1,4 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_shop_app/Address/AddAddress.dart';
+import 'package:e_shop_app/Counters/cartCounter.dart';
+import 'package:e_shop_app/Counters/changeAddress.dart';
+import 'package:e_shop_app/Models/address.dart';
+import 'package:e_shop_app/Orders/PaymentPage.dart';
+import 'package:e_shop_app/Store/Cart.dart';
+import 'package:e_shop_app/Widgets/loadingWidget.dart';
+import 'package:e_shop_app/config/config.dart';
+import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class Address extends StatefulWidget {
@@ -12,6 +23,297 @@ class Address extends StatefulWidget {
 class _AddressState extends State<Address> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            flexibleSpace: Container(
+              decoration:  BoxDecoration(
+                  color: Colors.white
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Text(
+                "Quick Shop",
+                style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              ),
+            ),
+            centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Palette.darkBlue,
+                onPressed: (){
+                  Route route = MaterialPageRoute(builder: (c) => CartPage());
+                  Navigator.pushReplacement(context, route);
+                },
+              ),
+            ),
+            actions: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: IconButton(
+                      icon: Icon(Icons.shopping_cart, color: Palette.darkBlue),
+                      onPressed: (){
+                        Route route = MaterialPageRoute(builder: (c) => CartPage());
+                        Navigator.pushReplacement(context, route);
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Stack(
+                        children: [
+                          Icon(
+                            Icons.brightness_1,
+                            size: 20.0,
+                            color: Palette.lightBlue,
+                          ),
+                          Positioned(
+                            top: 3.0,
+                            bottom: 4.0,
+                            left: 6.0,
+                            child: Consumer<CartItemCounter>(
+                                builder: (context, counter, _){
+                                  return Text(
+                                    (shopApp.sharedPreferences.getStringList("userCart").length - 1).toString(),
+                                    style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
+                                  );
+                                }
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 10.0),
+                child: Text('Select Address', style: TextStyle(color: Palette.darkBlue,
+                    fontWeight: FontWeight.bold, fontSize: 30.0, fontFamily: "PatrickHand")),
+              ),
+            ),
+            Consumer<AddressChanger>(builder: (context, address, c){
+              return Flexible(
+                // get the sequence of addresses in firebase
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+                    .collection("address").snapshots(),
+                  builder: (context, snapshots){
+                    return !snapshots.hasData
+                        ? Center(child: circularProgress())
+                        : snapshots.data.documents.length == 0
+                        ? noAddressCard()
+                        : ListView.builder(
+                          itemCount: snapshots.data.documents.length,
+                          itemBuilder: (context, index){
+                            return AddressCard(
+                              currentIndex: address.count,
+                              value: index,
+                              addressID: snapshots.data.documents[index].documentID,
+                              totalAmount: widget.totalAmount,
+                              model: AddressModel.fromJson(snapshots.data.documents[index].data)
+                            );
+                          },
+                        );
+                  },
+                ),
+              );
+            }),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          label: Text("Add New Address", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontFamily: "PatrickHand", fontSize: 20.0)),
+          backgroundColor: Palette.darkBlue,
+          icon: Icon(Icons.add_location),
+          onPressed: (){
+            Route route = MaterialPageRoute(builder: (c) => AddAddress());
+            Navigator.pushReplacement(context, route);
+          },
+        ),
+      ),
+    );
+  }
+
+  noAddressCard(){
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Card(
+        color: Colors.white.withOpacity(0.5),
+        child: Container(
+          height: 100.0,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add_location, color: Palette.darkBlue),
+              Text("No shipment address has been saved.", style: TextStyle(color: Palette.darkBlue)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text("Please add your shipment address so that we can deliver your products.", textAlign: TextAlign.center,
+                     style: TextStyle(color: Palette.darkBlue)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class AddressCard extends StatefulWidget {
+
+  final AddressModel model;
+  final String addressID;
+  final double totalAmount;
+  final int currentIndex, value;
+
+  AddressCard({Key key, this.model, this.addressID, this.totalAmount, this.value, this.currentIndex}) : super(key: key);
+
+  @override
+  _AddressCardState createState() => _AddressCardState();
+}
+
+class _AddressCardState extends State<AddressCard> {
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    return InkWell(
+      onTap: (){
+        Provider.of<AddressChanger>(context, listen: false).displayResult(widget.value);
+      },
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Radio(
+                  groupValue: widget.currentIndex,
+                  value: widget.value,
+                  activeColor: Palette.darkBlue,
+                  onChanged: (val){
+                    Provider.of<AddressChanger>(context, listen: false).displayResult(val);
+                  },
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10.0),
+                      width: width * 0.8,
+                      child: Table(
+                        children: [
+                          TableRow(
+                            children: [
+                              Text("Name", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                              Text(widget.model.name),
+                            ]
+                          ),
+
+                          TableRow(
+                              children: [
+                                Text("Phone Number", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                Text(widget.model.phoneNumber),
+                              ]
+                          ),
+
+                          TableRow(
+                              children: [
+                                Text("Home Phone Number", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                Text(widget.model.homeNumber),
+                              ]
+                          ),
+
+                          TableRow(
+                              children: [
+                                Text("City", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                Text(widget.model.city),
+                              ]
+                          ),
+
+                          TableRow(
+                              children: [
+                                Text("State", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                Text(widget.model.state),
+                              ]
+                          ),
+
+                          TableRow(
+                              children: [
+                                Text("Address Details", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                Text(widget.model.addressDetails),
+                              ]
+                          ),
+
+                          TableRow(
+                              children: [
+                                Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                Text(widget.model.pincode),
+                              ]
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+
+            // provide the select button to the address selected
+            widget.value == Provider.of<AddressChanger>(context).count
+              ? Padding(
+                  padding: EdgeInsets.only(bottom: 10.0, right: 10.0),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: InkWell(
+                      onTap: (){
+                        Route route = MaterialPageRoute(builder: (c) => PaymentPage(addressID: widget.addressID, totalAmount: widget.totalAmount));
+                        Navigator.pushReplacement(context, route);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Palette.darkBlue,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 3.0
+                              ),
+                            ]
+                        ),
+                        width: 80.0,
+                        height: 30.0,
+                        child: Center(
+                          child: Text("Select", style: TextStyle(color: Colors.white, fontFamily: "PatrickHand", fontSize: 22.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                : Container(),
+          ],
+        ),
+      ),
+    );
   }
 }
