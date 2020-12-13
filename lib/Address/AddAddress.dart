@@ -30,7 +30,6 @@ class _AddAddressState extends State<AddAddress> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
-
         key: _scaffoldKey,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
@@ -122,10 +121,12 @@ class _AddAddressState extends State<AddAddress> {
               shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
                   .collection("address").document(DateTime.now().millisecondsSinceEpoch.toString())
                   .setData(model).then((value){
+
                     final snack = SnackBar(content: Text("New Address Added Successfully."));
                     _scaffoldKey.currentState.showSnackBar(snack);
                     FocusScope.of(context).requestFocus(FocusNode());
                     _formKey.currentState.reset();
+
               });
             }
 

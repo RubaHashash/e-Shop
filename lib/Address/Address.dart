@@ -3,12 +3,13 @@ import 'package:e_shop_app/Address/AddAddress.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Counters/changeAddress.dart';
 import 'package:e_shop_app/Models/address.dart';
-import 'package:e_shop_app/Orders/PaymentPage.dart';
 import 'package:e_shop_app/Store/Cart.dart';
+import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 
@@ -287,8 +288,7 @@ class _AddressCardState extends State<AddressCard> {
                     alignment: Alignment.bottomRight,
                     child: InkWell(
                       onTap: (){
-                        Route route = MaterialPageRoute(builder: (c) => PaymentPage(addressID: widget.addressID, totalAmount: widget.totalAmount));
-                        Navigator.pushReplacement(context, route);
+                        paymentDialog(context, widget.addressID, widget.totalAmount);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -316,4 +316,105 @@ class _AddressCardState extends State<AddressCard> {
       ),
     );
   }
+}
+
+paymentDialog(mContext, String addressID, double totalAmount){
+  return showDialog(
+      context: mContext,
+      builder: (con){
+        return SimpleDialog(
+          title: Row(
+            children: [
+              Text("Payment", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 25)),
+            ],
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: SimpleDialogOption(
+                child: Row(
+                  children: [
+                    Icon(Icons.delivery_dining),
+                    SizedBox(width: 12),
+                    Text("Cash on Delivery", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                  ],
+                ),
+                onPressed: (){
+                  addOrderDetails(mContext, addressID,totalAmount);
+                },
+              ),
+            ),
+            SimpleDialogOption(
+              child: Text("Cancel", style: TextStyle(color: Palette.darkBlue, fontSize: 16), textAlign: TextAlign.right),
+              onPressed: (){
+                Navigator.pop(mContext);
+              },
+            ),
+          ],
+        );
+      }
+  );
+}
+
+
+
+
+/////////////// PAYMENT FUNCTIONS///////////////
+
+Future writeOrderDetailsForUser(Map<String, dynamic> data) async{
+  // add an order collection to each user to store the orders he had made
+  await shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+      .collection("orders").document(shopApp.sharedPreferences.getString("uid") + data['orderTime'])
+      .setData(data);
+}
+
+Future writeOrderDetailsForAdmin(Map<String, dynamic> data) async{
+  // add an order collection to store all the orders from all users to the StoreAdmin
+  await shopApp.firestore.collection("orders").document(shopApp.sharedPreferences
+      .getString("uid") + data['orderTime']).setData(data);
+}
+
+addOrderDetails(context, String addressID, double totalAmount ){
+  writeOrderDetailsForUser({
+    'addressID': addressID,
+    'totalAmount': totalAmount,
+    'orderBy': shopApp.sharedPreferences.getString("uid"),
+    'productID': shopApp.sharedPreferences.getStringList("userCart"),
+    'paymentDetails': "Cash on Delivery",
+    'orderTime': DateTime.now().millisecondsSinceEpoch.toString(),
+    'isSuccess': true
+  });
+
+  writeOrderDetailsForAdmin({
+    'addressID': addressID,
+    'totalAmount': totalAmount,
+    'orderBy': shopApp.sharedPreferences.getString("uid"),
+    'productID': shopApp.sharedPreferences.getStringList("userCart"),
+    'paymentDetails': "Cash on Delivery",
+    'orderTime': DateTime.now().millisecondsSinceEpoch.toString(),
+    'isSuccess': true
+  }).whenComplete(() => {
+    emptyCart(context)
+  });
+}
+
+
+emptyCart(context){
+  shopApp.sharedPreferences.setStringList("userCart", ["garbageValue"]);
+  List tempCartList = shopApp.sharedPreferences.getStringList("userCart");
+
+  //update the list in the database
+  Firestore.instance.collection("users").document(shopApp.sharedPreferences.getString("uid")).updateData({
+    "userCart": tempCartList,
+  }).then((value) {
+    shopApp.sharedPreferences.setStringList("userCart", tempCartList);
+    Provider.of<CartItemCounter>(context, listen: false).displayResult();
+  });
+
+  Fluttertoast.showToast(msg: "Congratulations, your order has been placed successfully.");
+
+  Route route = MaterialPageRoute(builder: (c) => StoreHome());
+  Navigator.push(context, route);
+
+
 }
