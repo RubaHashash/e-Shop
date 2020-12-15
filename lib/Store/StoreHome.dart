@@ -4,10 +4,12 @@ import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/ProductPage.dart';
+import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Widgets/MyDrawer.dart';
 import 'package:e_shop_app/Widgets/SearchBox.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
+import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,8 @@ class StoreHome extends StatefulWidget {
 }
 
 class _StoreHomeState extends State<StoreHome> {
+
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -46,6 +50,16 @@ class _StoreHomeState extends State<StoreHome> {
             centerTitle: true,
             iconTheme: IconThemeData(color: Palette.darkBlue),
             actions: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: IconButton(
+                  icon: Icon(Icons.search, color: Palette.darkBlue),
+                  onPressed: (){
+                    Route route = MaterialPageRoute(builder: (c) => SearchProduct());
+                    Navigator.pushReplacement(context, route);
+                  },
+                )
+              ),
               Stack(
                 children: [
                   Padding(
@@ -102,6 +116,7 @@ class _StoreHomeState extends State<StoreHome> {
               pinned: true,
               delegate: SearchBoxDelegate(),
             ),
+
 
             StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection("items").orderBy("publishedDate", descending: true).snapshots(),
