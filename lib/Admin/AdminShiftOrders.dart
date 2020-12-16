@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
-import 'package:e_shop_app/Admin/AdminOrderCard.dart';
+import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Widgets/AdminOrderCard.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -63,7 +63,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
                         ? AdminOrderCard(
                       itemCount: snapshot.data.documents.length,
                       data: snapshot.data.documents,
-                      orderID: snapshot.data.documents[index].documentID,
+                      orderID: snapshots.data.documents[index].documentID,
                       orderBy: snapshots.data.documents[index].data["orderBy"],
                       addressID: snapshots.data.documents[index].data["addressID"],
                     )

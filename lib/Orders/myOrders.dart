@@ -28,7 +28,7 @@ class _MyOrdersState extends State<MyOrders> {
             title: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Text(
-                "My Orders",
+                "Quick Shop",
                 style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),
@@ -47,32 +47,48 @@ class _MyOrdersState extends State<MyOrders> {
         ),
 
         // get the list of orders from firebase collection
-        body: StreamBuilder<QuerySnapshot>(
-          stream: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-              .collection("orders").snapshots(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 14.0),
+                child: Text('My Orders', style: TextStyle(color: Palette.darkBlue,
+                    fontWeight: FontWeight.bold, fontSize: 30.0, fontFamily: "PatrickHand")),
+              ),
+            ),
+            Flexible(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+                    .collection("orders").snapshots(),
 
-          builder: (c, snapshots){
-            return snapshots.hasData
-                ? ListView.builder(
-                    itemCount: snapshots.data.documents.length,
-                    itemBuilder: (c, index){
-                      return FutureBuilder<QuerySnapshot>(
-                        future: Firestore.instance.collection("items")
-                            .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
-                        builder: (c, snapshot){
-                          return snapshot.hasData
-                              ? OrderCard(
-                                  itemCount: snapshot.data.documents.length,
-                                  data: snapshot.data.documents,
-                                  orderID: snapshot.data.documents[index].documentID,
-                              )
-                              : Center(child: circularProgress());
-                        },
-                        );
-                    },
-                  )
-                : Center(child: circularProgress());
-          },
+                builder: (c, snapshots){
+                  return snapshots.hasData
+                      ? ListView.builder(
+                          itemCount: snapshots.data.documents.length,
+                          itemBuilder: (c, index){
+                            return FutureBuilder<QuerySnapshot>(
+                              future: Firestore.instance.collection("items")
+                                  .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
+                              builder: (c, snapshot){
+                                return snapshot.hasData
+                                    ? OrderCard(
+                                        itemCount: snapshot.data.documents.length,
+                                        data: snapshot.data.documents,
+                                        orderID: snapshot.data.documents[index].documentID,
+                                    )
+                                    : Center(child: circularProgress());
+                              },
+                              );
+                          },
+                        )
+                      : Center(child: circularProgress());
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

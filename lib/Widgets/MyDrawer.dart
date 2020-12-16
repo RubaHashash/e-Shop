@@ -1,6 +1,8 @@
+import 'package:e_shop_app/Address/AddAddress.dart';
 import 'package:e_shop_app/Authentication/LoginPage.dart';
 import 'package:e_shop_app/Orders/myOrders.dart';
 import 'package:e_shop_app/Store/Cart.dart';
+import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -98,7 +100,7 @@ class MyDrawer extends StatelessWidget {
                     leading: Icon(Icons.search, color: Palette.darkBlue, size: 30),
                     title: Text("Search", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                      Route route = MaterialPageRoute(builder: (c) => SearchProduct());
                       Navigator.pushReplacement(context, route);
                     },
                   ),
@@ -111,7 +113,7 @@ class MyDrawer extends StatelessWidget {
                     leading: Icon(Icons.add_location, color: Palette.darkBlue, size: 30),
                     title: Text("Add New Address", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                      Route route = MaterialPageRoute(builder: (c) => AddAddress());
                       Navigator.pushReplacement(context, route);
                     },
                   ),
