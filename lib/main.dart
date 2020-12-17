@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Counters/ItemQuantity.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Counters/changeAddress.dart';
@@ -10,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Authentication/LoginPage.dart';
 import 'config/palette.dart';
 
 Future<void> main() async{
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        home: LoginPage(),
+        home: MainPage(),
       ),
     );
   }

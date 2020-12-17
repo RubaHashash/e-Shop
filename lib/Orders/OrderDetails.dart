@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Models/address.dart';
+import 'package:e_shop_app/Orders/MyOrders.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/Widgets/OrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
@@ -24,6 +25,7 @@ class OrderDetails extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         body: SingleChildScrollView(
           child: FutureBuilder<DocumentSnapshot>(
             future: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
@@ -43,26 +45,43 @@ class OrderDetails extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.all(4.0),
                           child: Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.center,
                             child: Text(
                               r"$ " + dataMap["totalAmount"].toString(),
-                              style: TextStyle(fontSize: 20.0, color: Palette.darkBlue, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text("Order ID: " + getOrderID),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text("Order at: " + DateFormat("dd MM, YYYY - hh:mm aa")
-                              .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
-                            style: TextStyle(color: Palette.darkBlue, fontSize: 16.0),
+                        Container(
+                          padding: EdgeInsets.all(10.0),
+                          margin: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 10.0, right: 10.0),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Palette.darkBlue,
+                                    blurRadius: 2.0
+                                ),
+                              ]
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text("Order ID: " + getOrderID, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500)),
+                                SizedBox(height: 10.0),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("Order at: " + DateFormat("dd MM, YYYY - hh:mm aa")
+                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
+                                    style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500),),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                        Divider(height: 2.0),
+
                         FutureBuilder<QuerySnapshot>(
                           future: shopApp.firestore.collection("items")
                               .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
@@ -75,10 +94,9 @@ class OrderDetails extends StatelessWidget {
                                 : Center(child: circularProgress());
                           },
                         ),
-                        Divider(height: 2.0),
                         FutureBuilder<DocumentSnapshot>(
                           future: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-                              .collection("userAddress").document(dataMap["addressID"]).get(),
+                              .collection("address").document(dataMap["addressID"]).get(),
 
                           builder: (c, snap){
                             return snap.hasData
@@ -121,36 +139,34 @@ class StatusBanner extends StatelessWidget {
       decoration:  BoxDecoration(
           color: Palette.darkBlue
       ),
-      height: 40.0,
+      height: 50.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => StoreHome());
+          IconButton(
+            onPressed: (){
+              Route route = MaterialPageRoute(builder: (c) => MyOrders());
               Navigator.pushReplacement(context, route);
             },
-            child: Container(
-              child: Icon(
-                Icons.arrow_drop_down,
-                color: Colors.white,
-              ),
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: Colors.white,
             ),
           ),
-          SizedBox(width: 20.0),
+          SizedBox(width: 30.0),
           Text(
-            "Order Placed " + msg,
-            style: TextStyle(color: Colors.white),
+            "Order Shipped " + msg,
+            style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
           ),
-          SizedBox(width: 20.0),
+          SizedBox(width: 30.0),
           CircleAvatar(
             radius: 8.0,
             backgroundColor: Colors.white,
             child: Center(
               child: Icon(
                 iconData,
-                color: Colors.white,
-                size: 14.0,
+                color: Palette.darkBlue,
+                size: 15.0,
               ),
             ),
           )
@@ -176,69 +192,91 @@ class ShippingDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 20.0),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 90.0, vertical: 5.0),
-          child: Text(
-            "Shipment Details: ",
-            style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold),
-          ),
-        ),
         Container(
           padding: EdgeInsets.all(10.0),
-          width: width,
-          child: Table(
+          margin: EdgeInsets.only(top: 5.0, bottom: 10.0, left: 10.0, right: 10.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                    color: Palette.darkBlue,
+                    blurRadius: 2.0
+                ),
+              ]
+          ),
+          child: Column(
             children: [
-              TableRow(
-                  children: [
-                    Text("Name", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.name),
-                  ]
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "Shipment Details: ",
+                    style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 16.0),
+                  ),
+                ),
               ),
-
-              TableRow(
+              Container(
+                padding: EdgeInsets.all(10.0),
+                width: width,
+                child: Table(
                   children: [
-                    Text("Phone Number", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.phoneNumber),
-                  ]
-              ),
+                    TableRow(
+                        children: [
+                          Text("Name", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.name),
+                        ]
+                    ),
 
-              TableRow(
-                  children: [
-                    Text("Home Phone Number", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.homeNumber),
-                  ]
-              ),
+                    TableRow(
+                        children: [
+                          Text("Phone Number", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.phoneNumber),
+                        ]
+                    ),
 
-              TableRow(
-                  children: [
-                    Text("City", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.city),
-                  ]
-              ),
+                    TableRow(
+                        children: [
+                          Text("Home Phone Number", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.homeNumber),
+                        ]
+                    ),
 
-              TableRow(
-                  children: [
-                    Text("State", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.state),
-                  ]
-              ),
+                    TableRow(
+                        children: [
+                          Text("City", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.city),
+                        ]
+                    ),
 
-              TableRow(
-                  children: [
-                    Text("Address Details", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.addressDetails),
-                  ]
-              ),
+                    TableRow(
+                        children: [
+                          Text("State", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.state),
+                        ]
+                    ),
 
-              TableRow(
-                  children: [
-                    Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                    Text(model.pincode),
-                  ]
+                    TableRow(
+                        children: [
+                          Text("Address Details", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.addressDetails),
+                        ]
+                    ),
+
+                    TableRow(
+                        children: [
+                          Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          Text(model.pincode),
+                        ]
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
+
 
         Padding(
           padding: EdgeInsets.all(10.0),
@@ -263,7 +301,7 @@ class ShippingDetails extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Confirmed || Items Recieved",
-                    style: TextStyle(color: Palette.darkBlue, fontSize: 15.0),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "PatrickHand", fontSize: 24.0),
                   ),
                 ),
               ),

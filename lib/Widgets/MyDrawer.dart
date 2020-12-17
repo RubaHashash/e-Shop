@@ -1,6 +1,6 @@
 import 'package:e_shop_app/Address/AddAddress.dart';
-import 'package:e_shop_app/Authentication/LoginPage.dart';
-import 'package:e_shop_app/Orders/myOrders.dart';
+import 'package:e_shop_app/Authentication/MainPage.dart';
+import 'package:e_shop_app/Orders/MyOrders.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
@@ -127,7 +127,7 @@ class MyDrawer extends StatelessWidget {
                     title: Text("Logout", style: TextStyle(color: Palette.darkBlue, fontSize: 24, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
                     onTap: (){
                       shopApp.auth.signOut().then((value){
-                        Route route = MaterialPageRoute(builder: (c) => LoginPage());
+                        Route route = MaterialPageRoute(builder: (c) => MainPage());
                         Navigator.pushReplacement(context, route);
                       });
                     },

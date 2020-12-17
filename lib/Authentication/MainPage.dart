@@ -1,4 +1,3 @@
-
 import 'package:animations/animations.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/SignInForm.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/SignUpPage.dart';
@@ -7,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class LoginPage extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
+class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
 
   AnimationController _controller;
   ValueNotifier<bool> showSignInPage = ValueNotifier<bool>(true);

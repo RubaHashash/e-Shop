@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
-import 'package:e_shop_app/Authentication/LoginPage.dart';
+import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Authentication/background_painter.dart';
 import 'package:e_shop_app/Authentication/sign_in_up_bar.dart';
 import 'package:e_shop_app/config/decoration_functions.dart';
@@ -86,12 +86,15 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
                     Expanded(
                       flex: 3,
                       child: Align(alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Quick Shop',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 34),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Text(
+                            'Shopick',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 38),
+                          ),
                         ),
                       ),
                     ),
@@ -139,7 +142,7 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
                               child: InkWell(
                                 splashColor: Colors.white,
                                 onTap: () {
-                                  Route route = MaterialPageRoute(builder: (c) => LoginPage());
+                                  Route route = MaterialPageRoute(builder: (c) => MainPage());
                                   Navigator.pushReplacement(context, route);
                                 },
                                 child: const Text(

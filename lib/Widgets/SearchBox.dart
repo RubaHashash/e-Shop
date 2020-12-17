@@ -1,6 +1,3 @@
-
-import 'package:e_shop_app/Store/Search.dart';
-import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

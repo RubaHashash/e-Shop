@@ -39,7 +39,7 @@ class _ProductPageState extends State<ProductPage> {
             title: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                "Quick Shop",
+                "Shopick",
                 style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),

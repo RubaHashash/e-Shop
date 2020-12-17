@@ -2,15 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/Cart.dart';
-import 'package:e_shop_app/Store/ProductPage.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Widgets/customAppBar.dart';
-import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
-import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
 class SearchProduct extends StatefulWidget {
@@ -39,7 +34,7 @@ class _SearchProductState extends State<SearchProduct> {
             title: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                "Quick Shop",
+                "Shopick",
                 style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),
@@ -154,7 +149,7 @@ class _SearchProductState extends State<SearchProduct> {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 8.0),
+              padding: EdgeInsets.only(left: 25.0),
               child: Icon(Icons.search, color: Palette.darkBlue),
             ),
             Flexible(

@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminShiftOrders.dart';
-import 'package:e_shop_app/Authentication/LoginPage.dart';
+import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -33,6 +32,7 @@ class _AdminHomeState extends State<AdminHome> {
 
   displayHomeScreen(){
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
@@ -56,7 +56,7 @@ class _AdminHomeState extends State<AdminHome> {
               padding: const EdgeInsets.only(top: 15.0),
               child: FlatButton(
                   onPressed: (){
-                    Route route = MaterialPageRoute(builder: (c) => LoginPage());
+                    Route route = MaterialPageRoute(builder: (c) => MainPage());
                     Navigator.pushReplacement(context, route);
                   },
                   child: Text('Logout', style: TextStyle(color: Palette.darkBlue, fontSize: 16.0, fontWeight: FontWeight.bold))
@@ -81,16 +81,31 @@ class _AdminHomeState extends State<AdminHome> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.shop_two, color: Palette.darkBlue, size: 200.0),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9.0)),
-                  child: Text("Add New Items", style: TextStyle(fontSize: 20.0, color: Colors.white)),
-                  color: Palette.darkBlue,
-                  onPressed: ()=> takeImage(context),
+            InkWell(
+              onTap: (){
+                takeImage(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Palette.darkBlue,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 3.0
+                      ),
+                    ]
                 ),
+                child: Center(
+                  child: Text(
+                    "Add New Items",
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "PatrickHand", fontSize: 25.0),
+                  ),
+                ),
+                width: 180,
+                height: 40,
               ),
+            ),
           ],
         ),
       ),
@@ -175,6 +190,7 @@ class _AdminHomeState extends State<AdminHome> {
 
   displayUploadFormScreen(){
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
@@ -219,7 +235,7 @@ class _AdminHomeState extends State<AdminHome> {
               child: AspectRatio(
                 aspectRatio: 16/9,
                 child: Container(
-                  decoration: BoxDecoration(image: DecorationImage(image: FileImage(file), fit: BoxFit.cover)),
+                  decoration: BoxDecoration(image: DecorationImage(image: FileImage(file), fit: BoxFit.fitHeight), color: Colors.white),
                 ),
               ),
             ),

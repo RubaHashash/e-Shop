@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/DialogBox/errorDialog.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
@@ -6,7 +5,6 @@ import 'package:e_shop_app/config/config.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../config/palette.dart';
 import '../config/decoration_functions.dart';
 
@@ -116,12 +114,15 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
               Expanded(
                 flex: 2,
                 child: Align(alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Create\nAccount',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 34),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      'Create\nAccount',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 34),
+                    ),
                   ),
                 ),
               ),

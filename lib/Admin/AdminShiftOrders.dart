@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Widgets/AdminOrderCard.dart';
-import 'package:e_shop_app/Store/StoreHome.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top:18.0),
               child: Text(
                 "Orders",
                 style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),

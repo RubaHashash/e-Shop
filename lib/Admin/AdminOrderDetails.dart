@@ -38,76 +38,75 @@ class AdminOrderDetails extends StatelessWidget {
                 }
                 return snapshot.hasData
                     ? Container(
-                  // child: Text(json.encode(dataMap)),
-                  child: Column(
-                    children: [
-                      AdminStatusBanner(status: dataMap["isSuccess"]),
-                      SizedBox(height: 10.0),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            r"$ " + dataMap["totalAmount"].toString(),
-                            style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(10.0),
-                        margin: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 10.0, right: 10.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Palette.darkBlue,
-                                  blurRadius: 2.0
+                      child: Column(
+                        children: [
+                          AdminStatusBanner(status: dataMap["isSuccess"]),
+                          SizedBox(height: 10.0),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                r"$ " + dataMap["totalAmount"].toString(),
+                                style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontWeight: FontWeight.bold),
                               ),
-                            ]
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text("Order ID: " + getOrderID, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500)),
-                              SizedBox(height: 10.0),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text("Order at: " + DateFormat("dd MM, YYYY - hh:mm aa")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
-                                      style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500),),
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
+                          Container(
+                            padding: EdgeInsets.all(10.0),
+                            margin: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 10.0, right: 10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Palette.darkBlue,
+                                      blurRadius: 2.0
+                                  ),
+                                ]
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text("Order ID: " + getOrderID, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500)),
+                                  SizedBox(height: 10.0),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Order at: " + DateFormat("dd MM, YYYY - hh:mm aa")
+                                        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
+                                          style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500),),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
 
-                      FutureBuilder<QuerySnapshot>(
-                        future: shopApp.firestore.collection("items")
-                            .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
-                        builder: (c, dataSnapshot){
-                          return dataSnapshot.hasData
-                              ? AdminOrderCard(
-                              itemCount: dataSnapshot.data.documents.length,
-                              data: dataSnapshot.data.documents
+                          FutureBuilder<QuerySnapshot>(
+                            future: shopApp.firestore.collection("items")
+                                .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
+                            builder: (c, dataSnapshot){
+                              return dataSnapshot.hasData
+                                  ? AdminOrderCard(
+                                  itemCount: dataSnapshot.data.documents.length,
+                                  data: dataSnapshot.data.documents
+                              )
+                                  : Center(child: circularProgress());
+                            },
+                          ),
+                          FutureBuilder<DocumentSnapshot>(
+                            future: shopApp.firestore.collection("users").document(orderBy)
+                                .collection("address").document(addressID).get(),
+
+                            builder: (c, snap){
+                              return snap.hasData
+                                  ? AdminShippingDetails(model: AddressModel.fromJson(snap.data.data),)
+                                  : Center(child: circularProgress());
+                            },
+
                           )
-                              : Center(child: circularProgress());
-                        },
+                        ],
                       ),
-                      FutureBuilder<DocumentSnapshot>(
-                        future: shopApp.firestore.collection("users").document(orderBy)
-                            .collection("address").document(addressID).get(),
-
-                        builder: (c, snap){
-                          return snap.hasData
-                              ? AdminShippingDetails(model: AddressModel.fromJson(snap.data.data),)
-                              : Center(child: circularProgress());
-                        },
-
-                      )
-                    ],
-                  ),
                 )
                     : Center(child: circularProgress());
               },

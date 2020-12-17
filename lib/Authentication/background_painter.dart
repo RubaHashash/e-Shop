@@ -1,8 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import '../config/palette.dart';
 
 class BackgroundPainter extends CustomPainter {

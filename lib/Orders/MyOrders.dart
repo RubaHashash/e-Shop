@@ -28,7 +28,7 @@ class _MyOrdersState extends State<MyOrders> {
             title: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Text(
-                "Quick Shop",
+                "Shopick",
                 style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),
@@ -77,7 +77,7 @@ class _MyOrdersState extends State<MyOrders> {
                                     ? OrderCard(
                                         itemCount: snapshot.data.documents.length,
                                         data: snapshot.data.documents,
-                                        orderID: snapshot.data.documents[index].documentID,
+                                        orderID: snapshots.data.documents[index].documentID,
                                     )
                                     : Center(child: circularProgress());
                               },

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
@@ -9,7 +8,6 @@ import 'package:e_shop_app/Widgets/MyDrawer.dart';
 import 'package:e_shop_app/Widgets/SearchBox.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
-import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +41,7 @@ class _StoreHomeState extends State<StoreHome> {
             title: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                "Quick Shop",
+                "Shopick",
                 style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),

@@ -1,5 +1,4 @@
 import 'package:e_shop_app/Admin/AdminSignIn.dart';
-
 import '../Store/StoreHome.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/config/decoration_functions.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
@@ -8,8 +7,6 @@ import 'package:e_shop_app/DialogBox/errorDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_shop_app/config/config.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import '../config/palette.dart';
 
 
@@ -85,12 +82,15 @@ class _SignInFormState extends State<SignInForm>  {
               Expanded(
                 flex: 3,
                   child: Align(alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Quick Shop',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 34),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Shopick',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 38),
+                      ),
                     ),
                   ),
               ),
