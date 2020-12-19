@@ -7,31 +7,52 @@ import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoder/geocoder.dart' as Geoco;
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-class AddAddress extends StatefulWidget {
+class MapAddress extends StatefulWidget {
   @override
-  _AddAddressState createState() => _AddAddressState();
+  _MapAddressState createState() => _MapAddressState();
 }
 
-class _AddAddressState extends State<AddAddress> {
+class _MapAddressState extends State<MapAddress> {
 
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final TextEditingController _cName = TextEditingController();
   final TextEditingController _cPhoneNumber = TextEditingController();
   final TextEditingController _cHomeNumber = TextEditingController();
-  final TextEditingController _cCity = TextEditingController();
-  final TextEditingController _cState = TextEditingController();
-  final TextEditingController _cDetails = TextEditingController();
-  final TextEditingController _cPinCode = TextEditingController();
+
+  GoogleMapController mapController;
+  List <Marker> myMarker = [];
+  Position position;
+  var address;
+  double _latitude, _longitude;
+  String _addressLine, _countryName, _postalCode, _cityName;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
-        key: _scaffoldKey,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -104,41 +125,6 @@ class _AddAddressState extends State<AddAddress> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){
-            if(_formKey.currentState.validate()){
-
-              final model = AddressModel(
-                name: _cName.text.trim(),
-                phoneNumber: _cPhoneNumber.text,
-                homeNumber: _cHomeNumber.text,
-                city: _cCity.text.trim(),
-                state: _cState.text.trim(),
-                addressDetails: _cDetails.text.trim(),
-                pincode: _cPinCode.text
-              ).toJson();
-
-              // add to firebase
-              shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-                  .collection("address").document(DateTime.now().millisecondsSinceEpoch.toString())
-                  .setData(model).then((value){
-
-                    // final snack = SnackBar(content: Text("New Address Added Successfully."));
-                    // _scaffoldKey.currentState.showSnackBar(snack);
-                    // FocusScope.of(context).requestFocus(FocusNode());
-                    // _formKey.currentState.reset();
-                Fluttertoast.showToast(msg: "New Address Added Successfully.");
-
-              });
-            }
-
-            Route route = MaterialPageRoute(builder: (c) => Address());
-            Navigator.pushReplacement(context, route);
-          },
-          label: Text("Done", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "PatrickHand", fontSize: 20.0)),
-          backgroundColor: Palette.darkBlue,
-          icon: Icon(Icons.check),
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -202,82 +188,118 @@ class _AddAddressState extends State<AddAddress> {
 
                       ),
 
-                      SizedBox(height: 5),
-
-                      TextFormField(
-                        controller: _cCity,
-
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'City is required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'City', data: Icons.location_city),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cCity.text = input,
-
-                      ),
-
-                      SizedBox(height: 5),
-
-                      TextFormField(
-                        controller: _cState,
-
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'State / City is required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'State / Country', data: Icons.add_location_alt),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cState.text = input,
-
-                      ),
-
-                      SizedBox(height: 5),
-
-                      TextFormField(
-                        controller: _cDetails,
-
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'Address details is required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'Address Details', data: Icons.details),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cDetails.text = input,
-
-                      ),
-
-                      SizedBox(height: 5),
-
-                      TextFormField(
-                        controller: _cPinCode,
-
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'PinCode is required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'Pin Code', data: Icons.qr_code),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cPinCode.text = input,
-
-                      ),
+                      SizedBox(height: 15),
 
                     ],
                   ),
                 ),
-              )
+              ),
+              Container(
+                height: height-90,
+                width: width,
+                child: GoogleMap(
+                  onMapCreated: (controller){
+                    setState(() {
+                      mapController = controller;
+                    });
+                  },
+                  // where do i need the camera to be placed at first
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(33.8547, 35.8623),    // lebanon by default
+                      zoom: 10.0
+                  ),
+                  compassEnabled: true,
+                  trafficEnabled: true,
+                  markers: Set.from(myMarker),
+                  onTap: (tapped)async {
+                    handleTapMarker(tapped.latitude, tapped.longitude);
+                    mapController.animateCamera(CameraUpdate.newLatLng(tapped));
+                    final coordinates = new Geoco.Coordinates(tapped.latitude, tapped.longitude);
+                    address = await Geoco.Geocoder.local.findAddressesFromCoordinates(coordinates);
+                    final firstAddress = address.first;
+                    _latitude = tapped.latitude;
+                    _longitude = tapped.longitude;
+                    _addressLine = firstAddress.addressLine;
+                    _countryName = firstAddress.countryName;
+                    _cityName = firstAddress.featureName;
+                    _postalCode = firstAddress.postalCode;
+                  },
+                  myLocationEnabled: true,
+                ),
+
+              ),
+
             ],
+          ),
+        ),
+        floatingActionButton: Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 25.0, bottom: 15.0),
+            child: FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: Palette.darkBlue,
+              onPressed: mapController == null
+                  ? null
+                  : () async{
+                    if(_formKey.currentState.validate()) {
+                      final model = AddressModel(
+                          name: _cName.text.trim(),
+                          phoneNumber: _cPhoneNumber.text,
+                          homeNumber: _cHomeNumber.text,
+                          city: _cityName,
+                          state: _countryName,
+                          addressDetails: _addressLine,
+                          pincode: _postalCode,
+                          latitude: _latitude,
+                          longitude: _longitude,
+                      ).toJson();
+
+                      await shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+                          .collection("address").document(DateTime.now().millisecondsSinceEpoch.toString())
+                          .setData(model).then((value){
+
+                            Fluttertoast.showToast(msg: "New Address Added Successfully.");
+
+                      });
+
+                      Route route = MaterialPageRoute(builder: (c) => Address());
+                      Navigator.pushReplacement(context, route);
+                    }
+              }
+            ),
           ),
         ),
       ),
     );
   }
+
+  void handleTapMarker(double lat, double long){
+    MarkerId _markerId = MarkerId(lat.toString()+long.toString());
+
+    setState(() {
+      myMarker = [];
+      myMarker.add(
+          Marker(
+              markerId: _markerId,
+              position: LatLng(lat,long),
+              draggable: true,
+              infoWindow: InfoWindow(
+                title: "My Location",
+              )
+          )
+      );
+    });
+  }
+
+  void getCurrentLocation() async{
+    Position currentPosition = await GeolocatorPlatform.instance.getCurrentPosition();
+    setState(() {
+      position = currentPosition;
+    });
+  }
+
+
 }
+
+

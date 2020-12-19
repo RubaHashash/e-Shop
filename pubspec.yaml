@@ -36,6 +36,14 @@ dependencies:
   # For example, to use Firebase Authentication and Cloud Firestore
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+5
+
+  #for google maps location
+  geolocator: ^6.1.13
+  geoflutterfire: ^2.0.3+5
+  google_maps_flutter: ^1.0.6
+  geocoder: ^0.2.1
+
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0

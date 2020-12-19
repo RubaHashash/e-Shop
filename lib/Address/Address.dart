@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Address/AddAddress.dart';
+import 'package:e_shop_app/Address/MapAddress.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Counters/changeAddress.dart';
 import 'package:e_shop_app/Models/address.dart';
@@ -146,8 +147,7 @@ class _AddressState extends State<Address> {
           backgroundColor: Palette.darkBlue,
           icon: Icon(Icons.add_location),
           onPressed: (){
-            Route route = MaterialPageRoute(builder: (c) => AddAddress());
-            Navigator.pushReplacement(context, route);
+            addressDialog(context);
           },
         ),
       ),
@@ -265,13 +265,31 @@ class _AddressCardState extends State<AddressCard> {
                                 Text(widget.model.addressDetails),
                               ]
                           ),
-
+                          TableRow(
+                              children: [
+                                Text("Latitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                widget.model.latitude.toString() != null ?
+                                Text(widget.model.latitude.toString())
+                                : Text("null"),
+                              ]
+                          ),
+                          TableRow(
+                              children: [
+                                Text("Longitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                widget.model.longitude.toString() !=null ?
+                                Text(widget.model.longitude.toString())
+                                : Text("null"),
+                              ]
+                          ),
                           TableRow(
                               children: [
                                 Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                                Text(widget.model.pincode),
+                                widget.model.pincode != null ?
+                                Text(widget.model.pincode)
+                                : Text("null"),
                               ]
                           ),
+
                         ],
                       ),
                     ),
@@ -316,6 +334,59 @@ class _AddressCardState extends State<AddressCard> {
       ),
     );
   }
+}
+addressDialog(mContext){
+  return showDialog(
+      context: mContext,
+      builder: (con){
+        return SimpleDialog(
+          title: Row(
+            children: [
+              Text("Add New Address", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 25)),
+            ],
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: SimpleDialogOption(
+                child: Row(
+                  children: [
+                    Icon(Icons.add_location),
+                    SizedBox(width: 12),
+                    Text("Manual Address", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                  ],
+                ),
+                onPressed: (){
+                  Route route = MaterialPageRoute(builder: (c) => AddAddress());
+                  Navigator.pushReplacement(mContext, route);
+                },
+              ),
+            ),
+
+            SimpleDialogOption(
+              child: Row(
+                children: [
+                  Icon(Icons.map),
+                  SizedBox(width: 12),
+                  Text("Use Google Maps", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                ],
+              ),
+              onPressed: (){
+                Route route = MaterialPageRoute(builder: (c) => MapAddress());
+                Navigator.pushReplacement(mContext, route);
+              },
+            ),
+
+            SimpleDialogOption(
+              child: Text("Cancel", style: TextStyle(color: Palette.darkBlue, fontSize: 16), textAlign: TextAlign.right),
+              onPressed: (){
+                Navigator.pop(mContext);
+              },
+            ),
+          ],
+        );
+      }
+  );
 }
 
 paymentDialog(mContext, String addressID, double totalAmount){

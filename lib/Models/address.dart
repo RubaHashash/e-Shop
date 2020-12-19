@@ -7,6 +7,8 @@ class AddressModel {
   String state;
   String addressDetails;
   String pincode;
+  double latitude;
+  double longitude;
 
   AddressModel(
       {this.name,
@@ -15,7 +17,9 @@ class AddressModel {
         this.city,
         this.state,
         this.addressDetails,
-        this.pincode});
+        this.pincode,
+        this.latitude,
+        this.longitude});
 
   AddressModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -25,6 +29,8 @@ class AddressModel {
     state = json['state'];
     addressDetails = json['addressDetails'];
     pincode = json['pincode'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +42,8 @@ class AddressModel {
     data['state'] = this.state;
     data['addressDetails'] = this.addressDetails;
     data['pincode'] = this.pincode;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     return data;
   }
 }
