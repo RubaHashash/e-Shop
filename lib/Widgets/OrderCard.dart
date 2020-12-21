@@ -22,6 +22,7 @@ class OrderCard extends StatelessWidget {
           counter = counter +1;
           route = MaterialPageRoute(builder: (c) => OrderDetails(orderID: orderID));
         }
+        
         Navigator.push(context, route);
       },
       child: Container(

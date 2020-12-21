@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Widgets/AdminOrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,9 @@ class AdminShiftOrders extends StatefulWidget {
 }
 
 class _AdminShiftOrdersState extends State<AdminShiftOrders> {
+  
+  final storeId = shopApp.sharedPreferences.getString("storeID");
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,7 +59,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
               itemCount: snapshots.data.documents.length,
               itemBuilder: (c, index){
                 return FutureBuilder<QuerySnapshot>(
-                  future: Firestore.instance.collection("items")
+                  future: Firestore.instance.collection("items").where("store", isEqualTo: storeId)
                       .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
                   builder: (c, snapshot){
                     return snapshot.hasData

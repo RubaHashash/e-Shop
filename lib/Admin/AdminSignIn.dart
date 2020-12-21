@@ -3,6 +3,7 @@ import 'package:e_shop_app/Admin/AdminHomePage.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Authentication/background_painter.dart';
 import 'package:e_shop_app/Authentication/sign_in_up_bar.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
 
   final TextEditingController _adminID = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  String storeID;
 
   AnimationController _controller;
 
@@ -49,16 +51,18 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
           }
           else{
             // Scaffold.of(context).showSnackBar(SnackBar(content: Text("Welcome to your shop, " + result.data["name"])));
-
+            storeID = result.documentID;
             setState((){
               _adminID.text = "";
               _password.text = "";
             });
+            shopApp.sharedPreferences.setString("storeID", storeID);
             Route route = MaterialPageRoute(builder: (c) => AdminHome());
             Navigator.push(context, route);
           }
         });
       });
+
     }
   }
 

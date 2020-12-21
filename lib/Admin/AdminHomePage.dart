@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminShiftOrders.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -358,11 +359,12 @@ class _AdminHomeState extends State<AdminHome> {
     itemRef.document(productID).setData({
       "shortInfo": _shortInfo.text.trim(),
       "longDescription": _description.text.trim(),
-      "price": int.parse(_price.text),
+      "price": double.parse(_price.text),
       "publishedDate": DateTime.now(),
       "status": "available",
       "thumbnailUrl": downloadUrl,
       "title": _title.text.trim(),
+      "store": shopApp.sharedPreferences.getString("storeID"),
 
     });
 

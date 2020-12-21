@@ -266,8 +266,26 @@ class AdminShippingDetails extends StatelessWidget {
 
                     TableRow(
                         children: [
+                          Text("Latitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          model.latitude.toString() != null ?
+                          Text(model.latitude.toString())
+                              : Text("null"),
+                        ]
+                    ),
+                    TableRow(
+                        children: [
+                          Text("Longitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                          model.longitude.toString() !=null ?
+                          Text(model.longitude.toString())
+                              : Text("null"),
+                        ]
+                    ),
+                    TableRow(
+                        children: [
                           Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                          Text(model.pincode),
+                          model.pincode != null ?
+                          Text(model.pincode)
+                              : Text("null"),
                         ]
                     ),
                   ],
