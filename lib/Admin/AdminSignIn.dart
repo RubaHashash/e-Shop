@@ -57,6 +57,10 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
               _password.text = "";
             });
             shopApp.sharedPreferences.setString("storeID", storeID);
+            shopApp.sharedPreferences.setString("adminId", result.data["id"]);
+            shopApp.sharedPreferences.setString("adminName", result.data["name"]);
+            shopApp.sharedPreferences.setString("adminPassword", result.data["password"]);
+
             Route route = MaterialPageRoute(builder: (c) => AdminHome());
             Navigator.push(context, route);
           }

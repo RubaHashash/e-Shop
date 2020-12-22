@@ -1,33 +1,38 @@
-import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/Admin/AdminHomePage.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatefulWidget {
+class AdminProfilePage extends StatefulWidget {
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _AdminProfilePageState createState() => _AdminProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _AdminProfilePageState extends State<AdminProfilePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _editname = TextEditingController();
-  final TextEditingController _editEmail = TextEditingController();
+  final TextEditingController _editAdminID = TextEditingController();
+  final TextEditingController _editAdminName = TextEditingController();
+  final TextEditingController _editAdminPassword = TextEditingController();
+
 
   bool edit = false;
 
   UpdateUserProfile(){
     if (_formKey.currentState.validate()) {
 
-      shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+      shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("storeID"))
           .updateData({
-        'email': _editEmail.text,
-        'name': _editname.text
+        'id': _editAdminID.text,
+        'name': _editAdminName.text,
+        'password': _editAdminName.text,
+
       });
 
-      shopApp.sharedPreferences.setString("email", _editEmail.text);
-      shopApp.sharedPreferences.setString("name", _editname.text);
+      shopApp.sharedPreferences.setString("adminId", _editAdminID.text);
+      shopApp.sharedPreferences.setString("adminName", _editAdminName.text);
+      shopApp.sharedPreferences.setString("adminPassword", _editAdminName.text);
 
       setState(() {
         edit = false;
@@ -66,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                  Route route = MaterialPageRoute(builder: (c) => AdminHome());
                   Navigator.pushReplacement(context, route);
                 },
               ),
@@ -119,8 +124,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             CircleAvatar(
                               maxRadius: 65,
                               backgroundColor: Palette.darkBlue,
-                              child: Text('${shopApp.sharedPreferences.getString("name")[0].toUpperCase()}',
-                                    style: TextStyle(color: Colors.white, fontSize: 80.0, fontWeight: FontWeight.w500)),
+                              child: Text('${shopApp.sharedPreferences.getString("adminName")[0].toUpperCase()}',
+                                  style: TextStyle(color: Colors.white, fontSize: 80.0, fontWeight: FontWeight.w500)),
                             )
                           ],
                         ),
@@ -145,12 +150,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
 
                   Container(
-                    height: 200,
+                    height: 280,
                     width: width,
                     child: Column(
                       children: [
                         Container(
-                          height: 180,
+                          height: 280,
                           child: edit == true ? Form(
                             key: _formKey,
                             child: Column(
@@ -163,20 +168,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   width: width,
                                   child: TextFormField(
-                                    controller: _editname,
-                                    validator: (input) {
-                                      if (input.isEmpty) {
-                                        return 'Enter your Name';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: shopApp.sharedPreferences.getString("name"),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(30)
+                                      controller: _editAdminID,
+                                      validator: (input) {
+                                        if (input.isEmpty) {
+                                          return 'Enter your ID';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: shopApp.sharedPreferences.getString("adminId"),
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(30)
+                                        ),
                                       ),
-                                    ),
-                                      onSaved: (input) => _editname.text = input
+                                      onSaved: (input) => _editAdminID.text = input
                                   ),
                                 ),
 
@@ -190,24 +195,48 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   width: width,
                                   child: TextFormField(
-                                    controller: _editEmail,
-                                    validator: (input) {
-                                      if (input.isEmpty) {
-                                        return 'Enter your E-mail';
-                                      }
-                                      if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(input)){
-                                        return 'Invalid E-mail';
-                                      }
-                                      return null;
-                                    },
-
-                                    decoration: InputDecoration(
-                                      hintText: shopApp.sharedPreferences.getString("email"),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(30)
+                                      controller: _editAdminName,
+                                      validator: (input) {
+                                        if (input.isEmpty) {
+                                          return 'Enter your Name';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: shopApp.sharedPreferences.getString("adminName"),
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(30)
+                                        ),
                                       ),
-                                    ),
-                                      onSaved: (input) => _editEmail.text = input
+                                      onSaved: (input) => _editAdminName.text = input
+                                  ),
+                                ),
+
+                                SizedBox(height: 17),
+
+                                Container(
+                                  height: 60,
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30)
+                                  ),
+                                  width: width,
+                                  child: TextFormField(
+                                      controller: _editAdminPassword,
+                                      validator: (input) {
+                                        if (input.length < 6) {
+                                          return 'Provide Minimum 6 Characters';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: "********",
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(30)
+                                        ),
+                                      ),
+                                      obscureText: true,
+                                      onSaved: (input) => _editAdminPassword.text = input
 
                                   ),
                                 ),
@@ -232,10 +261,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("Name",
+                                        Text("ID",
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue)
                                         ),
-                                        Text(shopApp.sharedPreferences.getString("name"),
+                                        Text(shopApp.sharedPreferences.getString("adminId"),
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue, fontWeight: FontWeight.bold)
                                         ),
                                       ],
@@ -260,10 +289,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("Email",
+                                        Text("Name",
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue)
                                         ),
-                                        Text(shopApp.sharedPreferences.getString("email"),
+                                        Text(shopApp.sharedPreferences.getString("adminName"),
+                                            style: TextStyle(fontSize: 17, color: Palette.darkBlue, fontWeight: FontWeight.bold)
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(height: 12),
+
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30)
+                                  ),
+                                  child: Container(
+                                    height: 60,
+                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(30)
+                                    ),
+                                    width: width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Password",
+                                            style: TextStyle(fontSize: 17, color: Palette.darkBlue)
+                                        ),
+                                        Text("*********",
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue, fontWeight: FontWeight.bold)
                                         ),
                                       ],
@@ -283,18 +340,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   Card(
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Palette.darkBlue
+                          borderRadius: BorderRadius.circular(20),
+                          color: Palette.darkBlue
                       ),
                       width: 200,
                       child: edit == false? FlatButton(
-                        color: Palette.darkBlue,
-                        onPressed: (){
-                          setState(() {
-                            edit = true;
-                          });
-                        },
-                        child: Text("Edit Profile", style: TextStyle(fontSize: 18, color: Colors.white),)
+                          color: Palette.darkBlue,
+                          onPressed: (){
+                            setState(() {
+                              edit = true;
+                            });
+                          },
+                          child: Text("Edit Profile", style: TextStyle(fontSize: 18, color: Colors.white),)
                       ) : Container(),
                     ),
                   ),

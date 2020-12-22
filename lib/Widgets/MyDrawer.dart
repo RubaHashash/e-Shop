@@ -23,7 +23,7 @@ class MyDrawer extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.grey[100],
               child: Text('${shopApp.sharedPreferences.getString("name")[0].toUpperCase()}',
-                  style: TextStyle(color: Palette.darkBlue, fontSize: 45.0, fontFamily: "Signatra", fontWeight: FontWeight.w500)),
+                  style: TextStyle(color: Palette.darkBlue, fontSize: 45.0, fontWeight: FontWeight.w500)),
             ),
             accountName: Padding(
               padding: const EdgeInsets.only(top: 26.0),

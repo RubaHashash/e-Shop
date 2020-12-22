@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminShiftOrders.dart';
-import 'package:e_shop_app/Authentication/MainPage.dart';
+import 'package:e_shop_app/Widgets/AdminDrawer.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -42,30 +42,26 @@ class _AdminHomeState extends State<AdminHome> {
                 color: Colors.white
             ),
           ),
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: IconButton(
-              icon: Icon(Icons.border_color, color: Palette.darkBlue),
-              onPressed: (){
-                Route route = MaterialPageRoute(builder: (c) => AdminShiftOrders());
-                Navigator.pushReplacement(context, route);
-              },
-            ),
-          ),
+          iconTheme: IconThemeData(color: Palette.darkBlue),
+
           actions: [
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
-              child: FlatButton(
-                  onPressed: (){
-                    Route route = MaterialPageRoute(builder: (c) => MainPage());
-                    Navigator.pushReplacement(context, route);
-                  },
-                  child: Text('Logout', style: TextStyle(color: Palette.darkBlue, fontSize: 16.0, fontWeight: FontWeight.bold))
+              child: IconButton(
+                icon: Icon(Icons.border_color, color: Palette.darkBlue),
+                onPressed: (){
+                  Route route = MaterialPageRoute(builder: (c) => AdminShiftOrders());
+                  Navigator.pushReplacement(context, route);
+                },
               ),
             )
           ],
         ),
       ) ,
+      drawer: Padding(
+        padding: const EdgeInsets.only(top: 5.0),
+        child: AdminDrawer(),
+      ),
 
       body: getAdminHomeScreenBody(),
     );
