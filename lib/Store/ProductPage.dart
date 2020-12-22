@@ -27,7 +27,7 @@ class _ProductPageState extends State<ProductPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[50],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -103,7 +103,7 @@ class _ProductPageState extends State<ProductPage> {
         body: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 18.0),
+              padding: const EdgeInsets.only(top: 8.0),
               child: Container(
                padding: EdgeInsets.all(8.0),
                 width: MediaQuery.of(context).size.width,
@@ -113,7 +113,15 @@ class _ProductPageState extends State<ProductPage> {
                     Stack(
                       children: [
                         Center(
-                          child: Image.network(widget.itemModel.thumbnailUrl),
+                          child: Card(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                width: 350,
+                                height: 220,
+                                color: Colors.white,
+                                  child: Image.network(widget.itemModel.thumbnailUrl, fit: BoxFit.fill,)
+                              )
+                          ),
                         ),
                         Container(
                           color: Colors.grey[300],
@@ -127,7 +135,7 @@ class _ProductPageState extends State<ProductPage> {
 
                     Container(
                       width: width,
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 15),
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -146,7 +154,7 @@ class _ProductPageState extends State<ProductPage> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                               child: Text(
-                                widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 35.0, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                                widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
                               ),
                             ),
                           ),
@@ -168,13 +176,25 @@ class _ProductPageState extends State<ProductPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      widget.itemModel.longDescription, style: TextStyle(color: Palette.darkBlue,fontSize: 18.0),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                Padding(
+                                  padding: const EdgeInsets.all(14.0),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Description: ", style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5.0),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          widget.itemModel.longDescription, style: TextStyle(color: Palette.darkBlue,fontSize: 17.0),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
 
@@ -184,7 +204,7 @@ class _ProductPageState extends State<ProductPage> {
                                     alignment: Alignment.bottomRight,
                                     child: Text(
                                       r"$ " + widget.itemModel.price.toString(),
-                                      style: TextStyle(color: Palette.darkBlue,fontSize: 20.0),
+                                      style: TextStyle(color: Palette.darkBlue,fontSize: 18.0),
                                     ),
                                   ),
                                 ),
@@ -194,7 +214,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
 
                           Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
+                            padding: const EdgeInsets.only(top: 15.0),
                             child: Center(
                               child: InkWell(
                                 onTap: () => checkItemInCart(widget.itemModel.shortInfo, context),
@@ -209,15 +229,15 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                       ]
                                   ),
-                                  width: 250,
+                                  width: 200,
                                   height: 50.0,
                                   child: Center(
                                     child: Row(
                                       children: [
-                                        Padding(padding: EdgeInsets.only(left: 40.0)),
-                                        Icon(Icons.favorite_border_sharp, color: Colors.white),
+                                        Padding(padding: EdgeInsets.only(left: 22.0)),
+                                        Icon(Icons.favorite, color: Colors.white),
                                         Padding(padding: EdgeInsets.all(8.0)),
-                                        Text("Add to Cart", style: TextStyle(color: Colors.white ,fontSize: 22.0, fontWeight: FontWeight.w700),)
+                                        Text("Add to Cart", style: TextStyle(color: Colors.white ,fontSize: 20.0, fontWeight: FontWeight.w700),)
                                       ],
                                     ),
                                   ),

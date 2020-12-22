@@ -1,6 +1,7 @@
 import 'package:e_shop_app/Address/AddAddress.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Orders/MyOrders.dart';
+import 'package:e_shop_app/Profile/ProfilePage.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
@@ -15,131 +16,107 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          Container(
-            padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(
-                    color: Palette.darkBlue,
-                    width: 3.0
-                ),
-              ),
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: Palette.darkBlue
             ),
-
-            child: Column(
-              children: [
-                SizedBox(height: 10.0),
-                Text(
-                  shopApp.sharedPreferences.getString("name"),
-                  style: TextStyle(color: Palette.darkBlue, fontSize: 45.0, fontFamily: "Signatra", fontWeight: FontWeight.w600),
-                ),
-                Text('Active', style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "PatrickHand"))
-              ],
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.grey[100],
+              child: Text('${shopApp.sharedPreferences.getString("name")[0].toUpperCase()}',
+                  style: TextStyle(color: Palette.darkBlue, fontSize: 45.0, fontFamily: "Signatra", fontWeight: FontWeight.w500)),
+            ),
+            accountName: Padding(
+              padding: const EdgeInsets.only(top: 26.0),
+              child: Text(
+                    shopApp.sharedPreferences.getString("name"),
+                    style: TextStyle(color: Colors.white, fontSize: 33.0, fontFamily: "Signatra", fontWeight: FontWeight.w500),
+                  ),
+            ),
+            accountEmail: Text(
+              shopApp.sharedPreferences.getString("email"),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13),
             ),
           ),
 
-          SizedBox(height: 12.0),
+          SizedBox(height: 10),
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => StoreHome());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.home, color: Palette.darkBlue),
+            title: Text("Home", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
 
-          Container(
-            padding: EdgeInsets.only(top: 1.0, bottom: 100),
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(
-                    color: Palette.darkBlue,
-                    width: 3.0
-                ),
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => MyOrders());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.reorder, color: Palette.darkBlue),
+            title: Text("My Orders", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => CartPage());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.shopping_cart, color: Palette.darkBlue),
+            title: Text("My Cart", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => SearchProduct());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.search, color: Palette.darkBlue),
+            title: Text("Search", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => AddAddress());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.add_location, color: Palette.darkBlue),
+            title: Text("Add New Address", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => ProfilePage());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.person, color: Palette.darkBlue),
+            title: Text("Profile", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => AddAddress());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.info_rounded, color: Palette.darkBlue),
+            title: Text("About Us", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+          SizedBox(height: 20.0),
+          ListTile(
+            onTap: (){
+              shopApp.auth.signOut().then((value){
+                Route route = MaterialPageRoute(builder: (c) => MainPage());
+                Navigator.pushReplacement(context, route);
+              });
+            },
+            leading: Icon(Icons.exit_to_app, color: Palette.darkBlue),
+            title: Text("Logout", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+
+
+                ],
               ),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0, bottom: 5.0),
-                  child: ListTile(
-                    leading: Icon(Icons.home, color: Palette.darkBlue, size: 30),
-                    title: Text("Home", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
-                    onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => StoreHome());
-                      Navigator.pushReplacement(context, route);
-                    },
-                  ),
-                ),
-
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: ListTile(
-                    leading: Icon(Icons.reorder, color: Palette.darkBlue, size: 30),
-                    title: Text("My Orders", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
-                    onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => MyOrders());
-                      Navigator.pushReplacement(context, route);
-                    },
-                  ),
-                ),
-
-
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: ListTile(
-                    leading: Icon(Icons.shopping_cart, color: Palette.darkBlue, size: 30),
-                    title: Text("My Cart", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
-                    onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => CartPage());
-                      Navigator.pushReplacement(context, route);
-                    },
-                  ),
-                ),
-
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: ListTile(
-                    leading: Icon(Icons.search, color: Palette.darkBlue, size: 30),
-                    title: Text("Search", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
-                    onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => SearchProduct());
-                      Navigator.pushReplacement(context, route);
-                    },
-                  ),
-                ),
-
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                  child: ListTile(
-                    leading: Icon(Icons.add_location, color: Palette.darkBlue, size: 30),
-                    title: Text("Add New Address", style: TextStyle(color: Palette.darkBlue, fontSize: 28, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
-                    onTap: (){
-                      Route route = MaterialPageRoute(builder: (c) => AddAddress());
-                      Navigator.pushReplacement(context, route);
-                    },
-                  ),
-                ),
-
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 70.0, bottom: 3.0),
-                  child: ListTile(
-                    leading: Icon(Icons.exit_to_app, color: Palette.darkBlue, size: 30),
-                    title: Text("Logout", style: TextStyle(color: Palette.darkBlue, fontSize: 24, fontWeight: FontWeight.bold, fontFamily: "PatrickHand")),
-                    onTap: (){
-                      shopApp.auth.signOut().then((value){
-                        Route route = MaterialPageRoute(builder: (c) => MainPage());
-                        Navigator.pushReplacement(context, route);
-                      });
-                    },
-                  ),
-                ),
-
-
-              ],
-            )
-          )
-        ],
-      ),
     );
   }
 }

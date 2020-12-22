@@ -16,7 +16,7 @@ class _MyOrdersState extends State<MyOrders> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(

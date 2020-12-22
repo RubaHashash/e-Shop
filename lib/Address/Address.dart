@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-
+bool onCash = true;
 class Address extends StatefulWidget {
 
   final double totalAmount;
@@ -23,6 +23,9 @@ class Address extends StatefulWidget {
 }
 
 class _AddressState extends State<Address> {
+
+  bool onCash = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -411,9 +414,23 @@ paymentDialog(mContext, String addressID, double totalAmount){
                   ],
                 ),
                 onPressed: (){
+                  onCash = true;
                   addOrderDetails(mContext, addressID,totalAmount);
                 },
               ),
+            ),
+            SimpleDialogOption(
+              child: Row(
+                children: [
+                  Icon(Icons.delivery_dining),
+                  SizedBox(width: 12),
+                  Text("Pay Online", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                ],
+              ),
+              onPressed: (){
+                onCash = false;
+                addOrderDetails(mContext, addressID,totalAmount);
+              },
             ),
             SimpleDialogOption(
               child: Text("Cancel", style: TextStyle(color: Palette.darkBlue, fontSize: 16), textAlign: TextAlign.right),
@@ -445,28 +462,67 @@ Future writeOrderDetailsForAdmin(Map<String, dynamic> data) async{
       .getString("uid") + data['orderTime']).setData(data);
 }
 
-addOrderDetails(context, String addressID, double totalAmount ){
-  writeOrderDetailsForUser({
-    'addressID': addressID,
-    'totalAmount': totalAmount,
-    'orderBy': shopApp.sharedPreferences.getString("uid"),
-    'productID': shopApp.sharedPreferences.getStringList("userCart"),
-    'paymentDetails': "Cash on Delivery",
-    'orderTime': DateTime.now().millisecondsSinceEpoch.toString(),
-    'isSuccess': true
-  });
+addOrderDetails(context, String addressID, double totalAmount ) {
+  if (onCash == true) {
+    writeOrderDetailsForUser({
+      'addressID': addressID,
+      'totalAmount': totalAmount,
+      'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'productID': shopApp.sharedPreferences.getStringList("userCart"),
+      'paymentDetails': "Cash on Delivery",
+      'orderTime': DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
+      'isSuccess': true
+    });
 
-  writeOrderDetailsForAdmin({
-    'addressID': addressID,
-    'totalAmount': totalAmount,
-    'orderBy': shopApp.sharedPreferences.getString("uid"),
-    'productID': shopApp.sharedPreferences.getStringList("userCart"),
-    'paymentDetails': "Cash on Delivery",
-    'orderTime': DateTime.now().millisecondsSinceEpoch.toString(),
-    'isSuccess': true
-  }).whenComplete(() => {
-    emptyCart(context)
-  });
+    writeOrderDetailsForAdmin({
+      'addressID': addressID,
+      'totalAmount': totalAmount,
+      'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'productID': shopApp.sharedPreferences.getStringList("userCart"),
+      'paymentDetails': "Cash on Delivery",
+      'orderTime': DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
+      'isSuccess': true
+    }).whenComplete(() =>
+    {
+      emptyCart(context)
+    });
+  }
+  else{
+    writeOrderDetailsForUser({
+      'addressID': addressID,
+      'totalAmount': totalAmount,
+      'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'productID': shopApp.sharedPreferences.getStringList("userCart"),
+      'paymentDetails': "Online Payment",
+      'orderTime': DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
+      'isSuccess': true
+    });
+
+    writeOrderDetailsForAdmin({
+      'addressID': addressID,
+      'totalAmount': totalAmount,
+      'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'productID': shopApp.sharedPreferences.getStringList("userCart"),
+      'paymentDetails': "Online Payment",
+      'orderTime': DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString(),
+      'isSuccess': true
+    }).whenComplete(() =>
+    {
+      emptyCart(context)
+    });
+  }
 }
 
 
