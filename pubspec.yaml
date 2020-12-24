@@ -55,6 +55,9 @@ dependencies:
   google_fonts: ^1.1.1
   animations: ^1.1.2
 
+  # for the image slider
+  carousel_pro: ^1.0.0
+
   shared_preferences: ^0.5.12+4
   image_picker: ^0.6.6+5
   flutter_staggered_grid_view: ^0.3.2
@@ -79,7 +82,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/setupImage.jpeg
+    - assets/images/picture1.jpg
+    - assets/images/picture2.jpg
+    - assets/images/picture3.jpg
+    - assets/images/picture4.jpg
+    - assets/images/picture5.jpg
 
   #   - images/a_dot_ham.jpeg
 

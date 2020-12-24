@@ -1,3 +1,4 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
@@ -5,7 +6,6 @@ import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/ProductPage.dart';
 import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Widgets/MyDrawer.dart';
-import 'package:e_shop_app/Widgets/SearchBox.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -22,7 +22,6 @@ class StoreHome extends StatefulWidget {
 }
 
 class _StoreHomeState extends State<StoreHome> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +109,24 @@ class _StoreHomeState extends State<StoreHome> {
 
         body: CustomScrollView(
           slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SearchBoxDelegate(),
+
+            SliverList(delegate: SliverChildListDelegate(
+              List.generate(1, (index) {
+                return imageSlider;
+              })
+            )),
+
+            SliverToBoxAdapter(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Categories",
+                      style: TextStyle(fontSize: 25.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
 
@@ -138,6 +152,29 @@ class _StoreHomeState extends State<StoreHome> {
     );
   }
 }
+
+// image slider
+Widget imageSlider = Padding(
+  padding: const EdgeInsets.only(bottom: 10.0),
+  child: Container(
+    height: 200.0,
+    child: Carousel(
+      boxFit: BoxFit.cover,
+      images: [
+        AssetImage('assets/images/picture1.jpg'),
+        AssetImage('assets/images/picture2.jpg'),
+        AssetImage('assets/images/picture3.jpg'),
+        AssetImage('assets/images/picture4.jpg'),
+        AssetImage('assets/images/picture5.jpg'),
+      ],
+      autoplay: true,
+      animationCurve: Curves.fastOutSlowIn,
+      animationDuration: Duration(milliseconds: 1000),
+      dotSize: 4.0,
+      indicatorBgPadding: 6.0,
+    ),
+  ),
+);
 
 
 Widget sourceInfo(ItemModel model, BuildContext context, {Color background, removeCartFunction}){
