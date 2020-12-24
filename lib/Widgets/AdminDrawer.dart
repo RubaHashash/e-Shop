@@ -41,7 +41,7 @@ class AdminDrawer extends StatelessWidget {
           SizedBox(height: 10),
           ListTile(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminHome());
+              Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
               Navigator.pushReplacement(context, route);
             },
             leading: Icon(Icons.home, color: Palette.darkBlue),
@@ -67,6 +67,7 @@ class AdminDrawer extends StatelessWidget {
             title: Text("Profile", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
           ),
 
+          SizedBox(height: 240,),
           ListTile(
             onTap: (){
               shopApp.auth.signOut().then((value){

@@ -26,7 +26,7 @@ class AdminOrderDetails extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
             child: FutureBuilder<DocumentSnapshot>(
               future: shopApp.firestore.collection("orders").document(getOrderID).get(),
@@ -336,7 +336,7 @@ class AdminShippingDetails extends StatelessWidget {
 
     getOrderID = "";
 
-    Route route = MaterialPageRoute(builder: (c) => AdminHome());
+    Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
     Navigator.pushReplacement(context, route);
 
     Fluttertoast.showToast(msg: "Package has been Shifted. Confirmed");

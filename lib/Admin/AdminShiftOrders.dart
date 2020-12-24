@@ -19,7 +19,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -32,7 +32,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
               padding: const EdgeInsets.only(top:18.0),
               child: Text(
                 "Orders",
-                style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),
             centerTitle: true,
@@ -41,7 +41,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminHome());
+                  Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
                   Navigator.pushReplacement(context, route);
                 },
               ),

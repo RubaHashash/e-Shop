@@ -49,7 +49,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -61,8 +61,8 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
             title: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                "My Profile",
+                style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
               ),
             ),
             centerTitle: true,
@@ -71,7 +71,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminHome());
+                  Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
                   Navigator.pushReplacement(context, route);
                 },
               ),

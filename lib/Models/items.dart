@@ -9,6 +9,7 @@ class ItemModel {
   String status;
   double price;
   String storeID;
+  String category;
 
   ItemModel(
       {this.title,
@@ -17,7 +18,8 @@ class ItemModel {
         this.thumbnailUrl,
         this.longDescription,
         this.status,
-        this.storeID
+        this.storeID,
+        this.category
       });
 
   ItemModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class ItemModel {
     status = json['status'];
     price = json['price'];
     storeID = json['storeID'];
+    category = json['category'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +46,7 @@ class ItemModel {
     data['longDescription'] = this.longDescription;
     data['status'] = this.status;
     data['storeID'] = this.storeID;
+    data['category'] = this.category;
     return data;
   }
 }

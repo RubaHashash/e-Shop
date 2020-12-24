@@ -87,6 +87,12 @@ flutter:
     - assets/images/picture3.jpg
     - assets/images/picture4.jpg
     - assets/images/picture5.jpg
+    - assets/CatImage/picture1.jpg
+    - assets/CatImage/picture2.jpg
+    - assets/CatImage/picture3.jpg
+    - assets/CatImage/picture4.jpg
+    - assets/CatImage/picture5.jpg
+
 
   #   - images/a_dot_ham.jpeg
 
