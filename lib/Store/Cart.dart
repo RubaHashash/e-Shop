@@ -4,6 +4,7 @@ import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Counters/totalMoney.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/Store/ViewProducts.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
