@@ -1,4 +1,5 @@
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/Admin/AdminProducts.dart';
 import 'package:e_shop_app/Admin/AdminShiftOrders.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Profile/AdminProfilePage.dart';
@@ -57,6 +58,14 @@ class AdminDrawer extends StatelessWidget {
             title: Text("Orders", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
           ),
 
+          ListTile(
+            onTap: (){
+              Route route = MaterialPageRoute(builder: (c) => AdminProducts());
+              Navigator.pushReplacement(context, route);
+            },
+            leading: Icon(Icons.shop, color: Palette.darkBlue),
+            title: Text("All Products", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
 
           ListTile(
             onTap: (){
@@ -67,7 +76,9 @@ class AdminDrawer extends StatelessWidget {
             title: Text("Profile", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold)),
           ),
 
-          SizedBox(height: 240,),
+
+
+          SizedBox(height: 190),
           ListTile(
             onTap: (){
               shopApp.auth.signOut().then((value){
