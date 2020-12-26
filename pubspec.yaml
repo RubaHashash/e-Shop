@@ -97,7 +97,11 @@ flutter:
     - assets/CatImage/image3.jpg
     - assets/CatImage/image4.jpg
     - assets/CatImage/image5.jpeg
-
+    - assets/CatImage/clothes_picture.jpg
+    - assets/CatImage/electronics_picture.png
+    - assets/CatImage/home_picture.png
+    - assets/CatImage/souvenir_picture.jpg
+    - assets/CatImage/others_picture.jpg
 
   #   - images/a_dot_ham.jpeg
 

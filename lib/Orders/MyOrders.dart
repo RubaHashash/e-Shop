@@ -26,17 +26,22 @@ class _MyOrdersState extends State<MyOrders> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 90),
+              child: Row(
+                children: [
+                  Text(
+                    "My Orders",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
             leading: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
+                icon: Icon(Icons.arrow_back_ios),
+                color: Palette.darkBlue,
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => StoreHome());
                   Navigator.pushReplacement(context, route);
@@ -51,14 +56,6 @@ class _MyOrdersState extends State<MyOrders> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 14.0),
-                child: Text('My Orders', style: TextStyle(color: Palette.darkBlue,
-                    fontWeight: FontWeight.bold, fontSize: 30.0, fontFamily: "PatrickHand")),
-              ),
-            ),
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
                 stream: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))

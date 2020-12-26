@@ -70,7 +70,7 @@ InputDecoration signUpDecoration({String hintText, IconData data}) {
 InputDecoration inputDecoration({String hintText, IconData data}) {
   return InputDecoration(
     contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
-    hintStyle: const TextStyle(fontSize: 18, color: Palette.darkBlue),
+    hintStyle: const TextStyle(fontSize: 16, color: Palette.darkBlue),
     hintText: hintText,
     prefixIcon: Icon(data, color: Palette.darkBlue),
     focusedBorder: const UnderlineInputBorder(

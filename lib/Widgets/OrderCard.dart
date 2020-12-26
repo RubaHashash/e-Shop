@@ -18,16 +18,16 @@ class OrderCard extends StatelessWidget {
     return InkWell(
       onTap: (){
         Route route;
-        if(counter == 0){
-          counter = counter +1;
+        // if(counter == 0){
+        //   counter = counter +1;
           route = MaterialPageRoute(builder: (c) => OrderDetails(orderID: orderID));
-        }
+        // }
         
         Navigator.push(context, route);
       },
       child: Container(
         padding: EdgeInsets.all(10.0),
-        margin: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 10.0, right: 10.0),
+        margin: EdgeInsets.only(top: 2.0, bottom: 10.0, left: 10.0, right: 10.0),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20.0),

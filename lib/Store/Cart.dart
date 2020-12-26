@@ -4,7 +4,7 @@ import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Counters/totalMoney.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Store/ViewProducts.dart';
+import 'package:e_shop_app/Store/Products.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -30,7 +30,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100],
       floatingActionButton: FloatingActionButton.extended(
           onPressed: (){
             if(shopApp.sharedPreferences.getStringList("userCart").length == 1){
@@ -41,9 +41,10 @@ class _CartPageState extends State<CartPage> {
               Navigator.pushReplacement(context, route);
             }
           },
-        label: Text("Check Out", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "PatrickHand", fontSize: 20.0)),
+        label: Text("Check Out",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "PatrickHand", fontSize: 18.0)),
         backgroundColor: Palette.darkBlue,
-        icon: Icon(Icons.navigate_next),
+        icon: Icon(Icons.navigate_next, size: 18),
       ),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
@@ -54,17 +55,21 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: Text(
-              "Shopick",
-              style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+            padding: const EdgeInsets.only(top: 17.0, left: 100),
+            child: Row(
+              children: [
+                Text(
+                  "My Cart",
+                  style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                ),
+              ],
             ),
           ),
           centerTitle: true,
           leading: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
+            padding: const EdgeInsets.only(top: 15.0, left: 15),
             child: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back_ios),
               color: Palette.darkBlue,
               onPressed: (){
                 Route route = MaterialPageRoute(builder: (c) => StoreHome());
@@ -72,6 +77,7 @@ class _CartPageState extends State<CartPage> {
               },
             ),
           ),
+
           actions: [
             Stack(
               children: [
@@ -116,7 +122,9 @@ class _CartPageState extends State<CartPage> {
             )
           ],
         ),
-      ),      body: CustomScrollView(
+      ),
+
+      body: CustomScrollView(
         slivers: [
           // a singlebox widgets that takes two consumers dependent on each other(total amount+cart items)
           SliverToBoxAdapter(

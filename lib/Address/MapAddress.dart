@@ -1,7 +1,5 @@
 import 'package:e_shop_app/Address/Address.dart';
-import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/address.dart';
-import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -10,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart' as Geoco;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
 class MapAddress extends StatefulWidget {
   @override
@@ -52,7 +49,7 @@ class _MapAddressState extends State<MapAddress> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -62,17 +59,21 @@ class _MapAddressState extends State<MapAddress> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 50),
+              child: Row(
+                children: [
+                  Text(
+                    "Add New Address",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
             leading: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
               child: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => Address());
@@ -80,117 +81,73 @@ class _MapAddressState extends State<MapAddress> {
                 },
               ),
             ),
-            actions: [
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: IconButton(
-                      icon: Icon(Icons.shopping_cart, color: Palette.darkBlue),
-                      onPressed: (){
-                        Route route = MaterialPageRoute(builder: (c) => CartPage());
-                        Navigator.pushReplacement(context, route);
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Stack(
-                        children: [
-                          Icon(
-                            Icons.brightness_1,
-                            size: 20.0,
-                            color: Palette.lightBlue,
-                          ),
-                          Positioned(
-                            top: 3.0,
-                            bottom: 4.0,
-                            left: 6.0,
-                            child: Consumer<CartItemCounter>(
-                                builder: (context, counter, _){
-                                  return Text(
-                                    (shopApp.sharedPreferences.getStringList("userCart").length - 1).toString(),
-                                    style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
-                                  );
-                                }
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              )
-            ],
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20.0),
-                  child: Text("Add New Address", style: TextStyle(color: Palette.darkBlue,
-                      fontWeight: FontWeight.bold, fontSize: 30.0, fontFamily: "PatrickHand")),
+              Container(
+                margin: EdgeInsets.only(top: 10.0, bottom: 15.0),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _cName,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _cName,
 
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'Name is Required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'Name', data: Icons.person),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cName.text = input,
-                      ),
-                      SizedBox(height: 5),
-                      TextFormField(
-                        controller: _cPhoneNumber,
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Name is Required';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(hintText: 'Name', data: Icons.person),
+                          style: TextStyle(color: Palette.darkBlue),
+                          onSaved: (input) => _cName.text = input,
+                        ),
+                        SizedBox(height: 5),
+                        TextFormField(
+                          controller: _cPhoneNumber,
 
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'Phone Number is Required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'Phone Number', data: Icons.phone_android),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cPhoneNumber.text = input,
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Phone Number is Required';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(hintText: 'Phone Number', data: Icons.phone_android),
+                          style: TextStyle(color: Palette.darkBlue),
+                          onSaved: (input) => _cPhoneNumber.text = input,
 
-                      ),
+                        ),
 
-                      SizedBox(height: 5),
+                        SizedBox(height: 5),
 
-                      TextFormField(
-                        controller: _cHomeNumber,
+                        TextFormField(
+                          controller: _cHomeNumber,
 
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'Home Phone is required';
-                          }
-                          return null;
-                        },
-                        decoration: inputDecoration(hintText: 'Home Phone Number', data: Icons.phone),
-                        style: TextStyle(color: Palette.darkBlue),
-                        onSaved: (input) => _cHomeNumber.text = input,
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Home Phone is required';
+                            }
+                            return null;
+                          },
+                          decoration: inputDecoration(hintText: 'Home Phone Number', data: Icons.phone),
+                          style: TextStyle(color: Palette.darkBlue),
+                          onSaved: (input) => _cHomeNumber.text = input,
 
-                      ),
+                        ),
 
-                      SizedBox(height: 15),
+                        SizedBox(height: 25),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -208,6 +165,7 @@ class _MapAddressState extends State<MapAddress> {
                       target: LatLng(33.8547, 35.8623),    // lebanon by default
                       zoom: 10.0
                   ),
+                  mapType: MapType.hybrid,
                   compassEnabled: true,
                   trafficEnabled: true,
                   markers: Set.from(myMarker),
@@ -236,9 +194,10 @@ class _MapAddressState extends State<MapAddress> {
           alignment: Alignment.bottomLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 25.0, bottom: 15.0),
-            child: FloatingActionButton(
-              child: Icon(Icons.add),
-              backgroundColor: Palette.darkBlue,
+            child: FloatingActionButton.extended(
+              label: Text("Done", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w600, fontFamily: "PatrickHand", fontSize: 18.0)),
+              icon: Icon(Icons.check, color: Palette.darkBlue, size: 18),
+              backgroundColor: Colors.grey[100],
               onPressed: mapController == null
                   ? null
                   : () async{

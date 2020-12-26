@@ -1,6 +1,7 @@
 import 'package:e_shop_app/Address/AddAddress.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Orders/MyOrders.dart';
+import 'package:e_shop_app/Profile/AboutUS.dart';
 import 'package:e_shop_app/Profile/ProfilePage.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/Search.dart';
@@ -95,7 +96,7 @@ class MyDrawer extends StatelessWidget {
 
           ListTile(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AddAddress());
+              Route route = MaterialPageRoute(builder: (c) => AboutUs());
               Navigator.pushReplacement(context, route);
             },
             leading: Icon(Icons.info_rounded, color: Palette.darkBlue),

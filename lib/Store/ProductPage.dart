@@ -2,7 +2,7 @@ import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Store/ViewProducts.dart';
+import 'package:e_shop_app/Store/Products.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +28,7 @@ class _ProductPageState extends State<ProductPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[50],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -38,17 +38,22 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 70),
+              child: Row(
+                children: [
+                  Text(
+                    "View Product",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
+
             leading: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
               child: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => StoreHome());
@@ -56,6 +61,7 @@ class _ProductPageState extends State<ProductPage> {
                 },
               ),
             ),
+
             actions: [
               Stack(
                 children: [
@@ -103,157 +109,157 @@ class _ProductPageState extends State<ProductPage> {
         ),
         body: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Container(
-               padding: EdgeInsets.all(8.0),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        Center(
-                          child: Card(
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                width: 350,
-                                height: 220,
-                                color: Colors.white,
-                                  child: Image.network(widget.itemModel.thumbnailUrl, fit: BoxFit.fill,)
-                              )
+            Container(
+             padding: EdgeInsets.all(5.0),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
                           ),
                         ),
-                        Container(
-                          color: Colors.grey[300],
-                          child: SizedBox(
-                            height: 1.0,
-                            width: double.infinity,
+                        child: Center(
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20),
+                              ),
+                              child: Image.network(widget.itemModel.thumbnailUrl, fit: BoxFit.fill, height: 300,)
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+
+                  Container(
+                    width: width,
+                    margin: EdgeInsets.only(top: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 1.0
+                        ),
+                      ]
                     ),
 
-                    Container(
-                      width: width,
-                      margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 5.0
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0, bottom: 10.0, left: 23),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                            ),
                           ),
-                        ]
-                      ),
+                        ),
 
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                              child: Text(
-                                widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Divider(color: Palette.darkBlue, thickness: 0.5,),
+                        ),
+                        Container(
+                          width: width,
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                          ),
+
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(14.0),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Description: ", style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.0),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        widget.itemModel.longDescription, style: TextStyle(color: Palette.darkBlue,fontSize: 17.0),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ),
 
-                          Container(
-                            width: width,
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 2.0
+                              Padding(
+                                padding: const EdgeInsets.only(top:10.0, right: 25.0, bottom: 5.0),
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    r"$ " + widget.itemModel.price.toString(),
+                                    style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
                                   ),
-                                ]
-                            ),
+                                ),
+                              ),
+                              SizedBox(height:10.0),
+                            ],
+                          ),
+                        ),
 
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(14.0),
-                                  child: Column(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Center(
+                            child: InkWell(
+                              onTap: () => checkItemInCart(widget.itemModel.shortInfo, context),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Palette.darkBlue,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 5.0
+                                      ),
+                                    ]
+                                ),
+                                width: 200,
+                                height: 50.0,
+                                child: Center(
+                                  child: Row(
                                     children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "Description: ", style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.0),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          widget.itemModel.longDescription, style: TextStyle(color: Palette.darkBlue,fontSize: 17.0),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
+                                      Padding(padding: EdgeInsets.only(left: 22.0)),
+                                      Icon(Icons.favorite, color: Colors.white),
+                                      Padding(padding: EdgeInsets.all(8.0)),
+                                      Text("Add to Cart", style: TextStyle(color: Colors.white ,fontSize: 20.0, fontWeight: FontWeight.w700),)
                                     ],
                                   ),
                                 ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(top:10.0, right: 25.0, bottom: 5.0),
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Text(
-                                      r"$ " + widget.itemModel.price.toString(),
-                                      style: TextStyle(color: Palette.darkBlue,fontSize: 18.0),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height:10.0),
-                              ],
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
-                            child: Center(
-                              child: InkWell(
-                                onTap: () => checkItemInCart(widget.itemModel.shortInfo, context),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Palette.darkBlue,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey,
-                                            blurRadius: 5.0
-                                        ),
-                                      ]
-                                  ),
-                                  width: 200,
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Row(
-                                      children: [
-                                        Padding(padding: EdgeInsets.only(left: 22.0)),
-                                        Icon(Icons.favorite, color: Colors.white),
-                                        Padding(padding: EdgeInsets.all(8.0)),
-                                        Text("Add to Cart", style: TextStyle(color: Colors.white ,fontSize: 20.0, fontWeight: FontWeight.w700),)
-                                      ],
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 10.0)
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 10.0)
+                      ],
                     ),
+                  ),
 
 
-                  ],
-                ),
+                ],
               ),
             ),
           ],

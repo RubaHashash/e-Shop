@@ -13,24 +13,25 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-class ViewProducts extends StatefulWidget {
+class Products extends StatefulWidget {
 
   final category;
+  final category_images;
 
-  const ViewProducts({Key key, this.category}) : super(key: key);
+  const Products({Key key, this.category, this.category_images}) : super(key: key);
 
   @override
-  _ViewProductsState createState() => _ViewProductsState();
+  _ProductsState createState() => _ProductsState();
 }
 
-class _ViewProductsState extends State<ViewProducts> {
+class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -40,24 +41,31 @@ class _ViewProductsState extends State<ViewProducts> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 60),
+              child: Row(
+                children: [
+                  Text(
+                    "All Products",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
+
             leading: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
               child: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => StoreHome());
                   Navigator.pushReplacement(context, route);
                 },
               ),
-            ),            actions: [
+            ),
+
+            actions: [
               Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: IconButton(
@@ -118,9 +126,25 @@ class _ViewProductsState extends State<ViewProducts> {
           slivers: [
 
             SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-              )
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(45),
+                      bottomRight: Radius.circular(45)
+                  ),
+                ),
+                padding: EdgeInsets.only(top: 4.0),
+                width: width,
+                height: 200,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(45),
+                        bottomRight: Radius.circular(45)
+                    ),
+                    child: Image.asset(widget.category_images)
+                ),
+
+              ),
             ),
 
 

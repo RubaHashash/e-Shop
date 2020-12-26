@@ -22,6 +22,7 @@ class _StoreHomeState extends State<StoreHome> {
   List<String> images = ["assets/CatImage/image1.jpg", "assets/CatImage/image2.jpg",
     "assets/CatImage/image3.jpg", "assets/CatImage/image4.jpg",  "assets/CatImage/image5.jpeg",];
 
+
   Future<List> getCategories () {
     return shopApp.firestore.collection("categories").getDocuments().then((snap){
       return snap.documents;
@@ -43,7 +44,6 @@ class _StoreHomeState extends State<StoreHome> {
   }
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -59,11 +59,14 @@ class _StoreHomeState extends State<StoreHome> {
               padding: const EdgeInsets.only(top: 10.0, left: 60),
               child: Row(
                 children: [
-                  Icon(Icons.shopping_bag, size: 37,),
+                  Icon(Icons.shopping_bag, size: 37, color: Palette.darkBlue,),
                   SizedBox(width: 10),
-                  Text(
-                    "Shopick",
-                    style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Text(
+                      "Shopick",
+                      style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    ),
                   ),
                 ],
               ),
@@ -151,6 +154,14 @@ class _StoreHomeState extends State<StoreHome> {
 Widget imageSlider = Padding(
   padding: const EdgeInsets.only(bottom: 10.0, top: 5.0),
   child: Container(
+    decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+              color: Palette.darkBlue,
+              blurRadius: 3.0
+          ),
+        ]
+    ),
     height: 230.0,
     child: Carousel(
       boxFit: BoxFit.cover,
@@ -188,7 +199,7 @@ Widget RecentProducts(ItemModel model, BuildContext context, {Color background, 
           SizedBox(width: 4.0,),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 25, bottom: 30),
+              margin: EdgeInsets.only(top: 25, bottom: 29),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -205,7 +216,7 @@ Widget RecentProducts(ItemModel model, BuildContext context, {Color background, 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 15.0),
+                  SizedBox(height: 10.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 12.0),
                     child: Container(

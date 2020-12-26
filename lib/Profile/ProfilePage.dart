@@ -44,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -54,17 +54,21 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 50.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 90),
+              child: Row(
+                children: [
+                  Text(
+                    "My Profile",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
             leading: edit ==false?Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 16),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
+                icon: Icon(Icons.arrow_back_ios, color: Palette.darkBlue),
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => StoreHome());
                   Navigator.pushReplacement(context, route);
@@ -159,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   height: 60,
                                   padding: EdgeInsets.symmetric(horizontal: 10),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30)
+                                      borderRadius: BorderRadius.circular(30),
                                   ),
                                   width: width,
                                   child: TextFormField(
@@ -226,7 +230,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                     padding: EdgeInsets.symmetric(horizontal: 20),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(30)
+                                        borderRadius: BorderRadius.circular(30),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Palette.darkBlue,
+                                              blurRadius: 1.0
+                                          ),
+                                        ]
                                     ),
                                     width: width,
                                     child: Row(
@@ -254,7 +264,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     padding: EdgeInsets.symmetric(horizontal: 20),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(30)
+                                        borderRadius: BorderRadius.circular(30),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Palette.darkBlue,
+                                              blurRadius: 1.0
+                                          ),
+                                        ]
+
                                     ),
                                     width: width,
                                     child: Row(

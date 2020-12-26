@@ -3,7 +3,7 @@ import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Store/ViewProducts.dart';
+import 'package:e_shop_app/Store/Products.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class _SearchProductState extends State<SearchProduct> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
 
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
@@ -33,17 +33,22 @@ class _SearchProductState extends State<SearchProduct> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "Shopick",
-                style: TextStyle(fontSize: 55.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 105),
+              child: Row(
+                children: [
+                  Text(
+                    "Search",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
+
             leading: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
               child: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => StoreHome());
@@ -51,6 +56,7 @@ class _SearchProductState extends State<SearchProduct> {
                 },
               ),
             ),
+
             actions: [
               Stack(
                 children: [
@@ -132,7 +138,7 @@ class _SearchProductState extends State<SearchProduct> {
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width,
       height: 80.0,
-      color: Colors.grey[200],
+      color: Colors.grey[100],
       child: Container(
         width: MediaQuery.of(context).size.width - 40.0,
         height: 50.0,

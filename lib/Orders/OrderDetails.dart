@@ -25,7 +25,7 @@ class OrderDetails extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
           child: FutureBuilder<DocumentSnapshot>(
             future: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
@@ -191,7 +191,6 @@ class ShippingDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20.0),
         Container(
           padding: EdgeInsets.all(10.0),
           margin: EdgeInsets.only(top: 5.0, bottom: 10.0, left: 10.0, right: 10.0),
@@ -212,12 +211,15 @@ class ShippingDetails extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    "Shipment Details: ",
+                    "Shipment Details ",
                     style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
                 ),
               ),
-              Container(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Divider(color: Palette.darkBlue, thickness: 0.5,),
+              ),              Container(
                 padding: EdgeInsets.all(10.0),
                 width: width,
                 child: Table(
