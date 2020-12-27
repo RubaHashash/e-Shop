@@ -29,6 +29,19 @@ class _MapAddressState extends State<MapAddress> {
   double _latitude, _longitude;
   String _addressLine, _countryName, _postalCode, _cityName;
 
+  Position liveCurrentPosition;
+  var geoLocator = Geolocator();
+
+
+  void locatePosition() async{
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    liveCurrentPosition = position;
+
+    LatLng latLanPosition = LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition = CameraPosition(target: latLanPosition, zoom: 14.0);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -83,155 +96,217 @@ class _MapAddressState extends State<MapAddress> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 10.0, bottom: 15.0),
+        body: Stack(
+          children: [
+            Container(
+              height: height-90,
+              width: width,
+              child: GoogleMap(
+                padding: EdgeInsets.only(bottom: 200.0),
+                onMapCreated: (controller){
+                  setState(() {
+                    mapController = controller;
+                  });
+
+                  // locatePosition();
+                },
+                // where do i need the camera to be placed at first
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(33.8547, 35.8623),    // lebanon by default
+                    zoom: 10.0
+                ),
+                mapType: MapType.normal,
+                myLocationButtonEnabled: true,
+                zoomGesturesEnabled: true,
+                zoomControlsEnabled: true,
+                compassEnabled: true,
+                trafficEnabled: true,
+                markers: Set.from(myMarker),
+                onTap: (tapped)async {
+                  handleTapMarker(tapped.latitude, tapped.longitude);
+                  mapController.animateCamera(CameraUpdate.newLatLng(tapped));
+                  final coordinates = new Geoco.Coordinates(tapped.latitude, tapped.longitude);
+                  address = await Geoco.Geocoder.local.findAddressesFromCoordinates(coordinates);
+                  final firstAddress = address.first;
+                  _latitude = tapped.latitude;
+                  _longitude = tapped.longitude;
+                  _addressLine = firstAddress.addressLine;
+                  _countryName = firstAddress.countryName;
+                  _cityName = firstAddress.featureName;
+                  _postalCode = firstAddress.postalCode;
+                },
+                myLocationEnabled: true,
+              ),
+
+            ),
+            Positioned(
+              left: 0.0,
+              right: 0.0,
+              bottom: 0.0,
+              child: Container(
+                height: 200.0,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(18.0),
+                        topRight: Radius.circular(15.0)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Palette.darkBlue,
+                          blurRadius: 16.0,
+                          spreadRadius: 0.5,
+                          offset: Offset(0.7, 0.7)
+                      ),
+                    ]
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
-                  child: Form(
-                    key: _formKey,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 18),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFormField(
-                          controller: _cName,
+                        SizedBox(height: 6.0,),
+                        Text("More Details", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontWeight: FontWeight.bold),),
+                        SizedBox(height: 20.0,),
+                        // Container(
+                        //     decoration: BoxDecoration(
+                        //         color: Colors.white,
+                        //         borderRadius: BorderRadius.circular(5.0),
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //               color: Palette.darkBlue,
+                        //               blurRadius: 6.0,
+                        //               spreadRadius: 0.5,
+                        //               offset: Offset(0.7, 0.7)
+                        //           ),
+                        //         ]
+                        //     ),
+                        //     child: Padding(
+                        //       padding: EdgeInsets.all(12.0),
+                        //       child: Row(
+                        //         children: [
+                        //           Icon(Icons.search, color: Palette.darkBlue,),
+                        //           SizedBox(width: 10.0,),
+                        //           Text("Search Drop Off")
+                        //         ],
+                        //       ),
+                        //     )
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _cName,
 
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'Name is Required';
-                            }
-                            return null;
-                          },
-                          decoration: inputDecoration(hintText: 'Name', data: Icons.person),
-                          style: TextStyle(color: Palette.darkBlue),
-                          onSaved: (input) => _cName.text = input,
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Name is Required';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: inputDecoration(hintText: 'Name', data: Icons.person),
+                                  style: TextStyle(color: Palette.darkBlue),
+                                  onSaved: (input) => _cName.text = input,
+                                ),
+                                SizedBox(height: 5),
+                                TextFormField(
+                                  controller: _cPhoneNumber,
+
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Phone Number is Required';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: inputDecoration(hintText: 'Phone Number', data: Icons.phone_android),
+                                  style: TextStyle(color: Palette.darkBlue),
+                                  onSaved: (input) => _cPhoneNumber.text = input,
+
+                                ),
+
+                                SizedBox(height: 5),
+
+                                TextFormField(
+                                  controller: _cHomeNumber,
+
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Home Phone is required';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: inputDecoration(hintText: 'Home Phone Number', data: Icons.phone),
+                                  style: TextStyle(color: Palette.darkBlue),
+                                  onSaved: (input) => _cHomeNumber.text = input,
+
+                                ),
+
+                                SizedBox(height: 25),
+
+                                InkWell(
+                                  child: Container(
+                                    height: 40,
+                                    width: 170,
+                                    decoration: BoxDecoration(
+                                      color: Palette.darkBlue,
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    child: Align(
+                                        child: Text("Add Address",
+                                            style: TextStyle(color: Colors.white, fontSize: 23, fontFamily: "PatrickHand")
+                                        ),
+                                    ),
+                                  ),
+
+                                  onTap: mapController == null
+                                        ? null
+                                        : () async{
+                                      if(_formKey.currentState.validate()) {
+                                        final model = AddressModel(
+                                          name: _cName.text.trim(),
+                                          phoneNumber: _cPhoneNumber.text,
+                                          homeNumber: _cHomeNumber.text,
+                                          city: _cityName,
+                                          state: _countryName,
+                                          addressDetails: _addressLine,
+                                          pincode: _postalCode,
+                                          latitude: _latitude,
+                                          longitude: _longitude,
+                                        ).toJson();
+
+                                        await shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+                                            .collection("address").document(DateTime.now().millisecondsSinceEpoch.toString())
+                                            .setData(model).then((value){
+
+                                          Fluttertoast.showToast(msg: "New Address Added Successfully.");
+
+                                        });
+
+                                        Route route = MaterialPageRoute(builder: (c) => Address());
+                                        Navigator.pushReplacement(context, route);
+                                      }
+                                    }
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          controller: _cPhoneNumber,
-
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'Phone Number is Required';
-                            }
-                            return null;
-                          },
-                          decoration: inputDecoration(hintText: 'Phone Number', data: Icons.phone_android),
-                          style: TextStyle(color: Palette.darkBlue),
-                          onSaved: (input) => _cPhoneNumber.text = input,
-
-                        ),
-
-                        SizedBox(height: 5),
-
-                        TextFormField(
-                          controller: _cHomeNumber,
-
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'Home Phone is required';
-                            }
-                            return null;
-                          },
-                          decoration: inputDecoration(hintText: 'Home Phone Number', data: Icons.phone),
-                          style: TextStyle(color: Palette.darkBlue),
-                          onSaved: (input) => _cHomeNumber.text = input,
-
-                        ),
-
-                        SizedBox(height: 25),
-
                       ],
                     ),
                   ),
                 ),
               ),
-              Container(
-                height: height-90,
-                width: width,
-                child: GoogleMap(
-                  onMapCreated: (controller){
-                    setState(() {
-                      mapController = controller;
-                    });
-                  },
-                  // where do i need the camera to be placed at first
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(33.8547, 35.8623),    // lebanon by default
-                      zoom: 10.0
-                  ),
-                  mapType: MapType.hybrid,
-                  compassEnabled: true,
-                  trafficEnabled: true,
-                  markers: Set.from(myMarker),
-                  onTap: (tapped)async {
-                    handleTapMarker(tapped.latitude, tapped.longitude);
-                    mapController.animateCamera(CameraUpdate.newLatLng(tapped));
-                    final coordinates = new Geoco.Coordinates(tapped.latitude, tapped.longitude);
-                    address = await Geoco.Geocoder.local.findAddressesFromCoordinates(coordinates);
-                    final firstAddress = address.first;
-                    _latitude = tapped.latitude;
-                    _longitude = tapped.longitude;
-                    _addressLine = firstAddress.addressLine;
-                    _countryName = firstAddress.countryName;
-                    _cityName = firstAddress.featureName;
-                    _postalCode = firstAddress.postalCode;
-                  },
-                  myLocationEnabled: true,
-                ),
-
-              ),
-
-            ],
-          ),
-        ),
-        floatingActionButton: Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 25.0, bottom: 15.0),
-            child: FloatingActionButton.extended(
-              label: Text("Done", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w600, fontFamily: "PatrickHand", fontSize: 18.0)),
-              icon: Icon(Icons.check, color: Palette.darkBlue, size: 18),
-              backgroundColor: Colors.grey[100],
-              onPressed: mapController == null
-                  ? null
-                  : () async{
-                    if(_formKey.currentState.validate()) {
-                      final model = AddressModel(
-                          name: _cName.text.trim(),
-                          phoneNumber: _cPhoneNumber.text,
-                          homeNumber: _cHomeNumber.text,
-                          city: _cityName,
-                          state: _countryName,
-                          addressDetails: _addressLine,
-                          pincode: _postalCode,
-                          latitude: _latitude,
-                          longitude: _longitude,
-                      ).toJson();
-
-                      await shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-                          .collection("address").document(DateTime.now().millisecondsSinceEpoch.toString())
-                          .setData(model).then((value){
-
-                            Fluttertoast.showToast(msg: "New Address Added Successfully.");
-
-                      });
-
-                      Route route = MaterialPageRoute(builder: (c) => Address());
-                      Navigator.pushReplacement(context, route);
-                    }
-              }
-            ),
-          ),
+            )
+          ],
         ),
       ),
     );
   }
+
 
   void handleTapMarker(double lat, double long){
     MarkerId _markerId = MarkerId(lat.toString()+long.toString());
@@ -257,8 +332,6 @@ class _MapAddressState extends State<MapAddress> {
       position = currentPosition;
     });
   }
-
-
 }
 
 
