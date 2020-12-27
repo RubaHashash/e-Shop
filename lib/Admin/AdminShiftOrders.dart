@@ -14,6 +14,7 @@ class AdminShiftOrders extends StatefulWidget {
 class _AdminShiftOrdersState extends State<AdminShiftOrders> {
   
   final storeId = shopApp.sharedPreferences.getString("storeID");
+  final orderStatus = "Transfered";
   
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
 
         // get the list of orders from firebase collection
         body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection("orders").snapshots(),
+          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: orderStatus).snapshots(),
 
           builder: (c, snapshots){
             return snapshots.hasData

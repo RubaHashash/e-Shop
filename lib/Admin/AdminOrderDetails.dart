@@ -40,7 +40,7 @@ class AdminOrderDetails extends StatelessWidget {
                     ? Container(
                       child: Column(
                         children: [
-                          AdminStatusBanner(status: dataMap["isSuccess"]),
+                          AdminStatusBanner(),
                           SizedBox(height: 10.0),
                           Padding(
                             padding: EdgeInsets.only(top: 10.0),
@@ -121,7 +121,7 @@ class AdminOrderDetails extends StatelessWidget {
 
 class AdminStatusBanner extends StatelessWidget {
 
-  final bool status;
+  final status;
 
   AdminStatusBanner({Key key, this.status}) : super(key: key);
 
@@ -129,10 +129,10 @@ class AdminStatusBanner extends StatelessWidget {
   Widget build(BuildContext context) {
 
     String msg;
-    IconData iconData;
+    IconData iconData = Icons.done;
 
-    status ? iconData = Icons.done : iconData = Icons.cancel;
-    status ? msg = "Successful" : msg = "UnSuccessful";
+    // status  ? iconData = Icons.done : iconData = Icons.cancel;
+    // status ? msg = "Successful" : msg = "UnSuccessful";
 
     return Container(
       decoration:  BoxDecoration(
@@ -154,7 +154,7 @@ class AdminStatusBanner extends StatelessWidget {
             ),
           SizedBox(width: 30.0),
           Text(
-            "Order Shipped " + msg,
+            "Order Shipped",
             style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
           ),
           SizedBox(width: 30.0),
@@ -332,7 +332,12 @@ class AdminShippingDetails extends StatelessWidget {
 
   confirmedPackageShifted(BuildContext context, String mOrderID){
 
-    shopApp.firestore.collection("orders").document(mOrderID).delete();
+    shopApp.firestore.collection("orders").document(mOrderID)
+        .updateData({
+      'isSuccess': "In Progress",
+    });
+
+    // shopApp.firestore.collection("orders").document(mOrderID).delete();
 
     getOrderID = "";
 

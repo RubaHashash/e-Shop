@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
+import 'package:e_shop_app/Widgets/AdminOrderCard.dart';
+import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +44,10 @@ class _DriverHomePageState extends State<DriverHomePage> {
             centerTitle: true,
             actions: [
               IconButton(
-                  icon: Icon(Icons.exit_to_app),
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 14.0, right: 10.0),
+                    child: Icon(Icons.exit_to_app, color: Palette.darkBlue,),
+                  ),
                   onPressed: (){
                     shopApp.auth.signOut().then((value){
                       Route route = MaterialPageRoute(builder: (c) => MainPage());
@@ -51,6 +57,35 @@ class _DriverHomePageState extends State<DriverHomePage> {
               ),
             ],
           ),
+        ),
+
+        body: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "In Progress").snapshots(),
+
+          builder: (c, snapshots){
+            return snapshots.hasData
+                ? ListView.builder(
+              itemCount: snapshots.data.documents.length,
+              itemBuilder: (c, index){
+                return FutureBuilder<QuerySnapshot>(
+                  future: Firestore.instance.collection("items")
+                      .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
+                  builder: (c, snapshot){
+                    return snapshot.hasData
+                        ? AdminOrderCard(
+                      itemCount: snapshot.data.documents.length,
+                      data: snapshot.data.documents,
+                      orderID: snapshots.data.documents[index].documentID,
+                      orderBy: snapshots.data.documents[index].data["orderBy"],
+                      addressID: snapshots.data.documents[index].data["addressID"],
+                    )
+                        : Center(child: circularProgress());
+                  },
+                );
+              },
+            )
+                : Center(child: circularProgress());
+          },
         ),
       ),
     );
