@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
-import 'package:e_shop_app/Counters/ItemQuantity.dart';
-import 'package:e_shop_app/Counters/cartCounter.dart';
+import 'package:e_shop_app/Counters/cartCounter.dart';import 'package:e_shop_app/Counters/ItemQuantity.dart';
+
 import 'package:e_shop_app/Counters/changeAddress.dart';
 import 'package:e_shop_app/Counters/totalMoney.dart';
 import 'package:e_shop_app/config/config.dart';

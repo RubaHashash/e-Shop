@@ -1,4 +1,5 @@
 import 'package:e_shop_app/Admin/AdminSignIn.dart';
+import 'package:e_shop_app/Driver/DriverSignIn.dart';
 import '../Store/StoreHome.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/config/decoration_functions.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
@@ -151,27 +152,59 @@ class _SignInFormState extends State<SignInForm>  {
                         ),
                       ),
 
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: InkWell(
-                            splashColor: Colors.white,
-                            onTap: () {
-                              Route route = MaterialPageRoute(builder: (c) => AdminSignIn());
-                              Navigator.pushReplacement(context, route);
-                            },
-                            child: const Text(
-                              'I have a store?',
-                              style: TextStyle(
-                                fontSize: 16,
-                                decoration: TextDecoration.underline,
-                                color: Palette.darkBlue,
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: InkWell(
+                                splashColor: Colors.white,
+                                onTap: () {
+                                  Route route = MaterialPageRoute(builder: (c) => AdminSignIn());
+                                  Navigator.pushReplacement(context, route);
+                                },
+                                child: const Text(
+                                  'I have a store?',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    color: Palette.darkBlue,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                          SizedBox(width: 10),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text("|", style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          SizedBox(width: 10),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: InkWell(
+                                splashColor: Colors.white,
+                                onTap: () {
+                                  Route route = MaterialPageRoute(builder: (c) => DriverSignIn());
+                                  Navigator.pushReplacement(context, route);
+                                },
+                                child: const Text(
+                                  'I am a driver?',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                    color: Palette.darkBlue,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+
 
                     ],
                   ),
