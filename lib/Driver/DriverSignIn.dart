@@ -3,6 +3,7 @@ import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Authentication/background_painter.dart';
 import 'package:e_shop_app/Authentication/sign_in_up_bar.dart';
 import 'package:e_shop_app/Driver/DriverHomePage.dart';
+import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/decoration_functions.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,6 +56,9 @@ class _DriverSignInState extends State<DriverSignIn>with SingleTickerProviderSta
               _driverID.text = "";
               _password.text = "";
             });
+
+            shopApp.sharedPreferences.setString("driverId", result.data["driverId"]);
+
 
             Route route = MaterialPageRoute(builder: (c) => DriverHomePage());
             Navigator.push(context, route);
