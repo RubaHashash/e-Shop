@@ -49,14 +49,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 50),
+            padding: const EdgeInsets.only(top: 10.0, left: 60),
             child: Row(
               children: [
-                Icon(Icons.shopping_bag, size: 37,),
+                Icon(Icons.shopping_bag, size: 37, color: Palette.darkBlue,),
                 SizedBox(width: 10),
-                Text(
-                  "Shopick",
-                  style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Text(
+                    "Shopick",
+                    style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
                 ),
               ],
             ),

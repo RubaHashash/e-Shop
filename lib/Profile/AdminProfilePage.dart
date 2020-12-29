@@ -59,17 +59,21 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text(
-                "My Profile",
-                style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 90),
+              child: Row(
+                children: [
+                  Text(
+                    "My Profile",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
             leading: edit ==false?Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 16),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
+                icon: Icon(Icons.arrow_back_ios, color: Palette.darkBlue),
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
                   Navigator.pushReplacement(context, route);

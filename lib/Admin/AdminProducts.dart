@@ -53,19 +53,22 @@ class _AdminProductsState extends State<AdminProducts> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "All Products",
-                style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+              padding: const EdgeInsets.only(top: 17.0, left: 90),
+              child: Row(
+                children: [
+                  Text(
+                    "All Products",
+                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  ),
+                ],
               ),
             ),
             centerTitle: true,
             iconTheme: IconThemeData(color: Palette.darkBlue),
-
             leading: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
               child: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
                   Route route = MaterialPageRoute(builder: (c) => AdminHomePage());

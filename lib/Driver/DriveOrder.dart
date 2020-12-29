@@ -12,8 +12,7 @@ import 'package:intl/intl.dart';
 
 var getDriverID;
 var getOrderID;
-var getLatitude;
-var getLongitude;
+
 
 class DriveOrder extends StatefulWidget {
 
@@ -33,6 +32,8 @@ class _DriveOrderState extends State<DriveOrder> {
   GoogleMapController mapController;
   List <Marker> myMarker = [];
   AddressModel addressmodel;
+  double getLatitude;
+  double getLongitude;
 
   Future getAddress (){
     return shopApp.firestore.collection("users").document(widget.orderBy)
@@ -47,15 +48,16 @@ class _DriveOrderState extends State<DriveOrder> {
      addressmodel = addresstest;
      getLatitude = addressmodel.latitude;
      getLongitude = addressmodel.longitude;
+     addMarker(getLatitude,getLongitude);
    });
   }
 
-  addMarker(){
+  addMarker(double lat, double long){
     setState(() {
       myMarker.add(
           Marker(
               markerId: MarkerId('My Marker'),
-              position: LatLng(getLatitude,getLongitude),
+              position: LatLng(lat,long),
               draggable: true,
               infoWindow: InfoWindow(
                 title: "My Location",
@@ -74,8 +76,6 @@ class _DriveOrderState extends State<DriveOrder> {
     getOrderID = widget.orderID;
     // get logitude and latitude
     _gett();
-    addMarker();
-
   }
 
   @override
@@ -416,6 +416,9 @@ class DriverShippingDetails extends StatelessWidget {
         .updateData({
       'isSuccess': "Delivered",
     });
+
+    shopApp.sharedPreferences.setString("isSuccess", "Delivered");
+
 
     // shopApp.firestore.collection("orders").document(mOrderID).delete();
 
