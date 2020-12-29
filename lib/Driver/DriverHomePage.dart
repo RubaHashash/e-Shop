@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
-import 'package:e_shop_app/Widgets/AdminOrderCard.dart';
+import 'package:e_shop_app/Widgets/DriverOrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -16,7 +16,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
@@ -60,7 +60,8 @@ class _DriverHomePageState extends State<DriverHomePage> {
         ),
 
         body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "In Progress").snapshots(),
+          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "Transfered")
+              .where("AssignedDriver", isEqualTo: "").snapshots(),
 
           builder: (c, snapshots){
             return snapshots.hasData
@@ -72,7 +73,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                       .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
                   builder: (c, snapshot){
                     return snapshot.hasData
-                        ? AdminOrderCard(
+                        ? DriverOrderCard(
                       itemCount: snapshot.data.documents.length,
                       data: snapshot.data.documents,
                       orderID: snapshots.data.documents[index].documentID,

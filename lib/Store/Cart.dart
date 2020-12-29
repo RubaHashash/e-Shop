@@ -133,7 +133,10 @@ class _CartPageState extends State<CartPage> {
                 padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
                 child: Center(
                   child: cartProvider.count == 0
-                      ? Container()
+                      ? Text(
+                    r"Total Price: $ "+ "${amountProvider.totalAmount.toString()}",
+                    style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold),
+                  )
                       : Text(
                         r"Total Price: $ "+ "${amountProvider.totalAmount.toString()}",
                         style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold),

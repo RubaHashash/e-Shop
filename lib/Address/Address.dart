@@ -434,7 +434,8 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
-      'isSuccess': "Transfered"
+      'isSuccess': "Transfered",
+      'AssignedDriver': ""
     });
 
     writeOrderDetailsForAdmin({
@@ -447,7 +448,8 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
-      'isSuccess': "Transfered"
+      'isSuccess': "Transfered",
+      'AssignedDriver': ""
     }).whenComplete(() =>
     {
       emptyCart(context)
@@ -464,7 +466,8 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
-      'isSuccess': "Transfered"
+      'isSuccess': "Transfered",
+      'AssignedDriver': ""
     });
 
     writeOrderDetailsForAdmin({
@@ -477,7 +480,8 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
-      'isSuccess': "Transfered"
+      'isSuccess': "Transfered",
+      'AssignedDriver': ""
     }).whenComplete(() =>
     {
       emptyCart(context)
