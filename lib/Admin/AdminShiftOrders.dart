@@ -57,7 +57,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
 
         // get the list of orders from firebase collection
         body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: orderStatus).snapshots(),
+          stream: Firestore.instance.collection("orders").where("isRecieved", isEqualTo: false).snapshots(),
 
           builder: (c, snapshots){
             return snapshots.hasData

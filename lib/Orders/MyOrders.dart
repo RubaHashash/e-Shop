@@ -58,8 +58,9 @@ class _MyOrdersState extends State<MyOrders> {
           children: [
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
-                stream: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-                    .collection("orders").snapshots(),
+                stream: shopApp.firestore.collection("orders")
+                    .where("orderBy", isEqualTo: shopApp.sharedPreferences.getString("uid"))
+                    .where("isRecieved", isEqualTo: false).snapshots(),
 
                 builder: (c, snapshots){
                   return snapshots.hasData

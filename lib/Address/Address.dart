@@ -449,7 +449,8 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'isSuccess': "Transfered",
-      'AssignedDriver': ""
+      'AssignedDriver': "",
+      'isRecieved': false
     }).whenComplete(() =>
     {
       emptyCart(context)
@@ -481,7 +482,9 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'isSuccess': "Transfered",
-      'AssignedDriver': ""
+      'AssignedDriver': "",
+    'isRecieved': false
+
     }).whenComplete(() =>
     {
       emptyCart(context)

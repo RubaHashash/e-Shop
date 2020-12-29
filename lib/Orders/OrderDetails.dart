@@ -11,25 +11,54 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 String getOrderID = "";
+String orderStatus = "";
 
-class OrderDetails extends StatelessWidget {
+class OrderDetails extends StatefulWidget {
 
   final String orderID;
 
   OrderDetails({Key key, this.orderID}) : super(key: key);
 
   @override
+  _OrderDetailsState createState() => _OrderDetailsState();
+}
+
+class _OrderDetailsState extends State<OrderDetails> {
+
+
+  Future getStatus(){
+    return shopApp.firestore.collection("orders").document(widget.orderID).get().then((snapshot){
+      return snapshot.data["isSuccess"];
+    });
+  }
+
+  gett() async{
+
+    String data = await getStatus();
+    setState(() {
+      orderStatus = data;
+    });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    gett();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
-    getOrderID = orderID;
+    getOrderID = widget.orderID;
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
           child: FutureBuilder<DocumentSnapshot>(
-            future: shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-                .collection("orders").document(orderID).get(),
+            future: shopApp.firestore.collection("orders").document(widget.orderID).get(),
 
             builder: (c, snapshot){
               Map dataMap;
@@ -40,7 +69,7 @@ class OrderDetails extends StatelessWidget {
                   ? Container(
                     child: Column(
                       children: [
-                        StatusBanner(status: dataMap["isSuccess"]),
+                        StatusBanner(),
                         SizedBox(height: 10.0),
                         Padding(
                           padding: EdgeInsets.all(4.0),
@@ -129,11 +158,9 @@ class StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String msg;
     IconData iconData;
 
-    status ? iconData = Icons.done : iconData = Icons.cancel;
-    status ? msg = "Successful" : msg = "UnSuccessful";
+    orderStatus == "Delivered" ? iconData = Icons.done : iconData = Icons.cancel;
 
     return Container(
       decoration:  BoxDecoration(
@@ -155,7 +182,7 @@ class StatusBanner extends StatelessWidget {
           ),
           SizedBox(width: 30.0),
           Text(
-            "Order Shipped " + msg,
+            "Order is " +orderStatus,
             style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
           ),
           SizedBox(width: 30.0),
@@ -305,7 +332,7 @@ class ShippingDetails extends StatelessWidget {
               onTap: (){
                 confirmedUserOrderRecieved(context, getOrderID);
               },
-              child: Container(
+              child: orderStatus == "Delivered" ? Container(
                 decoration: BoxDecoration(
                     color: Palette.darkBlue,
                     borderRadius: BorderRadius.circular(10),
@@ -324,7 +351,7 @@ class ShippingDetails extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "PatrickHand", fontSize: 24.0),
                   ),
                 ),
-              ),
+              ) : Container()
             ),
           ),
         )
@@ -334,8 +361,13 @@ class ShippingDetails extends StatelessWidget {
 
   confirmedUserOrderRecieved(BuildContext context, String mOrderID){
 
-    shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
-        .collection("orders").document(mOrderID).delete();
+    // shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
+    //     .collection("orders").document(mOrderID).delete();
+    shopApp.firestore.collection("orders").document(mOrderID)
+        .updateData({
+      'isSuccess': "Done",
+      'isRecieved': true
+    });
 
     getOrderID = "";
 

@@ -11,8 +11,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 String getOrderID = "";
+String getIfDriver;
+String orderStatus = "";
 
-class AdminOrderDetails extends StatelessWidget {
+
+class AdminOrderDetails extends StatefulWidget {
 
   final String orderID;
   final String addressID;
@@ -21,8 +24,44 @@ class AdminOrderDetails extends StatelessWidget {
   AdminOrderDetails({Key key, this.addressID, this.orderBy, this.orderID}) : super (key: key);
 
   @override
+  _AdminOrderDetailsState createState() => _AdminOrderDetailsState();
+}
+
+class _AdminOrderDetailsState extends State<AdminOrderDetails> {
+
+  Future getDriver(){
+    return shopApp.firestore.collection("orders").document(widget.orderID).get().then((snapshot){
+      return snapshot.data["AssignedDriver"];
+    });
+  }
+
+  Future getStatus(){
+    return shopApp.firestore.collection("orders").document(widget.orderID).get().then((snapshot){
+      return snapshot.data["isSuccess"];
+    });
+  }
+
+
+  gett() async{
+
+    String data = await getDriver();
+    setState(() {
+      getIfDriver = data;
+      orderStatus = data;
+    });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    gett();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    getOrderID = orderID;
+    getOrderID = widget.orderID;
 
     return SafeArea(
       child: Scaffold(
@@ -95,8 +134,8 @@ class AdminOrderDetails extends StatelessWidget {
                             },
                           ),
                           FutureBuilder<DocumentSnapshot>(
-                            future: shopApp.firestore.collection("users").document(orderBy)
-                                .collection("address").document(addressID).get(),
+                            future: shopApp.firestore.collection("users").document(widget.orderBy)
+                                .collection("address").document(widget.addressID).get(),
 
                             builder: (c, snap){
                               return snap.hasData
@@ -128,11 +167,10 @@ class AdminStatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String msg;
     IconData iconData = Icons.done;
 
-    // status  ? iconData = Icons.done : iconData = Icons.cancel;
-    // status ? msg = "Successful" : msg = "UnSuccessful";
+    orderStatus == "Delivered" ? iconData = Icons.done : iconData = Icons.cancel;
+
 
     return Container(
       decoration:  BoxDecoration(
@@ -154,7 +192,7 @@ class AdminStatusBanner extends StatelessWidget {
             ),
           SizedBox(width: 30.0),
           Text(
-            "Order Shipped",
+            "Order is " +orderStatus,
             style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w700),
           ),
           SizedBox(width: 30.0),
@@ -296,7 +334,7 @@ class AdminShippingDetails extends StatelessWidget {
         ),
 
 
-        Padding(
+        getIfDriver != "" ? Padding(
           padding: EdgeInsets.all(10.0),
           child: Center(
             child: InkWell(
@@ -325,7 +363,7 @@ class AdminShippingDetails extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ) : Container()
       ],
     );
   }
