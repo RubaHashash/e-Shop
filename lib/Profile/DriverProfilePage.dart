@@ -1,20 +1,20 @@
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/Driver/DriverHomePage.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
-class AdminProfilePage extends StatefulWidget {
+class DriverProfilePage extends StatefulWidget {
 
   @override
-  _AdminProfilePageState createState() => _AdminProfilePageState();
+  _DriverProfilePageState createState() => _DriverProfilePageState();
 }
 
-class _AdminProfilePageState extends State<AdminProfilePage> {
+class _DriverProfilePageState extends State<DriverProfilePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _editAdminID = TextEditingController();
-  final TextEditingController _editAdminName = TextEditingController();
-  final TextEditingController _editAdminPassword = TextEditingController();
+  final TextEditingController _editDriveID = TextEditingController();
+  final TextEditingController _editDriveName = TextEditingController();
+  final TextEditingController _editDrivePassword = TextEditingController();
 
 
   bool edit = false;
@@ -22,17 +22,17 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
   UpdateUserProfile(){
     if (_formKey.currentState.validate()) {
 
-      shopApp.firestore.collection("admins").document(shopApp.sharedPreferences.getString("storeID"))
+      shopApp.firestore.collection("drivers").document(shopApp.sharedPreferences.getString("Driver"))
           .updateData({
-        'id': _editAdminID.text,
-        'name': _editAdminName.text,
-        'password': _editAdminName.text,
+        'driverId': _editDriveID.text,
+        'driverName': _editDriveName.text,
+        'password': _editDrivePassword.text,
 
       });
 
-      shopApp.sharedPreferences.setString("adminId", _editAdminID.text);
-      shopApp.sharedPreferences.setString("adminName", _editAdminName.text);
-      shopApp.sharedPreferences.setString("adminPassword", _editAdminName.text);
+      shopApp.sharedPreferences.setString("driverId", _editDriveID.text);
+      shopApp.sharedPreferences.setString("adminName", _editDriveName.text);
+      shopApp.sharedPreferences.setString("adminPassword", _editDrivePassword.text);
 
       setState(() {
         edit = false;
@@ -75,7 +75,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios, color: Palette.darkBlue),
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+                  Route route = MaterialPageRoute(builder: (c) => DriverHomePage());
                   Navigator.pushReplacement(context, route);
                 },
               ),
@@ -128,7 +128,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                             CircleAvatar(
                               maxRadius: 65,
                               backgroundColor: Palette.darkBlue,
-                              child: Text('${shopApp.sharedPreferences.getString("adminName")[0].toUpperCase()}',
+                              child: Text('${shopApp.sharedPreferences.getString("driverName")[0].toUpperCase()}',
                                   style: TextStyle(color: Colors.white, fontSize: 80.0, fontWeight: FontWeight.w500)),
                             )
                           ],
@@ -172,7 +172,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                   ),
                                   width: width,
                                   child: TextFormField(
-                                      controller: _editAdminID,
+                                      controller: _editDriveID,
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Enter your ID';
@@ -180,12 +180,12 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        hintText: shopApp.sharedPreferences.getString("adminId"),
+                                        hintText: shopApp.sharedPreferences.getString("driverId"),
                                         border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(30)
                                         ),
                                       ),
-                                      onSaved: (input) => _editAdminID.text = input
+                                      onSaved: (input) => _editDriveID.text = input
                                   ),
                                 ),
 
@@ -199,7 +199,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                   ),
                                   width: width,
                                   child: TextFormField(
-                                      controller: _editAdminName,
+                                      controller: _editDriveName,
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Enter your Name';
@@ -207,12 +207,12 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        hintText: shopApp.sharedPreferences.getString("adminName"),
+                                        hintText: shopApp.sharedPreferences.getString("driverName"),
                                         border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(30)
                                         ),
                                       ),
-                                      onSaved: (input) => _editAdminName.text = input
+                                      onSaved: (input) => _editDriveName.text = input
                                   ),
                                 ),
 
@@ -226,7 +226,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                   ),
                                   width: width,
                                   child: TextFormField(
-                                      controller: _editAdminPassword,
+                                      controller: _editDrivePassword,
                                       validator: (input) {
                                         if (input.length < 6) {
                                           return 'Provide Minimum 6 Characters';
@@ -240,7 +240,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                         ),
                                       ),
                                       obscureText: true,
-                                      onSaved: (input) => _editAdminPassword.text = input
+                                      onSaved: (input) => _editDrivePassword.text = input
 
                                   ),
                                 ),
@@ -268,7 +268,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                         Text("ID",
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue)
                                         ),
-                                        Text(shopApp.sharedPreferences.getString("adminId"),
+                                        Text(shopApp.sharedPreferences.getString("driverId"),
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue, fontWeight: FontWeight.bold)
                                         ),
                                       ],
@@ -296,7 +296,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                                         Text("Name",
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue)
                                         ),
-                                        Text(shopApp.sharedPreferences.getString("adminName"),
+                                        Text(shopApp.sharedPreferences.getString("driverName"),
                                             style: TextStyle(fontSize: 17, color: Palette.darkBlue, fontWeight: FontWeight.bold)
                                         ),
                                       ],

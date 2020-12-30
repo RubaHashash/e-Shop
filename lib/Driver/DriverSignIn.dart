@@ -20,7 +20,7 @@ class _DriverSignInState extends State<DriverSignIn>with SingleTickerProviderSta
 
   final TextEditingController _driverID = TextEditingController();
   final TextEditingController _password = TextEditingController();
-  String storeID;
+  String Driver;
 
   AnimationController _controller;
 
@@ -51,13 +51,16 @@ class _DriverSignInState extends State<DriverSignIn>with SingleTickerProviderSta
           }
           else{
             // Scaffold.of(context).showSnackBar(SnackBar(content: Text("Welcome to your shop, " + result.data["name"])));
-            storeID = result.documentID;
+            Driver = result.documentID;
             setState((){
               _driverID.text = "";
               _password.text = "";
             });
 
+            shopApp.sharedPreferences.setString("Driver", Driver);
             shopApp.sharedPreferences.setString("driverId", result.data["driverId"]);
+            shopApp.sharedPreferences.setString("driverName", result.data["driverName"]);
+            shopApp.sharedPreferences.setString("driverPassword", result.data["password"]);
 
 
             Route route = MaterialPageRoute(builder: (c) => DriverHomePage());

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
+import 'package:e_shop_app/Profile/DriverProfilePage.dart';
 import 'package:e_shop_app/Widgets/DriverOrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
@@ -42,6 +43,17 @@ class _DriverHomePageState extends State<DriverHomePage> {
               ),
             ),
             centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 15.0, left: 15),
+              child: IconButton(
+                icon: Icon(Icons.person),
+                color: Palette.darkBlue,
+                onPressed: (){
+                  Route route = MaterialPageRoute(builder: (c) => DriverProfilePage());
+                  Navigator.pushReplacement(context, route);
+                },
+              ),
+            ),
             actions: [
               IconButton(
                   icon: Padding(
