@@ -1,6 +1,9 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
+import 'package:e_shop_app/Store/Cart.dart';
+import 'package:e_shop_app/Store/Products.dart';
 import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Widgets/HorizontalList.dart';
 import 'package:e_shop_app/Widgets/MyDrawer.dart';
@@ -10,6 +13,7 @@ import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
 
 class StoreHome extends StatefulWidget {
@@ -56,7 +60,7 @@ class _StoreHomeState extends State<StoreHome> {
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 10.0, left: 60),
+              padding: const EdgeInsets.only(top: 10.0, left: 40),
               child: Row(
                 children: [
                   Icon(Icons.shopping_bag, size: 37, color: Palette.darkBlue,),
@@ -75,7 +79,7 @@ class _StoreHomeState extends State<StoreHome> {
             iconTheme: IconThemeData(color: Palette.darkBlue),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(top: 15.0, right: 10),
+                padding: const EdgeInsets.only(top: 15.0),
                 child: IconButton(
                   icon: Icon(Icons.search, color: Palette.darkBlue),
                   onPressed: (){
@@ -84,6 +88,47 @@ class _StoreHomeState extends State<StoreHome> {
                   },
                 )
               ),
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: IconButton(
+                      icon: Icon(Icons.shopping_cart, color: Palette.darkBlue),
+                      onPressed: (){
+                        Route route = MaterialPageRoute(builder: (c) => CartPage());
+                        Navigator.pushReplacement(context, route);
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Stack(
+                        children: [
+                          Icon(
+                            Icons.brightness_1,
+                            size: 20.0,
+                            color: Palette.lightBlue,
+                          ),
+                          Positioned(
+                            top: 3.0,
+                            bottom: 4.0,
+                            left: 6.0,
+                            child: Consumer<CartItemCounter>(
+                                builder: (context, counter, _){
+                                  return Text(
+                                    (shopApp.sharedPreferences.getStringList("userCart").length - 1).toString(),
+                                    style: TextStyle(color: Palette.darkBlue, fontSize: 13.0, fontWeight: FontWeight.w500),
+                                  );
+                                }
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
@@ -136,7 +181,7 @@ class _StoreHomeState extends State<StoreHome> {
                   staggeredTileBuilder: (c) => StaggeredTile.fit(1),
                   itemBuilder: (context,index){
                     ItemModel model = ItemModel.fromJson(dataSnapshot.data.documents[index].data);
-                    return RecentProducts(model, context);
+                    return sourceInfo(model, context);
                   },
                   itemCount: dataSnapshot.data.documents.length,
                 );
@@ -181,150 +226,3 @@ Widget imageSlider = Padding(
   ),
 );
 
-
-Widget RecentProducts(ItemModel model, BuildContext context, {Color background, removeCartFunction}){
-  double width = MediaQuery.of(context).size.width;
-
-  return Padding(
-    padding: EdgeInsets.all(8.0),
-    child: Container(
-      height: 160.0,
-      width: width,
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(14.0),
-            child: Image.network(model.thumbnailUrl, width: 165, height: 140,fit: BoxFit.fill),
-          ),
-          SizedBox(width: 4.0,),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(top: 25, bottom: 29),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20)
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Palette.darkBlue,
-                        blurRadius: 2.0
-                    ),
-                  ]
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: Container(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Text(model.title, style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold)),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: Palette.orange
-                          ),
-                          alignment: Alignment.topLeft,
-                          width: 40.0,
-                          height: 43.0,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "50%", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 15.0),
-                                ),
-                                Text("OFF",style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 12.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 0.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    r"Original Price: $ ",
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Colors.grey,
-                                        decoration: TextDecoration.lineThrough
-                                    ),
-                                  ),
-                                  Text(
-                                    (model.price + model.price).toString(),
-                                    style: TextStyle(
-                                        fontSize: 15.0,
-                                        color: Colors.grey,
-                                        decoration: TextDecoration.lineThrough
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 5.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "New Price: ",
-                                    style: TextStyle(
-                                        fontSize: 15.0,
-                                        color: Palette.darkBlue,
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                  ),
-                                  Text(
-                                    r"$ ",
-                                    style: TextStyle(color: Palette.darkBlue, fontSize: 16.0),
-                                  ),
-                                  Text(
-                                    (model.price).toString(),
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Palette.darkBlue,
-                                        fontWeight: FontWeight.bold
-
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-
-}

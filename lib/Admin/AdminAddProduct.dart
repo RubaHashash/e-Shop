@@ -49,7 +49,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
             ),
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 17.0, left: 90),
+            padding: const EdgeInsets.only(top: 17.0, left: 70),
             child: Row(
               children: [
                 Text(
@@ -83,7 +83,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
   getAdminHomeScreenBody(){
     return Container(
       decoration:  BoxDecoration(
-          color: Colors.white
+          color: Colors.grey[100]
       ),
 
       child: Center(
@@ -209,19 +209,23 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                 color: Colors.white
             ),
           ),
-
           leading: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
+            padding: const EdgeInsets.only(top: 15.0, left: 15),
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Palette.darkBlue),
+              icon: Icon(Icons.arrow_back_ios),
+              color: Palette.darkBlue,
               onPressed: clearFormInfo,
             ),
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: Text(
-              "New Product",
-              style: TextStyle(fontSize: 47.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+            padding: const EdgeInsets.only(top: 17.0, left: 70),
+            child: Row(
+              children: [
+                Text(
+                  "New Product",
+                  style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                ),
+              ],
             ),
           ),
           centerTitle: true,

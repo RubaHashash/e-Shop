@@ -65,13 +65,14 @@ class AboutUs extends StatelessWidget {
                           child: Text("About Us",style: TextStyle(color: Colors.white, fontSize: 38, fontFamily: "PatrickHand"))
                       ),
                       SizedBox(height: 12,),
-                      Text("Online shopping is a form of electronic commerce which allows consumers to directly "
-                          "buy goods or services from a seller over the Internet using a web browser or a mobile app. "
-                          "Consumers find a product of interest by visiting the website of the retailer directly or by "
-                          "searching among alternative vendors using a shopping search engine, which displays the same "
-                          "product's availability and pricing at different e-retailers. As of 2020, customers can shop "
-                          "online using a range of different computers and devices, including desktop computers, laptops, "
-                          "tablet computers and smartphones.",
+                      Text("Welcome to Shopick, your number one source for all shopping."
+                          "We're dedicated to give you the best of products, with a focus on dependability, customer service and uniqueness. "
+                          "Shopick aim is to inspire its clients by offering at the click of a button and a tap of finger an exclusive "
+                          "shopping experience and excellent customer support with the best assortment of renowned and first-class brands. "
+                          "Shopick carries a diverse and exciting palette of international and local brands. You can find anything you need. "
+                          "We hope you enjoy our products as much as we enjoy offering them to you. If you have any questions or comments, "
+                          "please don't hesitate to contact us."
+                          "Available on Android and iOS for free",
                         style: TextStyle(color: Colors.white, fontSize: 17),),
                     ],
                   )

@@ -44,10 +44,11 @@ class _AdminOrderDetailsState extends State<AdminOrderDetails> {
 
   gett() async{
 
-    String data = await getDriver();
+    String DriverData = await getDriver();
+    String StatusData = await getStatus();
     setState(() {
-      getIfDriver = data;
-      orderStatus = data;
+      getIfDriver = DriverData;
+      orderStatus = StatusData;
     });
 
   }

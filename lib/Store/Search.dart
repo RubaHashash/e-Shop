@@ -164,7 +164,7 @@ class _SearchProductState extends State<SearchProduct> {
                 padding: EdgeInsets.only(left: 8.0),
                 child: TextField(
                   onChanged: (value){
-                    startSearching(value);
+                    startSearching(value.toLowerCase());
                   },
                   decoration: InputDecoration.collapsed(hintText: "Search here ..."),
                 ),
@@ -178,7 +178,7 @@ class _SearchProductState extends State<SearchProduct> {
 
   Future startSearching(String query) async{
 
-    docList = Firestore.instance.collection("items").where("shortInfo", isGreaterThanOrEqualTo: query).getDocuments();
+    docList = Firestore.instance.collection("items").where("shortInfo", isEqualTo: query).getDocuments();
 
   }
 }

@@ -341,23 +341,21 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                     ),
                   ),
 
-                  Card(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Palette.darkBlue
-                      ),
-                      width: 200,
-                      child: edit == false? FlatButton(
-                          color: Palette.darkBlue,
-                          onPressed: (){
-                            setState(() {
-                              edit = true;
-                            });
-                          },
-                          child: Text("Edit Profile", style: TextStyle(fontSize: 18, color: Colors.white),)
-                      ) : Container(),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Palette.darkBlue
                     ),
+                    width: 200,
+                    child: edit == false? FlatButton(
+                        color: Palette.darkBlue,
+                        onPressed: (){
+                          setState(() {
+                            edit = true;
+                          });
+                        },
+                        child: Text("Edit Profile", style: TextStyle(fontSize: 18, color: Colors.white),)
+                    ) : Container(),
                   ),
 
                 ],
