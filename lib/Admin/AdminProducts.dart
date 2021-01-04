@@ -18,28 +18,6 @@ class _AdminProductsState extends State<AdminProducts> {
 
   final storeId = shopApp.sharedPreferences.getString("storeID");
 
-  List<DocumentSnapshot> products = <DocumentSnapshot> [];
-
-  Future<List> getProducts () {
-    return Firestore.instance.collection("items").where("store", isEqualTo: storeId).getDocuments().then((snap){
-      return snap.documents;
-    });
-  }
-
-  _getAllProducts() async{
-    List<DocumentSnapshot> data = await getProducts();
-    setState(() {
-      products = data;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getAllProducts();
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +74,10 @@ class _AdminProductsState extends State<AdminProducts> {
         body: CustomScrollView(
           slivers: [
 
+           SliverToBoxAdapter(
+              child: Padding(padding: EdgeInsets.all(5.0)),
+            ),
+
             StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection("items").where("store", isEqualTo: storeId)
                   .orderBy("publishedDate", descending: true).snapshots(),
@@ -127,7 +109,7 @@ Widget myProducts(ItemModel model, BuildContext context){
   return Padding(
     padding: EdgeInsets.all(8.0),
     child: Container(
-      height: 190.0,
+      height: 210.0,
       width: width,
       child: Row(
         children: [
@@ -265,13 +247,14 @@ Widget myProducts(ItemModel model, BuildContext context){
                                 ],
                               ),
                             ),
+
+
                           ],
                         ),
 
                       ],
                     ),
                   ),
-
 
                   Flexible(
                     child: Container(
@@ -291,103 +274,3 @@ Widget myProducts(ItemModel model, BuildContext context){
   );
 
 }
-
-
-// Widget myProducts(BuildContext context, {item_index}){
-//   double width = MediaQuery.of(context).size.width;
-//
-//   return InkWell(
-//     onTap: (){
-//     },
-//     splashColor: Palette.darkBlue,
-//     child: Padding(
-//       padding: EdgeInsets.all(8.0),
-//       child: Container(
-//         height: 100.0,
-//         width: width,
-//         child: Row(
-//           children: [
-//             ClipRRect(
-//               borderRadius: BorderRadius.circular(14.0),
-//               child: Image.network(item_index['thumbnailUrl'], width: 150, height: 150,fit: BoxFit.fill),
-//             ),
-//             SizedBox(width: 4.0,),
-//             Expanded(
-//               child: Container(
-//                 margin: EdgeInsets.only(top: 135, bottom: 135),
-//                 decoration: BoxDecoration(
-//                     color: Colors.white,
-//                     borderRadius: BorderRadius.only(
-//                         topRight: Radius.circular(20),
-//                         bottomRight: Radius.circular(20)
-//                     ),
-//                     boxShadow: [
-//                       BoxShadow(
-//                           color: Palette.darkBlue,
-//                           blurRadius: 2.0
-//                       ),
-//                     ]
-//                 ),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     SizedBox(height: 15.0),
-//                     Padding(
-//                       padding: const EdgeInsets.only(left: 12.0),
-//                       child: Container(
-//                         child: Row(
-//                           mainAxisSize: MainAxisSize.max,
-//                           children: [
-//                             Expanded(
-//                               child: Text(item_index['title'], style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold)),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     SizedBox(height: 5.0,),
-//                     Container(
-//                       child: Padding(
-//                         padding: const EdgeInsets.only(left: 12.0),
-//                         child: Row(
-//                           mainAxisSize: MainAxisSize.max,
-//                           children: [
-//                             Expanded(
-//                               child: Text("Category: "+item_index['category'], style: TextStyle(color: Palette.darkBlue, fontSize: 15.0)),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     SizedBox(height: 5.0,),
-//                     Container(
-//                       child: Padding(
-//                         padding: const EdgeInsets.only(left: 12.0),
-//                         child: Row(
-//                           mainAxisSize: MainAxisSize.max,
-//                           children: [
-//                             Expanded(
-//                               child: Text("Price: "+item_index['price'].toString(), style: TextStyle(color: Palette.darkBlue, fontSize: 15.0)),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                     Flexible(
-//                       child: Container(
-//
-//                       ),
-//                     ),
-//
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-//
-//
-// }

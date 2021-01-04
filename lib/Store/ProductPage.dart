@@ -1,3 +1,4 @@
+import 'package:e_shop_app/Counters/ItemQuantity.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/Cart.dart';
@@ -7,6 +8,7 @@ import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
@@ -20,11 +22,12 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
 
-  int quantityOfItems = 1;
+  var itemQuantity = 1;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    var quantityOfItems = Provider.of<ItemQuantity>(context, listen: false);
 
     return SafeArea(
       child: Scaffold(
@@ -56,6 +59,10 @@ class _ProductPageState extends State<ProductPage> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
+                  quantityOfItems.display(1);
+                  setState(() {
+                    itemQuantity = 1;
+                  });
                   Route route = MaterialPageRoute(builder: (c) => StoreHome());
                   Navigator.pushReplacement(context, route);
                 },
@@ -221,38 +228,126 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         ),
 
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: Center(
-                            child: InkWell(
-                              onTap: () => checkItemInCart(widget.itemModel.shortInfo, context),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Palette.darkBlue,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 5.0
-                                      ),
-                                    ]
+                        Row(
+                          children: [
+                            SizedBox(width: 25),
+
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    itemQuantity--;
+                                  });
+                                  quantityOfItems.decrement();
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                      color: Palette.darkBlue,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey,
+                                            blurRadius: 5.0
+                                        ),
+                                      ]
+                                  ),
+
+                                  child: Center(
+                                      child: Text("-", style: TextStyle(color: Colors.white, fontSize: 25),)
+                                  ),
+
                                 ),
-                                width: 200,
-                                height: 50.0,
+                              ),
+                            ),
+                            SizedBox(width: 15),
+                            Consumer<ItemQuantity>(builder: (context, counter, _){
+                              return Padding(
+                                padding: const EdgeInsets.only(top:10.0),
                                 child: Center(
-                                  child: Row(
-                                    children: [
-                                      Padding(padding: EdgeInsets.only(left: 22.0)),
-                                      Icon(Icons.favorite, color: Colors.white),
-                                      Padding(padding: EdgeInsets.all(8.0)),
-                                      Text("Add to Cart", style: TextStyle(color: Colors.white ,fontSize: 20.0, fontWeight: FontWeight.w700),)
-                                    ],
+                                  child: Text("${counter.numberOfItems}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                ),
+                              );
+                            }),
+                            SizedBox(width: 15),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    itemQuantity++;
+                                  });
+                                  quantityOfItems.increment();
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                      color: Palette.darkBlue,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey,
+                                            blurRadius: 5.0
+                                        ),
+                                      ]
+                                  ),
+
+                                  child: Center(
+                                      child: Text("+", style: TextStyle(color: Colors.white, fontSize: 25),)
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                            SizedBox(width: 30),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    quantityOfItems.display(1);
+                                    itemQuantity >= 1 ?
+                                      checkItemInCart(widget.itemModel.shortInfo, context)
+                                        : Fluttertoast.showToast(msg: "Check the items quantity");
+                                    setState(() {
+                                      itemQuantity = 1;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Palette.darkBlue,
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 5.0
+                                          ),
+                                        ]
+                                    ),
+                                    width: 200,
+                                    height: 50.0,
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          Padding(padding: EdgeInsets.only(left: 22.0)),
+                                          Icon(Icons.favorite, color: Colors.white),
+                                          Padding(padding: EdgeInsets.all(8.0)),
+                                          Text("Add to Cart", style: TextStyle(color: Colors.white ,fontSize: 20.0, fontWeight: FontWeight.w700),)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+
+
+
                         SizedBox(height: 10.0)
                       ],
                     ),
