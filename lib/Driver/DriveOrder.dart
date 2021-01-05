@@ -101,7 +101,7 @@ class _DriveOrderState extends State<DriveOrder> {
                 children: [
                   Text(
                     "Driving Order",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),

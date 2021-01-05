@@ -54,7 +54,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
               children: [
                 Text(
                   "New Product",
-                  style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                 ),
               ],
             ),
@@ -109,7 +109,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                 child: Center(
                   child: Text(
                     "Add New Product",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "PatrickHand", fontSize: 25.0),
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "Cabin", fontSize: 19.0),
                   ),
                 ),
                 width: 180,
@@ -141,7 +141,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                   children: [
                     Icon(Icons.add_a_photo),
                     SizedBox(width: 12),
-                    Text("Capture with Camera", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                    Text("Capture with Camera", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "Cabin")),
                   ],
                 ),
                 onPressed: capturePhotoWithCamera,
@@ -154,7 +154,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                   children: [
                     Icon(Icons.photo),
                     SizedBox(width: 12),
-                    Text("Select from Gallery", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                    Text("Select from Gallery", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "Cabin")),
                   ],
                 ),
                 onPressed: pickPhotoFromGallery,
@@ -223,7 +223,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
               children: [
                 Text(
                   "New Product",
-                  style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                 ),
               ],
             ),

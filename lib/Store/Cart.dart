@@ -42,7 +42,7 @@ class _CartPageState extends State<CartPage> {
             }
           },
         label: Text("Check Out",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "PatrickHand", fontSize: 18.0)),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "Cabin", fontSize: 16.0)),
         backgroundColor: Palette.darkBlue,
         icon: Icon(Icons.navigate_next, size: 18),
       ),
@@ -60,7 +60,7 @@ class _CartPageState extends State<CartPage> {
               children: [
                 Text(
                   "My Cart",
-                  style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                  style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                 ),
               ],
             ),

@@ -39,7 +39,7 @@ class _AdminProductsState extends State<AdminProducts> {
                 children: [
                   Text(
                     "All Products",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),

@@ -38,7 +38,7 @@ class _SearchProductState extends State<SearchProduct> {
                 children: [
                   Text(
                     "Search",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),

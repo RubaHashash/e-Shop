@@ -47,7 +47,7 @@ class _AddressState extends State<Address> {
                 children: [
                   Text(
                     "Shipping Address",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),
@@ -102,7 +102,7 @@ class _AddressState extends State<Address> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           label: Text("Add New Address",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "PatrickHand", fontSize: 18.0)),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "Cabin", fontSize: 15.0)),
           backgroundColor: Palette.darkBlue,
           icon: Icon(Icons.add_location, size: 18),
           onPressed: (){
@@ -283,7 +283,7 @@ class _AddressCardState extends State<AddressCard> {
                           width: 65.0,
                           height: 30.0,
                           child: Center(
-                            child: Text("Select", style: TextStyle(color: Colors.white, fontFamily: "PatrickHand", fontSize: 18.0)),
+                            child: Text("Select", style: TextStyle(color: Colors.white, fontFamily: "Cabin", fontSize: 15.0)),
                           ),
                         ),
                       ),
@@ -315,7 +315,7 @@ addressDialog(mContext){
                   children: [
                     Icon(Icons.add_location),
                     SizedBox(width: 12),
-                    Text("Manual Address", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                    Text("Manual Address", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "Cabin")),
                   ],
                 ),
                 onPressed: (){
@@ -330,7 +330,7 @@ addressDialog(mContext){
                 children: [
                   Icon(Icons.map),
                   SizedBox(width: 12),
-                  Text("Use Google Maps", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                  Text("Use Google Maps", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "Cabin")),
                 ],
               ),
               onPressed: (){
@@ -369,7 +369,7 @@ paymentDialog(mContext, String addressID, double totalAmount){
                   children: [
                     Icon(Icons.delivery_dining),
                     SizedBox(width: 12),
-                    Text("Cash on Delivery", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                    Text("Cash on Delivery", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "Cabin")),
                   ],
                 ),
                 onPressed: (){
@@ -383,7 +383,7 @@ paymentDialog(mContext, String addressID, double totalAmount){
                 children: [
                   Icon(Icons.delivery_dining),
                   SizedBox(width: 12),
-                  Text("Pay Online", style: TextStyle(color: Palette.darkBlue, fontSize: 22, fontFamily: "PatrickHand")),
+                  Text("Pay Online", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontFamily: "Cabin")),
                 ],
               ),
               onPressed: (){

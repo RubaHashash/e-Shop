@@ -151,20 +151,20 @@ class _StoreHomeState extends State<StoreHome> {
               child: Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10.0),
                     child: Text("Categories",
-                      style: TextStyle(fontSize: 25.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                      style: TextStyle(fontSize: 21.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:50.0),
+                    padding: const EdgeInsets.only(top:44.0),
                     child: HorizontalList(categories: categories, images: images),
                   ),
 
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, top: 210),
                     child: Text("Recent Products",
-                      style: TextStyle(fontSize: 25.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                      style: TextStyle(fontSize: 21.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
                     ),
                   ),
                 ],

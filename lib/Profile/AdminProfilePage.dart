@@ -64,7 +64,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                 children: [
                   Text(
                     "My Profile",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),

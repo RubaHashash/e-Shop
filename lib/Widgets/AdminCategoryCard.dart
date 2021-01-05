@@ -27,7 +27,7 @@ class AdminCategoryCard extends StatelessWidget {
                 color: Colors.white70,
                 child: ListTile(
                   leading: Text(category_index, style: TextStyle(fontWeight: FontWeight.bold, color: Palette.darkBlue,
-                      fontSize: 22, fontFamily: "PatrickHand"),),
+                      fontSize: 20, fontFamily: "Cabin"),),
                 ),
               ),
               child: Image.asset(images, fit: BoxFit.cover,),

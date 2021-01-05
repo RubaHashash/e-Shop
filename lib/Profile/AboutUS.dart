@@ -62,7 +62,7 @@ class AboutUs extends StatelessWidget {
                     children: [
                       Align(
                           alignment: Alignment.topLeft,
-                          child: Text("About Us",style: TextStyle(color: Colors.white, fontSize: 38, fontFamily: "PatrickHand"))
+                          child: Text("About Us",style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "Cabin"))
                       ),
                       SizedBox(height: 12,),
                       Text("Welcome to Shopick, your number one source for all shopping."

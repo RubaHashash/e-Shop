@@ -43,7 +43,7 @@ class _AddAddressState extends State<AddAddress> {
                 children: [
                   Text(
                     "Add New Address",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),
@@ -94,7 +94,7 @@ class _AddAddressState extends State<AddAddress> {
 
 
           },
-          label: Text("Done", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "PatrickHand", fontSize: 18.0)),
+          label: Text("Done", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "Cabin", fontSize: 16.0)),
           backgroundColor: Palette.darkBlue,
           icon: Icon(Icons.check, size: 18),
         ),

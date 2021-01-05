@@ -77,7 +77,7 @@ class _MapAddressState extends State<MapAddress> {
                 children: [
                   Text(
                     "Add New Address",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),
@@ -257,7 +257,7 @@ class _MapAddressState extends State<MapAddress> {
                                     ),
                                     child: Align(
                                         child: Text("Add Address",
-                                            style: TextStyle(color: Colors.white, fontSize: 23, fontFamily: "PatrickHand")
+                                            style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Cabin")
                                         ),
                                     ),
                                   ),

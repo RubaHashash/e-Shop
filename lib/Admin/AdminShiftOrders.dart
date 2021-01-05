@@ -35,7 +35,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
                 children: [
                   Text(
                     "Orders",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),

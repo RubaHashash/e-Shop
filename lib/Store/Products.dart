@@ -46,7 +46,7 @@ class _ProductsState extends State<Products> {
                 children: [
                   Text(
                     "All Products",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),
@@ -183,7 +183,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
     },
     splashColor: Palette.darkBlue,
     child: Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(left: 10.0, top: 4.0, right: 8.0),
       child: Container(
         height: 190.0,
         width: width,

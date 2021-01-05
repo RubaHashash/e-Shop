@@ -127,6 +127,9 @@ flutter:
         - asset: assets/fonts/PatrickHand.ttf
           style: italic
 
+    - family: Cabin
+      fonts:
+        - asset: assets/fonts/Cabin.ttf
 
   #   - family: Trajan Pro
   #     fonts:

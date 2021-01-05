@@ -31,7 +31,7 @@ class _MyOrdersState extends State<MyOrders> {
                 children: [
                   Text(
                     "My Orders",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),
@@ -56,6 +56,7 @@ class _MyOrdersState extends State<MyOrders> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Padding(padding: EdgeInsets.only(top:10)),
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
                 stream: shopApp.firestore.collection("orders")

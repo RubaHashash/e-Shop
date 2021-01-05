@@ -64,7 +64,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                 children: [
                   Text(
                     "My Profile",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),

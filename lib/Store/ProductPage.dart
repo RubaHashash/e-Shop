@@ -45,8 +45,8 @@ class _ProductPageState extends State<ProductPage> {
               child: Row(
                 children: [
                   Text(
-                    "View Product",
-                    style: TextStyle(fontSize: 35.0, color: Palette.darkBlue, fontFamily: "Signatra"),
+                    widget.itemModel.title,
+                    style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                   ),
                 ],
               ),
@@ -171,7 +171,7 @@ class _ProductPageState extends State<ProductPage> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: "PatrickHand"),
+                              widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 24.0, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
                             ),
                           ),
                         ),
