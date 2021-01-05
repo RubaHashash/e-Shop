@@ -9,6 +9,7 @@ class ItemModel {
   String status;
   double price;
   String storeID;
+  String storeName;
   String category;
 
   ItemModel(
@@ -19,6 +20,7 @@ class ItemModel {
         this.longDescription,
         this.status,
         this.storeID,
+        this.storeName,
         this.category
       });
 
@@ -31,6 +33,7 @@ class ItemModel {
     status = json['status'];
     price = json['price'];
     storeID = json['storeID'];
+    storeName = json['storeName'];
     category = json['category'];
   }
 
@@ -46,6 +49,7 @@ class ItemModel {
     data['longDescription'] = this.longDescription;
     data['status'] = this.status;
     data['storeID'] = this.storeID;
+    data['storeName'] = this.storeName;
     data['category'] = this.category;
     return data;
   }

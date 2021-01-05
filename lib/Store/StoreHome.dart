@@ -6,6 +6,7 @@ import 'package:e_shop_app/Store/Cart.dart';
 import 'package:e_shop_app/Store/Products.dart';
 import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Widgets/HorizontalList.dart';
+import 'package:e_shop_app/Widgets/StoresHorizontalList.dart';
 import 'package:e_shop_app/Widgets/MyDrawer.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
@@ -23,12 +24,20 @@ class StoreHome extends StatefulWidget {
 
 class _StoreHomeState extends State<StoreHome> {
   List<DocumentSnapshot> categories = <DocumentSnapshot> [];
+  List<DocumentSnapshot> stores = <DocumentSnapshot> [];
+
   List<String> images = ["assets/CatImage/image1.jpg", "assets/CatImage/image2.jpg",
     "assets/CatImage/image3.jpg", "assets/CatImage/image4.jpg",  "assets/CatImage/image5.jpeg",];
 
 
   Future<List> getCategories () {
     return shopApp.firestore.collection("categories").getDocuments().then((snap){
+      return snap.documents;
+    });
+  }
+
+  Future<List> getStores () {
+    return shopApp.firestore.collection("admins").getDocuments().then((snap){
       return snap.documents;
     });
   }
@@ -40,12 +49,23 @@ class _StoreHomeState extends State<StoreHome> {
     });
   }
 
+  _getStoresName() async{
+    List<DocumentSnapshot> data = await getStores();
+    setState(() {
+      stores = data;
+      print(stores);
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getCategoriesName();
+    _getStoresName();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -162,7 +182,18 @@ class _StoreHomeState extends State<StoreHome> {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, top: 210),
+                    padding: const EdgeInsets.only(top: 212.0, left: 10.0),
+                    child: Text("Stores",
+                      style: TextStyle(fontSize: 21.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top:242.0),
+                    child: StoresHorizontalList(stores: stores),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 412),
                     child: Text("Recent Products",
                       style: TextStyle(fontSize: 21.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
                     ),

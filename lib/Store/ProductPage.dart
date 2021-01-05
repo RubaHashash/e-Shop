@@ -171,7 +171,7 @@ class _ProductPageState extends State<ProductPage> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              widget.itemModel.title, style: TextStyle(color: Palette.darkBlue,fontSize: 24.0, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
+                              widget.itemModel.storeName, style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -198,7 +198,7 @@ class _ProductPageState extends State<ProductPage> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        "Description: ", style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
+                                        "Description :", style: TextStyle(color: Palette.darkBlue,fontSize: 18.0, fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     SizedBox(height: 5.0),

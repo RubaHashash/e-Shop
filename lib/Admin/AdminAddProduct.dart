@@ -381,6 +381,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
       "thumbnailUrl": downloadUrl,
       "title": _title.text.trim(),
       "store": shopApp.sharedPreferences.getString("storeID"),
+      "storeName": shopApp.sharedPreferences.getString("adminName"),
       "category": widget.category_name
 
     });
