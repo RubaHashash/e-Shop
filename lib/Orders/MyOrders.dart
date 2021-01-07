@@ -56,7 +56,6 @@ class _MyOrdersState extends State<MyOrders> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(padding: EdgeInsets.only(top:10)),
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
                 stream: shopApp.firestore.collection("orders")
@@ -64,8 +63,11 @@ class _MyOrdersState extends State<MyOrders> {
                     .where("isRecieved", isEqualTo: false).snapshots(),
 
                 builder: (c, snapshots){
-                  return snapshots.hasData
-                      ? ListView.builder(
+                  return !snapshots.hasData
+                      ? Center(child: circularProgress())
+                      : snapshots.data.documents.length == 0
+                      ? NoOrders()
+                      : ListView.builder(
                           itemCount: snapshots.data.documents.length,
                           itemBuilder: (c, index){
                             return FutureBuilder<QuerySnapshot>(
@@ -82,9 +84,8 @@ class _MyOrdersState extends State<MyOrders> {
                               },
                               );
                           },
-                        )
-                      : Center(child: circularProgress());
-                },
+                        );
+                  },
               ),
             ),
           ],
@@ -92,4 +93,25 @@ class _MyOrdersState extends State<MyOrders> {
       ),
     );
   }
+}
+
+NoOrders(){
+  return Padding(
+    padding: const EdgeInsets.only(top: 10.0),
+    child: Card(
+      color: Colors.white.withOpacity(0.5),
+      child: Container(
+        height: 100,
+        width: 500,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.insert_emoticon, color: Palette.darkBlue),
+            Text("You haven't done any order."),
+            Text("Start sending your orders NOW."),
+          ],
+        ),
+      ),
+    ),
+  );
 }

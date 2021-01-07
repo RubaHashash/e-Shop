@@ -53,7 +53,6 @@ class _StoreHomeState extends State<StoreHome> {
     List<DocumentSnapshot> data = await getStores();
     setState(() {
       stores = data;
-      print(stores);
     });
   }
 

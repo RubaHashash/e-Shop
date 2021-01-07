@@ -107,21 +107,21 @@ Widget myProducts(ItemModel model, BuildContext context){
   double width = MediaQuery.of(context).size.width;
 
   return Padding(
-    padding: EdgeInsets.all(8.0),
+    padding: EdgeInsets.only(left:8.0, right:8.0),
     child: Container(
-      height: 210.0,
+      height: 185.0,
       width: width,
       child: Row(
         children: [
           SizedBox(width: 8.0,),
           ClipRRect(
             borderRadius: BorderRadius.circular(14.0),
-            child: Image.network(model.thumbnailUrl, width: 160, height: 165,fit: BoxFit.fill),
+            child: Image.network(model.thumbnailUrl, width: 155, height: 150,fit: BoxFit.fill),
           ),
           SizedBox(width: 4.0,),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 20, bottom: 28),
+              margin: EdgeInsets.only(top: 27, bottom: 28),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -253,12 +253,6 @@ Widget myProducts(ItemModel model, BuildContext context){
                         ),
 
                       ],
-                    ),
-                  ),
-
-                  Flexible(
-                    child: Container(
-
                     ),
                   ),
 

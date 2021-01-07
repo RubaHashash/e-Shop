@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/Admin/AdminProducts.dart';
+import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminAddProduct extends StatefulWidget {
@@ -38,6 +41,8 @@ class _AdminAddProductState extends State<AdminAddProduct> {
 
 
   displayHomeScreen(){
+    final storeId = shopApp.sharedPreferences.getString("storeID");
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: PreferredSize(
@@ -49,11 +54,11 @@ class _AdminAddProductState extends State<AdminAddProduct> {
             ),
           ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 17.0, left: 70),
+            padding: const EdgeInsets.only(top: 17.0, left: 75),
             child: Row(
               children: [
                 Text(
-                  "New Product",
+                  widget.category_name,
                   style: TextStyle(fontSize: 22.0, color: Palette.darkBlue, fontFamily: "Cabin"),
                 ),
               ],
@@ -74,53 +79,68 @@ class _AdminAddProductState extends State<AdminAddProduct> {
             ),
           ),
         ),
-      ) ,
+      ),
 
-      body: getAdminHomeScreenBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          takeImage(context);
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Palette.darkBlue,
+      ),
+
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(padding: EdgeInsets.all(1.0)),
+          ),
+
+          StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection("items").where("store", isEqualTo: storeId).where("category", isEqualTo: widget.category_name)
+                .orderBy("publishedDate", descending: true).snapshots(),
+            builder: (context, dataSnapshot){
+              return !dataSnapshot.hasData
+                  ? SliverToBoxAdapter(child: Center(child: circularProgress(),),)
+                  : dataSnapshot.data.documents.length == 0
+                  ? beginAddingItems()
+              : SliverStaggeredGrid.countBuilder(
+                crossAxisCount: 1,
+                staggeredTileBuilder: (c) => StaggeredTile.fit(1),
+                itemBuilder: (context,index){
+                  ItemModel model = ItemModel.fromJson(dataSnapshot.data.documents[index].data);
+                  return myProducts(model, context);
+                },
+                itemCount: dataSnapshot.data.documents.length,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
-  getAdminHomeScreenBody(){
-    return Container(
-      decoration:  BoxDecoration(
-          color: Colors.grey[100]
-      ),
-
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.shop_two, color: Palette.darkBlue, size: 200.0),
-            InkWell(
-              onTap: (){
-                takeImage(context);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Palette.darkBlue,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 3.0
-                      ),
-                    ]
-                ),
-                child: Center(
-                  child: Text(
-                    "Add New Product",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "Cabin", fontSize: 19.0),
-                  ),
-                ),
-                width: 180,
-                height: 40,
-              ),
+  beginAddingItems(){
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Card(
+          color: Colors.white.withOpacity(0.5),
+          child: Container(
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.insert_emoticon, color: Palette.darkBlue),
+                Text("Category is Empty."),
+                Text("Start adding items to your Store."),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
+
 
 
   takeImage(mContext){

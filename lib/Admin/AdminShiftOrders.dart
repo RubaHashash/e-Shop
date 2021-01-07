@@ -60,8 +60,11 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
           stream: Firestore.instance.collection("orders").where("isRecieved", isEqualTo: false).snapshots(),
 
           builder: (c, snapshots){
-            return snapshots.hasData
-                ? ListView.builder(
+            return !snapshots.hasData
+                ? Center(child: circularProgress())
+                : snapshots.data.documents.length == 0
+                ? NoOrders()
+                : ListView.builder(
               itemCount: snapshots.data.documents.length,
               itemBuilder: (c, index){
                 return FutureBuilder<QuerySnapshot>(
@@ -80,11 +83,32 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
                   },
                 );
               },
-            )
-                : Center(child: circularProgress());
+            );
           },
         ),
       ),
     );
   }
+}
+
+
+NoOrders(){
+  return Padding(
+    padding: const EdgeInsets.only(top: 10.0),
+    child: Card(
+      color: Colors.white.withOpacity(0.5),
+      child: Container(
+        height: 100,
+        width: 500,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.insert_emoticon, color: Palette.darkBlue),
+            Text("No Orders found."),
+            Text("Come back later."),
+          ],
+        ),
+      ),
+    ),
+  );
 }
