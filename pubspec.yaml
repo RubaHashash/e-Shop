@@ -57,6 +57,7 @@ dependencies:
 
   # for the image slider
   carousel_pro: ^1.0.0
+  dropdownfield: ^1.0.3
 
   shared_preferences: ^0.5.12+4
   image_picker: ^0.6.6+5

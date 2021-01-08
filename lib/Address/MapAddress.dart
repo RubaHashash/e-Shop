@@ -133,7 +133,6 @@ class _MapAddressState extends State<MapAddress> {
                   _addressLine = firstAddress.addressLine;
                   _countryName = firstAddress.countryName;
                   _cityName = firstAddress.featureName;
-                  _postalCode = firstAddress.postalCode;
                 },
                 myLocationEnabled: true,
               ),
@@ -169,30 +168,6 @@ class _MapAddressState extends State<MapAddress> {
                         SizedBox(height: 6.0,),
                         Text("More Details", style: TextStyle(color: Palette.darkBlue, fontSize: 18, fontWeight: FontWeight.bold),),
                         SizedBox(height: 20.0,),
-                        // Container(
-                        //     decoration: BoxDecoration(
-                        //         color: Colors.white,
-                        //         borderRadius: BorderRadius.circular(5.0),
-                        //         boxShadow: [
-                        //           BoxShadow(
-                        //               color: Palette.darkBlue,
-                        //               blurRadius: 6.0,
-                        //               spreadRadius: 0.5,
-                        //               offset: Offset(0.7, 0.7)
-                        //           ),
-                        //         ]
-                        //     ),
-                        //     child: Padding(
-                        //       padding: EdgeInsets.all(12.0),
-                        //       child: Row(
-                        //         children: [
-                        //           Icon(Icons.search, color: Palette.darkBlue,),
-                        //           SizedBox(width: 10.0,),
-                        //           Text("Search Drop Off")
-                        //         ],
-                        //       ),
-                        //     )
-                        // ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
                           child: Form(

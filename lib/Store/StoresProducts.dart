@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdownfield/dropdownfield.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Store/Cart.dart';
@@ -23,6 +24,13 @@ class StoresProducts extends StatefulWidget {
 }
 
 class _StoresProductsState extends State<StoresProducts> {
+  final List<String> categories = ["All","Clothes", "Electronics", "Home Decoration", "Souvenir", "Others"];
+
+  final categorySelected = TextEditingController();
+  var selected = "";
+  Future<QuerySnapshot> docList;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,28 +128,81 @@ class _StoresProductsState extends State<StoresProducts> {
         slivers: [
 
           SliverToBoxAdapter(
-            child: Padding(padding: EdgeInsets.all(5.0)),
+            child: Padding(
+              padding: EdgeInsets.all(12.0),
+              child: DropDownField(
+                controller: categorySelected,
+                hintText: "Select any Category",
+                enabled: true,
+                itemsVisibleInDropdown: 3,
+                items: categories,
+                onValueChanged: (value){
+                  setState(() {
+                    selected = value;
+                    startSearching(selected);
+                  });
+                },
+              ),
+            ),
           ),
 
-          StreamBuilder<QuerySnapshot>(
-            stream: shopApp.firestore.collection("items").where("storeName", isEqualTo: widget.storeName)
-                .orderBy("publishedDate", descending: true).snapshots(),
-            builder: (context, dataSnapshot){
-              return !dataSnapshot.hasData
-                  ? SliverToBoxAdapter(child: Center(child: circularProgress(),),)
-                  : SliverStaggeredGrid.countBuilder(
-                crossAxisCount: 1,
-                staggeredTileBuilder: (c) => StaggeredTile.fit(1),
-                itemBuilder: (context,index){
-                  ItemModel model = ItemModel.fromJson(dataSnapshot.data.documents[index].data);
-                  return sourceInfo(model, context);
+          selected == ""
+            ? StreamBuilder<QuerySnapshot>(
+                stream: shopApp.firestore.collection("items").where("storeName", isEqualTo: widget.storeName)
+                    .orderBy("publishedDate", descending: true).snapshots(),
+                builder: (context, dataSnapshot){
+                  return !dataSnapshot.hasData
+                      ? SliverToBoxAdapter(child: Center(child: circularProgress(),),)
+                      : SliverStaggeredGrid.countBuilder(
+                    crossAxisCount: 1,
+                    staggeredTileBuilder: (c) => StaggeredTile.fit(1),
+                    itemBuilder: (context,index){
+                      ItemModel model = ItemModel.fromJson(dataSnapshot.data.documents[index].data);
+                      return sourceInfo(model, context);
+                    },
+                    itemCount: dataSnapshot.data.documents.length,
+                  );
                 },
-                itemCount: dataSnapshot.data.documents.length,
-              );
-            },
-          ),
+            )
+            : FutureBuilder<QuerySnapshot>(
+                future: docList,
+                builder: (context, snapshot){
+                  return !snapshot.hasData
+                      ? SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("No data available"),
+                        )
+                      )
+                      : SliverStaggeredGrid.countBuilder(
+                          crossAxisCount: 1,
+                          staggeredTileBuilder: (c) => StaggeredTile.fit(1),
+                          itemBuilder: (context,index){
+                          ItemModel model = ItemModel.fromJson(snapshot.data.documents[index].data);
+                          return sourceInfo(model, context);
+                          },
+                          itemCount: snapshot.data.documents.length,
+                      );
+                },
+            ),
         ],
       ),
+
     );
   }
+
+  Future startSearching(String query) async{
+
+    if(query == "All"){
+      docList = shopApp.firestore.collection("items").where("storeName", isEqualTo: widget.storeName)
+          .orderBy("publishedDate", descending: true).getDocuments();
+    }else{
+      docList = shopApp.firestore.collection("items").where("storeName", isEqualTo: widget.storeName)
+          .where("category", isEqualTo: query).orderBy("publishedDate", descending: true).getDocuments();
+    }
+
+
+
+  }
+
 }
