@@ -116,7 +116,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                               .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
                           builder: (c, dataSnapshot){
                             return dataSnapshot.hasData
-                                ? OrderCard(
+                                ? OrderCardDetails(
                                     itemCount: dataSnapshot.data.documents.length,
                                     data: dataSnapshot.data.documents
                                   )
@@ -290,31 +290,6 @@ class ShippingDetails extends StatelessWidget {
                         children: [
                           Text("Address Details", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
                           Text(model.addressDetails),
-                        ]
-                    ),
-
-                    TableRow(
-                        children: [
-                          Text("Latitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                          model.latitude.toString() != null ?
-                          Text(model.latitude.toString())
-                              : Text("null"),
-                        ]
-                    ),
-                    TableRow(
-                        children: [
-                          Text("Longitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                          model.longitude.toString() !=null ?
-                          Text(model.longitude.toString())
-                              : Text("null"),
-                        ]
-                    ),
-                    TableRow(
-                        children: [
-                          Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                          model.pincode != null ?
-                          Text(model.pincode)
-                              : Text("null"),
                         ]
                     ),
                   ],

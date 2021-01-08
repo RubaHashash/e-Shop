@@ -21,7 +21,6 @@ class _AddAddressState extends State<AddAddress> {
   final TextEditingController _cCity = TextEditingController();
   final TextEditingController _cState = TextEditingController();
   final TextEditingController _cDetails = TextEditingController();
-  final TextEditingController _cPinCode = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,6 @@ class _AddAddressState extends State<AddAddress> {
                 city: _cCity.text.trim(),
                 state: _cState.text.trim(),
                 addressDetails: _cDetails.text.trim(),
-                pincode: _cPinCode.text
               ).toJson();
 
               // add to firebase
@@ -208,23 +206,6 @@ class _AddAddressState extends State<AddAddress> {
                           decoration: inputDecoration(hintText: 'Address Details', data: Icons.details),
                           style: TextStyle(color: Palette.darkBlue),
                           onSaved: (input) => _cDetails.text = input,
-
-                        ),
-
-                        SizedBox(height: 5),
-
-                        TextFormField(
-                          controller: _cPinCode,
-
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'PinCode is required';
-                            }
-                            return null;
-                          },
-                          decoration: inputDecoration(hintText: 'Pin Code', data: Icons.qr_code),
-                          style: TextStyle(color: Palette.darkBlue),
-                          onSaved: (input) => _cPinCode.text = input,
 
                         ),
 

@@ -12,8 +12,12 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-
+  final storeId = shopApp.sharedPreferences.getString("storeID");
+  List<int> countList = [];
   List<DocumentSnapshot> categories = <DocumentSnapshot> [];
+  List<DocumentSnapshot> itemCount = <DocumentSnapshot> [];
+
+
   List<String> images = ["assets/CatImage/picture1.jpg", "assets/CatImage/picture2.jpg",
     "assets/CatImage/picture3.jpg", "assets/CatImage/picture4.jpg",  "assets/CatImage/picture5.jpg",];
 
@@ -23,12 +27,59 @@ class _AdminHomePageState extends State<AdminHomePage> {
     });
   }
 
-  _getCategoriesName() async{
-    List<DocumentSnapshot> data = await getCategories();
-    setState(() {
-      categories = data;
+  Future<List> getClothesCount(){
+    return Firestore.instance.collection("items").where("store", isEqualTo: storeId).where("category", isEqualTo: "Clothes").getDocuments().then((value){
+      return value.documents;
     });
   }
+
+  Future<List> getElectronicsCount(){
+    return Firestore.instance.collection("items").where("store", isEqualTo: storeId).where("category", isEqualTo: "Electronics").getDocuments().then((value){
+      return value.documents;
+    });
+  }
+
+  Future<List> getHomeCount(){
+    return Firestore.instance.collection("items").where("store", isEqualTo: storeId).where("category", isEqualTo: "Home Decoration").getDocuments().then((value){
+      return value.documents;
+    });
+  }
+
+  Future<List> getSouvenirCount(){
+    return Firestore.instance.collection("items").where("store", isEqualTo: storeId).where("category", isEqualTo: "Souvenir").getDocuments().then((value){
+      return value.documents;
+    });
+  }
+
+  Future<List> getOthersCount(){
+    return Firestore.instance.collection("items").where("store", isEqualTo: storeId).where("category", isEqualTo: "Others").getDocuments().then((value){
+      return value.documents;
+    });
+  }
+  _getCategoriesName() async{
+    List<DocumentSnapshot> data = await getCategories();
+    List<DocumentSnapshot> dataCountClothes = await getClothesCount();
+    List<DocumentSnapshot> dataCountElectronics = await getElectronicsCount();
+    List<DocumentSnapshot> dataCountHome = await getHomeCount();
+    List<DocumentSnapshot> dataCountSouvenir = await getSouvenirCount();
+    List<DocumentSnapshot> dataCountOthers = await getOthersCount();
+
+    setState(() {
+      categories = data;
+      itemCount = dataCountClothes;
+      countList.add(itemCount.length);
+      itemCount = dataCountElectronics;
+      countList.add(itemCount.length);
+      itemCount = dataCountSouvenir;
+      countList.add(itemCount.length);
+      itemCount = dataCountHome;
+      countList.add(itemCount.length);
+      itemCount = dataCountOthers;
+      countList.add(itemCount.length);
+
+    });
+  }
+
 
   @override
   void initState() {
@@ -88,10 +139,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
       body: GridView.builder(
         scrollDirection: Axis.vertical,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
           itemCount: categories.length,
           itemBuilder: (BuildContext context, int index){
-            return AdminCategoryCard(category_index: categories[index]['categoryName'], images: images[index]);
+            return AdminCategoryCard(category_index: categories[index]['categoryName'], images: images[index], count: countList[index]);
           },
       ),
     );

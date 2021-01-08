@@ -56,6 +56,7 @@ class _MyOrdersState extends State<MyOrders> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: 20,),
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
                 stream: shopApp.firestore.collection("orders")

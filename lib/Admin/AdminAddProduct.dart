@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AdminHomePage.dart';
 import 'package:e_shop_app/Admin/AdminProducts.dart';
 import 'package:e_shop_app/Models/items.dart';
+import 'package:e_shop_app/Store/Search.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -78,6 +79,19 @@ class _AdminAddProductState extends State<AdminAddProduct> {
               },
             ),
           ),
+
+          actions: [
+            Padding(
+                padding: const EdgeInsets.only(top: 15.0, right: 8.0),
+                child: IconButton(
+                  icon: Icon(Icons.search, color: Palette.darkBlue),
+                  onPressed: (){
+                    Route route = MaterialPageRoute(builder: (c) => SearchStoreCategoryProduct(storeID: shopApp.sharedPreferences.getString("storeID"), category: widget.category_name,));
+                    Navigator.pushReplacement(context, route);
+                  },
+                )
+            ),
+          ],
         ),
       ),
 
@@ -92,7 +106,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: Padding(padding: EdgeInsets.all(1.0)),
+            child: Padding(padding: EdgeInsets.all(5.0)),
           ),
 
           StreamBuilder<QuerySnapshot>(
@@ -100,18 +114,18 @@ class _AdminAddProductState extends State<AdminAddProduct> {
                 .orderBy("publishedDate", descending: true).snapshots(),
             builder: (context, dataSnapshot){
               return !dataSnapshot.hasData
-                  ? SliverToBoxAdapter(child: Center(child: circularProgress(),),)
+                  ? SliverToBoxAdapter(child: Center(child: circularProgress()))
                   : dataSnapshot.data.documents.length == 0
                   ? beginAddingItems()
-              : SliverStaggeredGrid.countBuilder(
-                crossAxisCount: 1,
-                staggeredTileBuilder: (c) => StaggeredTile.fit(1),
-                itemBuilder: (context,index){
-                  ItemModel model = ItemModel.fromJson(dataSnapshot.data.documents[index].data);
-                  return myProducts(model, context);
-                },
-                itemCount: dataSnapshot.data.documents.length,
-              );
+                  : SliverStaggeredGrid.countBuilder(
+                      crossAxisCount: 1,
+                      staggeredTileBuilder: (c) => StaggeredTile.fit(1),
+                      itemBuilder: (context,index){
+                      ItemModel model = ItemModel.fromJson(dataSnapshot.data.documents[index].data);
+                      return myProducts(model, context);
+                    },
+                    itemCount: dataSnapshot.data.documents.length,
+                  );
             },
           ),
         ],

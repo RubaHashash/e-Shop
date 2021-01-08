@@ -7,7 +7,8 @@ class AdminCategoryCard extends StatelessWidget {
 
   final category_index;
   final images;
-  const AdminCategoryCard({Key key, this.category_index, this.images}) : super(key: key);
+  final count;
+  const AdminCategoryCard({Key key, this.category_index, this.images, this.count}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,15 @@ class AdminCategoryCard extends StatelessWidget {
                 child: ListTile(
                   leading: Text(category_index, style: TextStyle(fontWeight: FontWeight.bold, color: Palette.darkBlue,
                       fontSize: 20, fontFamily: "Cabin"),),
+                  title: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text("items: " + count.toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Palette.darkBlue,
+                        fontSize: 16, fontFamily: "Cabin"),),
+                  ),
+
                 ),
               ),
-              child: Image.asset(images, fit: BoxFit.cover,),
+              child: Image.asset(images, fit: BoxFit.fill),
             ),
           ),
         ),

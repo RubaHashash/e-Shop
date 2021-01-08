@@ -27,7 +27,7 @@ class _MapAddressState extends State<MapAddress> {
   Position position;
   var address;
   double _latitude, _longitude;
-  String _addressLine, _countryName, _postalCode, _cityName;
+  String _addressLine, _countryName, _cityName;
 
   Position liveCurrentPosition;
   var geoLocator = Geolocator();
@@ -273,7 +273,6 @@ class _MapAddressState extends State<MapAddress> {
                                           city: _cityName,
                                           state: _countryName,
                                           addressDetails: _addressLine,
-                                          pincode: _postalCode,
                                           latitude: _latitude,
                                           longitude: _longitude,
                                         ).toJson();

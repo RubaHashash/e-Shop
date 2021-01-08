@@ -183,183 +183,180 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
     },
     splashColor: Palette.darkBlue,
     child: Padding(
-      padding: EdgeInsets.only(left: 10.0, top: 4.0, right: 8.0),
+      padding: EdgeInsets.only(left:10.0, right:10.0, bottom: 10, top:10),
       child: Container(
-        height: 190.0,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14.0),
+            boxShadow: [
+              BoxShadow(
+                  color: Palette.darkBlue,
+                  blurRadius: 2.0
+              ),
+            ]
+        ),
+        height: 166.0,
         width: width,
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(14.0),
-              child: Image.network(model.thumbnailUrl, width: 165, height: 165,fit: BoxFit.fill),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(14.0),
+                  bottomLeft: Radius.circular(14.0)
+              ),
+              child: Image.network(model.thumbnailUrl, width: 165, height: 170,fit: BoxFit.fill),
             ),
             SizedBox(width: 4.0,),
             Expanded(
-              child: Container(
-                margin: EdgeInsets.only(top: 16, bottom: 17),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20)
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 16.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: Container(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Text(model.title, style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold)),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Palette.darkBlue,
-                        blurRadius: 2.0
-                    ),
-                  ]
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8.0),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: Container(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Text(model.title, style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 3.0,),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Text(model.shortInfo, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Padding(
+                  SizedBox(height: 3.0,),
+                  Container(
+                    child: Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: Palette.orange
+                          Expanded(
+                            child: Text(model.shortInfo, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Palette.orange
+                          ),
+                          alignment: Alignment.topLeft,
+                          width: 40.0,
+                          height: 43.0,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "50%", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 15.0),
+                                ),
+                                Text("OFF",style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 12.0),
+                                ),
+                              ],
                             ),
-                            alignment: Alignment.topLeft,
-                            width: 40.0,
-                            height: 43.0,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 0.0),
+                              child: Row(
                                 children: [
                                   Text(
-                                    "50%", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 15.0),
+                                    r"Original Price: $ ",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.grey,
+                                        decoration: TextDecoration.lineThrough
+                                    ),
                                   ),
-                                  Text("OFF",style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold, fontSize: 12.0),
+                                  Text(
+                                    (model.price + model.price).toString(),
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.lineThrough
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          SizedBox(width: 10.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 0.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      r"Original Price: $ ",
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Colors.grey,
-                                          decoration: TextDecoration.lineThrough
-                                      ),
-                                    ),
-                                    Text(
-                                      (model.price + model.price).toString(),
-                                      style: TextStyle(
+                            Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "New Price: ",
+                                    style: TextStyle(
                                         fontSize: 15.0,
-                                        color: Colors.grey,
-                                        decoration: TextDecoration.lineThrough
-                                      ),
+                                        color: Palette.darkBlue,
+                                        fontWeight: FontWeight.bold
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Text(
+                                    r"$ ",
+                                    style: TextStyle(color: Palette.darkBlue, fontSize: 16.0),
+                                  ),
+                                  Text(
+                                    (model.price).toString(),
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Palette.darkBlue,
+                                        fontWeight: FontWeight.bold
+
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 5.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "New Price: ",
-                                      style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Palette.darkBlue,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    Text(
-                                      r"$ ",
-                                      style: TextStyle(color: Palette.darkBlue, fontSize: 16.0),
-                                    ),
-                                    Text(
-                                      (model.price).toString(),
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: Palette.darkBlue,
-                                          fontWeight: FontWeight.bold
+                            ),
+                          ],
+                        ),
 
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-
-                        ],
-                      ),
+                      ],
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 175),
-                      child: Row(
-                        children: [
-                          removeCartFunction == null
-                              ? IconButton(
-                            icon: Icon(Icons.add_shopping_cart, color: Palette.darkBlue),
-                            onPressed: (){
-                              checkItemInCart(model.shortInfo, context);
-                            },
-                          )
-                              : IconButton(
-                            icon: Icon(Icons.remove_shopping_cart, color: Palette.darkBlue),
-                            onPressed: (){
-                              removeCartFunction();
-                              Route route = MaterialPageRoute(builder: (c) => StoreHome());
-                              Navigator.pushReplacement(context, route);
-                            },
-                          ),
-                        ],
-                      ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 165),
+                    child: Row(
+                      children: [
+                        removeCartFunction == null
+                            ? IconButton(
+                          icon: Icon(Icons.add_shopping_cart, color: Palette.darkBlue),
+                          onPressed: (){
+                            checkItemInCart(model.shortInfo, context);
+                          },
+                        )
+                            : IconButton(
+                          icon: Icon(Icons.remove_shopping_cart, color: Palette.darkBlue),
+                          onPressed: (){
+                            removeCartFunction();
+                            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+                            Navigator.pushReplacement(context, route);
+                          },
+                        ),
+                      ],
                     ),
+                  ),
 
 
-                    Flexible(
-                      child: Container(
+                  Flexible(
+                    child: Container(
 
-                      ),
                     ),
+                  ),
 
-                  ],
-                ),
+                ],
               ),
             ),
           ],

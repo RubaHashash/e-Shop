@@ -226,30 +226,6 @@ class _AddressCardState extends State<AddressCard> {
                                   Text(widget.model.addressDetails),
                                 ]
                             ),
-                            TableRow(
-                                children: [
-                                  Text("Latitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                                  widget.model.latitude.toString() != null ?
-                                  Text(widget.model.latitude.toString())
-                                  : Text("null"),
-                                ]
-                            ),
-                            TableRow(
-                                children: [
-                                  Text("Longitude", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                                  widget.model.longitude.toString() !=null ?
-                                  Text(widget.model.longitude.toString())
-                                  : Text("null"),
-                                ]
-                            ),
-                            TableRow(
-                                children: [
-                                  Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                                  widget.model.pincode != null ?
-                                  Text(widget.model.pincode)
-                                  : Text("null"),
-                                ]
-                            ),
 
                           ],
                         ),

@@ -357,14 +357,6 @@ class DriverShippingDetails extends StatelessWidget {
                             : Text("null"),
                       ]
                   ),
-                  TableRow(
-                      children: [
-                        Text("Pin Code", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
-                        model.pincode != null ?
-                        Text(model.pincode)
-                            : Text("null"),
-                      ]
-                  ),
                 ],
               ),
             ),

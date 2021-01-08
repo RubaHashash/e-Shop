@@ -29,7 +29,7 @@ class OrderCard extends StatelessWidget {
         padding: EdgeInsets.all(10.0),
         margin: EdgeInsets.only(top: 2.0, bottom: 10.0, left: 10.0, right: 10.0),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.grey[200],
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
@@ -38,7 +38,7 @@ class OrderCard extends StatelessWidget {
               ),
             ]
         ),
-        height: itemCount * 190.0,
+        height: itemCount * 180.0,
         child: ListView.builder(
           itemCount: itemCount,
           physics: NeverScrollableScrollPhysics(),
@@ -52,43 +52,75 @@ class OrderCard extends StatelessWidget {
   }
 }
 
+class OrderCardDetails extends StatelessWidget {
+
+  final int itemCount;
+  final List<DocumentSnapshot> data;
+  final String orderID;
+
+  OrderCardDetails({Key key, this.itemCount, this.data, this.orderID}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.only(top: 2.0, bottom: 10.0, left: 10.0, right: 10.0),
+      decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+                color: Palette.darkBlue,
+                blurRadius: 2.0
+            ),
+          ]
+      ),
+      height: itemCount * 180.0,
+      child: ListView.builder(
+        itemCount: itemCount,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index){
+          ItemModel model = ItemModel.fromJson(data[index].data);
+          return sourceOrderInfo(model, context);
+        },
+      ),
+    );
+  }
+}
+
 
 Widget sourceOrderInfo(ItemModel model, BuildContext context, {Color background}){
 
   double width = MediaQuery.of(context).size.width;
 
-  return Container(
-    color: Colors.grey[100],
-    height: 180.0,
-    width: width,
-    child: Row(
-      children: [
-        SizedBox(width: 10.0,height: 10.0,),
-        ClipRRect(
+  return Padding(
+    padding: EdgeInsets.only(left:10.0, right:10.0, bottom: 10, top:10),
+    child: Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14.0),
-          child: Image.network(model.thumbnailUrl,height: 140.0, width: 180.0,fit: BoxFit.fill),
-        ),
-        SizedBox(width: 5.0,),
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.only(top: 25, bottom: 25),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20)
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Palette.darkBlue,
-                      blurRadius: 2.0
-                  ),
-                ]
+          boxShadow: [
+            BoxShadow(
+                color: Palette.darkBlue,
+                blurRadius: 2.0
             ),
+          ]
+      ),
+      width: width,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(14.0),
+                bottomLeft: Radius.circular(14.0)
+            ),
+            child: Image.network(model.thumbnailUrl,width: 160, height: 150,fit: BoxFit.fill),
+          ),
+          SizedBox(width: 5.0,),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 8.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
                   child: Container(
@@ -162,10 +194,10 @@ Widget sourceOrderInfo(ItemModel model, BuildContext context, {Color background}
               ],
             ),
           ),
-        ),
-        SizedBox(width: 10.0,),
+          SizedBox(width: 10.0,),
 
-      ],
+        ],
+      ),
     ),
   );
 }
