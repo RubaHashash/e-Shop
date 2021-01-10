@@ -144,7 +144,7 @@ Widget myProducts(ItemModel model, BuildContext context){
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
+                        Flexible(
                           child: Text(model.title, style: TextStyle(color: Palette.darkBlue, fontSize: 20.0, fontWeight: FontWeight.bold)),
                         )
                       ],
@@ -158,7 +158,7 @@ Widget myProducts(ItemModel model, BuildContext context){
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
+                        Flexible(
                           child: Text(model.shortInfo, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0)),
                         )
                       ],

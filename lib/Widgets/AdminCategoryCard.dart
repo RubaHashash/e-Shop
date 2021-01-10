@@ -13,9 +13,9 @@ class AdminCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 10.0),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         elevation: 4.0,
         child: Material(
           child: InkWell(
@@ -37,7 +37,10 @@ class AdminCategoryCard extends StatelessWidget {
 
                 ),
               ),
-              child: Image.asset(images, fit: BoxFit.fill),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.asset(images, fit: BoxFit.fill)
+              ),
             ),
           ),
         ),

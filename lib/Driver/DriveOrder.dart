@@ -197,18 +197,35 @@ class _DriveOrderState extends State<DriveOrder> {
                               SizedBox(height: 10.0),
 
                               Padding(
-                                  padding: EdgeInsets.only(left: 15.0),
-                                  child: Text("Order ID: " + getOrderID,
-                                      style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w700))
-                              ),
-                              SizedBox(height: 10.0),
-                              Padding(
-                                padding: EdgeInsets.only(left: 15.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Order at: " + DateFormat("dd MM, YYYY - hh:mm aa")
-                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
-                                    style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500),),
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Table(
+                                      children: [
+                                        TableRow(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:10.0),
+                                              child: Text("Order ID ", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                            ),
+                                            Text(getOrderID, style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w500)),
+                                          ],
+                                        ),
+                                        TableRow(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:10.0),
+                                              child: Text("Ordered at ",
+                                                style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold),),
+                                            ),
+                                            Text(DateFormat("dd MM, YYYY - hh:mm aa")
+                                                .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
+                                                style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w500)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
 
@@ -222,9 +239,9 @@ class _DriveOrderState extends State<DriveOrder> {
                                     .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
                                 builder: (c, dataSnapshot){
                                   return dataSnapshot.hasData
-                                      ? AdminOrderCard(
+                                      ? AdminOrderCardDetails(
                                       itemCount: dataSnapshot.data.documents.length,
-                                      data: dataSnapshot.data.documents
+                                      data: dataSnapshot.data.documents,
                                   )
                                       : Center(child: circularProgress());
                                 },

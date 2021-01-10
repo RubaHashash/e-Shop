@@ -11,13 +11,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 String getOrderID = "";
+String getOrderByName = "";
+String getDriverName = "";
 String orderStatus = "";
 
 class OrderDetails extends StatefulWidget {
 
   final String orderID;
+  final String orderByName;
+  final String driver;
 
-  OrderDetails({Key key, this.orderID}) : super(key: key);
+  OrderDetails({Key key, this.orderID, this.orderByName, this.driver}) : super(key: key);
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
@@ -52,6 +56,8 @@ class _OrderDetailsState extends State<OrderDetails> {
   Widget build(BuildContext context) {
 
     getOrderID = widget.orderID;
+    getOrderByName = widget.orderByName;
+    getDriverName = widget.driver;
 
     return SafeArea(
       child: Scaffold(
@@ -98,14 +104,49 @@ class _OrderDetailsState extends State<OrderDetails> {
                             padding: EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                Text("Order ID: " + getOrderID, style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500)),
-                                SizedBox(height: 10.0),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Order at: " + DateFormat("dd MM, YYYY - hh:mm aa")
-                                      .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
-                                    style: TextStyle(color: Palette.darkBlue, fontSize: 15.0, fontWeight: FontWeight.w500),),
-                                )
+                                Table(
+                                  children: [
+                                    TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:10.0),
+                                          child: Text("Order ID ", style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold)),
+                                        ),
+                                        Text(getOrderID, style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w500)),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:10.0),
+                                          child: Text("Order By ", style: TextStyle(color: Palette.darkBlue,fontWeight: FontWeight.bold)),
+                                        ),
+                                        Text(getOrderByName, style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w500)),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:10.0),
+                                          child: Text("Driven By ", style: TextStyle(color: Palette.darkBlue,fontWeight: FontWeight.bold)),
+                                        ),
+                                        Text(getDriverName, style: TextStyle(color: Palette.darkBlue,fontWeight: FontWeight.w500)),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:10.0),
+                                          child: Text("Ordered at ",
+                                            style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.bold),),
+                                        ),
+                                        Text(DateFormat("dd MM, YYYY - hh:mm aa")
+                                            .format(DateTime.fromMillisecondsSinceEpoch(int.parse(dataMap["orderTime"]))),
+                                            style: TextStyle(color: Palette.darkBlue, fontWeight: FontWeight.w500)),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -246,7 +287,8 @@ class ShippingDetails extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Divider(color: Palette.darkBlue, thickness: 0.5,),
-              ),              Container(
+              ),
+              Container(
                 padding: EdgeInsets.all(10.0),
                 width: width,
                 child: Table(

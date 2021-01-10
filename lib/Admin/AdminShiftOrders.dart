@@ -77,7 +77,10 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
                       data: snapshot.data.documents,
                       orderID: snapshots.data.documents[index].documentID,
                       orderBy: snapshots.data.documents[index].data["orderBy"],
+                      orderByName: snapshots.data.documents[index].data["orderByName"],
                       addressID: snapshots.data.documents[index].data["addressID"],
+                      driver: snapshots.data.documents[index].data["AssignedDriver"],
+                      orderTime: snapshots.data.documents[index].data["orderTime"]
                     )
                         : Center(child: circularProgress());
                   },

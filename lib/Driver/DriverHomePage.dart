@@ -91,6 +91,9 @@ class _DriverHomePageState extends State<DriverHomePage> {
                       orderID: snapshots.data.documents[index].documentID,
                       orderBy: snapshots.data.documents[index].data["orderBy"],
                       addressID: snapshots.data.documents[index].data["addressID"],
+                      orderByName: snapshots.data.documents[index].data["orderByName"],
+                      driver: snapshots.data.documents[index].data["AssignedDriver"],
+                      orderTime: snapshots.data.documents[index].data["orderTime"]
                     )
                         : Center(child: circularProgress());
                   },

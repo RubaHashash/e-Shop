@@ -80,7 +80,11 @@ class _MyOrdersState extends State<MyOrders> {
                                         itemCount: snapshot.data.documents.length,
                                         data: snapshot.data.documents,
                                         orderID: snapshots.data.documents[index].documentID,
-                                    )
+                                        orderByName: snapshots.data.documents[index].data["orderByName"],
+                                        driver: snapshots.data.documents[index].data["AssignedDriver"],
+                                        orderTime: snapshots.data.documents[index].data["orderTime"]
+
+                                )
                                     : Center(child: circularProgress());
                               },
                               );
