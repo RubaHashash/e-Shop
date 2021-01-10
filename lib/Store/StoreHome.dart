@@ -192,7 +192,7 @@ class _StoreHomeState extends State<StoreHome> {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, top: 412),
+                    padding: const EdgeInsets.only(left: 10.0, top: 412, bottom: 6),
                     child: Text("Recent Products",
                       style: TextStyle(fontSize: 21.0, color: Palette.darkBlue, fontWeight: FontWeight.bold, fontFamily: "Cabin"),
                     ),
