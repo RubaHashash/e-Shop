@@ -1,15 +1,15 @@
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
-class AdminProfilePage extends StatefulWidget {
+class ManagerProfilePage extends StatefulWidget {
 
   @override
-  _AdminProfilePageState createState() => _AdminProfilePageState();
+  _ManagerProfilePageState createState() => _ManagerProfilePageState();
 }
 
-class _AdminProfilePageState extends State<AdminProfilePage> {
+class _ManagerProfilePageState extends State<ManagerProfilePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _editAdminID = TextEditingController();
@@ -75,7 +75,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios, color: Palette.darkBlue),
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+                  Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
                   Navigator.pushReplacement(context, route);
                 },
               ),

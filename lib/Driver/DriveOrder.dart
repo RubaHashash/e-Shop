@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Driver/DriverHomePage.dart';
 import 'package:e_shop_app/Models/address.dart';
-import 'package:e_shop_app/Widgets/AdminOrderCard.dart';
+import 'package:e_shop_app/Widgets/ManagerOrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';

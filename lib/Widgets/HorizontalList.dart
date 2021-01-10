@@ -1,4 +1,4 @@
-import 'package:e_shop_app/Store/Products.dart';
+import 'package:e_shop_app/Customer/Products.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 

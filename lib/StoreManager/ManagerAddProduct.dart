@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
-import 'package:e_shop_app/Admin/AdminProducts.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerProducts.dart';
 import 'package:e_shop_app/Models/items.dart';
-import 'package:e_shop_app/Store/Search.dart';
+import 'package:e_shop_app/Customer/Search.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -13,18 +13,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AdminAddProduct extends StatefulWidget {
+class ManagerAddProduct extends StatefulWidget {
 
   final category_name;
 
-  const AdminAddProduct({Key key, this.category_name}) : super(key: key);
+  const ManagerAddProduct({Key key, this.category_name}) : super(key: key);
 
 
   @override
-  _AdminAddProductState createState() => _AdminAddProductState();
+  _ManagerAddProductState createState() => _ManagerAddProductState();
 }
 
-class _AdminAddProductState extends State<AdminAddProduct> {
+class _ManagerAddProductState extends State<ManagerAddProduct> {
 
   File file;
   TextEditingController _description = TextEditingController();
@@ -74,7 +74,7 @@ class _AdminAddProductState extends State<AdminAddProduct> {
               icon: Icon(Icons.arrow_back_ios),
               color: Palette.darkBlue,
               onPressed: (){
-                Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+                Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
                 Navigator.pushReplacement(context, route);
               },
             ),

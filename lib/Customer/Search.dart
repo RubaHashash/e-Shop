@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminAddProduct.dart';
-import 'package:e_shop_app/Admin/AdminProducts.dart';
+import 'package:e_shop_app/StoreManager/ManagerAddProduct.dart';
+import 'package:e_shop_app/StoreManager/ManagerProducts.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
-import 'package:e_shop_app/Store/Cart.dart';
-import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Store/Products.dart';
+import 'package:e_shop_app/Customer/Cart.dart';
+import 'package:e_shop_app/Customer/StoreHome.dart';
+import 'package:e_shop_app/Customer/Products.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
@@ -233,7 +233,7 @@ class _SearchStoreProductState extends State<SearchStoreProduct> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminProducts());
+                  Route route = MaterialPageRoute(builder: (c) => ManagerProducts());
                   Navigator.pushReplacement(context, route);
                 },
               ),
@@ -368,7 +368,7 @@ class _SearchStoreCategoryProductState extends State<SearchStoreCategoryProduct>
                 icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminAddProduct(category_name: widget.category,));
+                  Route route = MaterialPageRoute(builder: (c) => ManagerAddProduct(category_name: widget.category,));
                   Navigator.pushReplacement(context, route);
                 },
               ),

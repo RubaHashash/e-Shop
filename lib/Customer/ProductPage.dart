@@ -1,9 +1,9 @@
 import 'package:e_shop_app/Counters/ItemQuantity.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
-import 'package:e_shop_app/Store/Cart.dart';
-import 'package:e_shop_app/Store/StoreHome.dart';
-import 'package:e_shop_app/Store/Products.dart';
+import 'package:e_shop_app/Customer/Cart.dart';
+import 'package:e_shop_app/Customer/StoreHome.dart';
+import 'package:e_shop_app/Customer/Products.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,14 +1,14 @@
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
-import 'package:e_shop_app/Admin/AdminProducts.dart';
-import 'package:e_shop_app/Admin/AdminShiftOrders.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerProducts.dart';
+import 'package:e_shop_app/StoreManager/ManagerShiftOrders.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
-import 'package:e_shop_app/Profile/AdminProfilePage.dart';
+import 'package:e_shop_app/Profile/ManagerProfilePage.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AdminDrawer extends StatelessWidget {
+class ManagerDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -42,7 +42,7 @@ class AdminDrawer extends StatelessWidget {
           SizedBox(height: 10),
           ListTile(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+              Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
               Navigator.pushReplacement(context, route);
             },
             leading: Icon(Icons.home, color: Palette.darkBlue),
@@ -51,7 +51,7 @@ class AdminDrawer extends StatelessWidget {
 
           ListTile(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminShiftOrders());
+              Route route = MaterialPageRoute(builder: (c) => ManagerShiftOrders());
               Navigator.pushReplacement(context, route);
             },
             leading: Icon(Icons.reorder, color: Palette.darkBlue),
@@ -60,7 +60,7 @@ class AdminDrawer extends StatelessWidget {
 
           ListTile(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminProducts());
+              Route route = MaterialPageRoute(builder: (c) => ManagerProducts());
               Navigator.pushReplacement(context, route);
             },
             leading: Icon(Icons.shop, color: Palette.darkBlue),
@@ -69,7 +69,7 @@ class AdminDrawer extends StatelessWidget {
 
           ListTile(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminProfilePage());
+              Route route = MaterialPageRoute(builder: (c) => ManagerProfilePage());
               Navigator.pushReplacement(context, route);
             },
             leading: Icon(Icons.person, color: Palette.darkBlue),

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminOrderDetails.dart';
+import 'package:e_shop_app/StoreManager/ManagerOrderDetails.dart';
 import 'package:e_shop_app/Models/items.dart';
 import 'package:e_shop_app/Widgets/OrderCard.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 int counter=0;
 
-class AdminOrderCard extends StatelessWidget {
+class ManagerOrderCard extends StatelessWidget {
 
   final int itemCount;
   final List<DocumentSnapshot> data;
@@ -19,7 +19,7 @@ class AdminOrderCard extends StatelessWidget {
   final String driver;
   final String orderTime;
 
-  AdminOrderCard({Key key, this.itemCount, this.data, this.orderID, this.addressID, this.orderBy, this.orderByName, this.driver, this.orderTime}) : super(key: key);
+  ManagerOrderCard({Key key, this.itemCount, this.data, this.orderID, this.addressID, this.orderBy, this.orderByName, this.driver, this.orderTime}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class AdminOrderCard extends StatelessWidget {
         Route route;
         // if(counter == 0){
         //   counter = counter +1;
-          route = MaterialPageRoute(builder: (c) => AdminOrderDetails(orderID: orderID, orderBy: orderBy, addressID: addressID, orderByName: orderByName, driver: driver));
+          route = MaterialPageRoute(builder: (c) => ManagerOrderDetails(orderID: orderID, orderBy: orderBy, addressID: addressID, orderByName: orderByName, driver: driver));
         // }
         Navigator.push(context, route);
       },

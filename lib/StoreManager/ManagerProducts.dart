@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
 import 'package:e_shop_app/Models/items.dart';
-import 'package:e_shop_app/Store/Search.dart';
+import 'package:e_shop_app/Customer/Search.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -10,12 +10,12 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class AdminProducts extends StatefulWidget {
+class ManagerProducts extends StatefulWidget {
   @override
-  _AdminProductsState createState() => _AdminProductsState();
+  _ManagerProductsState createState() => _ManagerProductsState();
 }
 
-class _AdminProductsState extends State<AdminProducts> {
+class _ManagerProductsState extends State<ManagerProducts> {
 
   final storeId = shopApp.sharedPreferences.getString("storeID");
 
@@ -53,7 +53,7 @@ class _AdminProductsState extends State<AdminProducts> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+                  Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
                   Navigator.pushReplacement(context, route);
                 },
               ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/DialogBox/errorDialog.dart';
-import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/Customer/StoreHome.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
 import 'package:flutter/material.dart';

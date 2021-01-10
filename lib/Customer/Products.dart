@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Counters/cartCounter.dart';
 import 'package:e_shop_app/Models/items.dart';
-import 'package:e_shop_app/Store/Cart.dart';
-import 'package:e_shop_app/Store/ProductPage.dart';
-import 'package:e_shop_app/Store/Search.dart';
-import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/Customer/Cart.dart';
+import 'package:e_shop_app/Customer/ProductPage.dart';
+import 'package:e_shop_app/Customer/Search.dart';
+import 'package:e_shop_app/Customer/StoreHome.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';

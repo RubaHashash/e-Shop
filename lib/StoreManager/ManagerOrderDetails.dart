@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
-import 'package:e_shop_app/Admin/AdminShiftOrders.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerShiftOrders.dart';
 import 'package:e_shop_app/Models/address.dart';
-import 'package:e_shop_app/Widgets/AdminOrderCard.dart';
+import 'package:e_shop_app/Widgets/ManagerOrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -17,7 +17,7 @@ String getIfDriver;
 String orderStatus = "";
 
 
-class AdminOrderDetails extends StatefulWidget {
+class ManagerOrderDetails extends StatefulWidget {
 
   final String orderID;
   final String addressID;
@@ -25,13 +25,13 @@ class AdminOrderDetails extends StatefulWidget {
   final String orderByName;
   final String driver;
 
-  AdminOrderDetails({Key key, this.addressID, this.orderBy, this.orderID, this.orderByName, this.driver}) : super (key: key);
+  ManagerOrderDetails({Key key, this.addressID, this.orderBy, this.orderID, this.orderByName, this.driver}) : super (key: key);
 
   @override
-  _AdminOrderDetailsState createState() => _AdminOrderDetailsState();
+  _ManagerOrderDetailsState createState() => _ManagerOrderDetailsState();
 }
 
-class _AdminOrderDetailsState extends State<AdminOrderDetails> {
+class _ManagerOrderDetailsState extends State<ManagerOrderDetails> {
 
   Future getDriver(){
     return shopApp.firestore.collection("orders").document(widget.orderID).get().then((snapshot){
@@ -224,7 +224,7 @@ class AdminStatusBanner extends StatelessWidget {
         children: [
           IconButton(
             onPressed: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminShiftOrders());
+              Route route = MaterialPageRoute(builder: (c) => ManagerShiftOrders());
               Navigator.pushReplacement(context, route);
             },
             icon: Icon(
@@ -397,7 +397,7 @@ class AdminShippingDetails extends StatelessWidget {
 
     getOrderID = "";
 
-    Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+    Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
     Navigator.pushReplacement(context, route);
 
     Fluttertoast.showToast(msg: "Package has been Shifted. Confirmed");

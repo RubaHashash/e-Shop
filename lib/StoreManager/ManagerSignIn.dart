@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/Authentication/background_painter.dart';
 import 'package:e_shop_app/Authentication/sign_in_up_bar.dart';
@@ -9,12 +9,12 @@ import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AdminSignIn extends StatefulWidget {
+class ManagerSignIn extends StatefulWidget {
   @override
-  _AdminSignInState createState() => _AdminSignInState();
+  _ManagerSignInState createState() => _ManagerSignInState();
 }
 
-class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderStateMixin {
+class _ManagerSignInState extends State<ManagerSignIn>with SingleTickerProviderStateMixin {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -61,7 +61,7 @@ class _AdminSignInState extends State<AdminSignIn>with SingleTickerProviderState
             shopApp.sharedPreferences.setString("adminName", result.data["name"]);
             shopApp.sharedPreferences.setString("adminPassword", result.data["password"]);
 
-            Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+            Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
             Navigator.push(context, route);
           }
         });

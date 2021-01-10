@@ -1,14 +1,14 @@
-import 'package:e_shop_app/Admin/AdminAddProduct.dart';
+import 'package:e_shop_app/StoreManager/ManagerAddProduct.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
 
-class AdminCategoryCard extends StatelessWidget {
+class ManagerCategoryCard extends StatelessWidget {
 
   final category_index;
   final images;
   final count;
-  const AdminCategoryCard({Key key, this.category_index, this.images, this.count}) : super(key: key);
+  const ManagerCategoryCard({Key key, this.category_index, this.images, this.count}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AdminCategoryCard extends StatelessWidget {
         child: Material(
           child: InkWell(
             onTap: (){
-              Route route = MaterialPageRoute(builder: (c) => AdminAddProduct(category_name: category_index));
+              Route route = MaterialPageRoute(builder: (c) => ManagerAddProduct(category_name: category_index));
               Navigator.pushReplacement(context, route);
             },
             child: GridTile(

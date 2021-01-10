@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminHomePage.dart';
-import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Widgets/AdminOrderCard.dart';
+import 'package:e_shop_app/StoreManager/ManagerHomePage.dart';
+import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Widgets/ManagerOrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
-class AdminShiftOrders extends StatefulWidget {
+class ManagerShiftOrders extends StatefulWidget {
   @override
-  _AdminShiftOrdersState createState() => _AdminShiftOrdersState();
+  _ManagerShiftOrdersState createState() => _ManagerShiftOrdersState();
 }
 
-class _AdminShiftOrdersState extends State<AdminShiftOrders> {
+class _ManagerShiftOrdersState extends State<ManagerShiftOrders> {
   
   final storeId = shopApp.sharedPreferences.getString("storeID");
   final orderStatus = "Transfered";
@@ -47,7 +47,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Palette.darkBlue,
                 onPressed: (){
-                  Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+                  Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
                   Navigator.pushReplacement(context, route);
                 },
               ),
@@ -72,7 +72,7 @@ class _AdminShiftOrdersState extends State<AdminShiftOrders> {
                       .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
                   builder: (c, snapshot){
                     return snapshot.hasData
-                        ? AdminOrderCard(
+                        ? ManagerOrderCard(
                       itemCount: snapshot.data.documents.length,
                       data: snapshot.data.documents,
                       orderID: snapshots.data.documents[index].documentID,

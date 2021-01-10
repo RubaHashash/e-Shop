@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Store/StoreHome.dart';
+import 'package:e_shop_app/Customer/StoreHome.dart';
 import 'package:e_shop_app/Widgets/OrderCard.dart';
 import 'package:e_shop_app/Widgets/loadingWidget.dart';
 import 'package:e_shop_app/config/config.dart';

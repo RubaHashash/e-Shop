@@ -1,6 +1,7 @@
-import 'package:e_shop_app/Admin/AdminSignIn.dart';
+import 'package:e_shop_app/Admin/AdminHomePage.dart';
+import 'package:e_shop_app/StoreManager/ManagerSignIn.dart';
 import 'package:e_shop_app/Driver/DriverSignIn.dart';
-import '../Store/StoreHome.dart';
+import '../Customer/StoreHome.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/config/decoration_functions.dart';
 import 'file:///C:/Users/rubah/AndroidStudioProjects/e_shop_app/lib/Authentication/sign_in_up_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,9 +50,16 @@ class _SignInFormState extends State<SignInForm>  {
 
       if(firebaseUser != null){
         readData(firebaseUser).then((s){
-          Navigator.pop(context);
-          Route route = MaterialPageRoute(builder: (c) => StoreHome());
-          Navigator.push(context, route);
+          if(firebaseUser.email == "admin@gmail.com"){
+            Navigator.pop(context);
+            Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
+            Navigator.push(context, route);
+          }else{
+            Navigator.pop(context);
+            Route route = MaterialPageRoute(builder: (c) => StoreHome());
+            Navigator.push(context, route);
+          }
+
         });
       }
     }
@@ -161,7 +169,7 @@ class _SignInFormState extends State<SignInForm>  {
                               child: InkWell(
                                 splashColor: Colors.white,
                                 onTap: () {
-                                  Route route = MaterialPageRoute(builder: (c) => AdminSignIn());
+                                  Route route = MaterialPageRoute(builder: (c) => ManagerSignIn());
                                   Navigator.pushReplacement(context, route);
                                 },
                                 child: const Text(
