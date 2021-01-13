@@ -16,15 +16,22 @@ class AdminHomePage extends StatefulWidget {
 class _AdminHomePageState extends State<AdminHomePage> {
 
   var chartdisplay;
+  var userChartdisplay;
   List<int> countList = [];
+  List<int> userDates = [];
+  List<String> monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   List listColors = [charts.MaterialPalette.green.shadeDefault,charts.MaterialPalette.pink.shadeDefault,
     charts.MaterialPalette.cyan.shadeDefault, charts.MaterialPalette.red.shadeDefault,charts.MaterialPalette.yellow.shadeDefault,
     charts.MaterialPalette.deepOrange.shadeDefault, charts.MaterialPalette.purple.shadeDefault, charts.MaterialPalette.indigo.shadeDefault, ];
 
   List<DocumentSnapshot> driverCount = <DocumentSnapshot> [];
   List<DocumentSnapshot> storesCount = <DocumentSnapshot> [];
+  List<DocumentSnapshot> userCount = <DocumentSnapshot> [];
+  List<DocumentSnapshot> orderCount = <DocumentSnapshot> [];
+
   List<DocumentSnapshot> categories = <DocumentSnapshot> [];
   List<DocumentSnapshot> itemCount = <DocumentSnapshot> [];
+
 
 
   Future<List> getDriverCount(){
@@ -35,6 +42,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   Future<List> getStoresrCount(){
     return Firestore.instance.collection("admins").getDocuments().then((value){
+      return value.documents;
+    });
+  }
+
+  Future<List> getUserCount(){
+    return Firestore.instance.collection("users").getDocuments().then((value){
+      return value.documents;
+    });
+  }
+
+  Future<List> getOrderCount(){
+    return Firestore.instance.collection("orders").getDocuments().then((value){
       return value.documents;
     });
   }
@@ -79,10 +98,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
   _getCounters() async{
     List<DocumentSnapshot> Driverdata = await getDriverCount();
     List<DocumentSnapshot> Storedata = await getStoresrCount();
+    List<DocumentSnapshot> Userdata = await getUserCount();
+    List<DocumentSnapshot> Orderdata = await getOrderCount();
 
     setState(() {
       driverCount = Driverdata;
       storesCount = Storedata;
+      userCount = Userdata;
+      orderCount = Orderdata;
     });
   }
 
@@ -108,18 +131,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
       countList.add(itemCount.length);
     });
 
-      //charts
-      List<addChart> Chartdata = [];
+      //pie chart
+      List<addPieChart> Chartdata = [];
       for(var i = 0; i<countList.length; i++){
         Chartdata.add(
-          addChart(categories[i]['categoryName'], countList[i], listColors[i]));
+            addPieChart(categories[i]['categoryName'], countList[i], listColors[i]));
       }
 
       var series = [charts.Series(
-        domainFn: (addChart addChart, _) => addChart.label,
-        measureFn: (addChart addChart, _) => addChart.value,
-        colorFn: (addChart addChart, _) => addChart.color,
-        labelAccessorFn: (addChart row, _) => "${row.label}",
+        domainFn: (addPieChart addChart, _) => addChart.label,
+        measureFn: (addPieChart addChart, _) => addChart.value,
+        colorFn: (addPieChart addChart, _) => addChart.color,
+        labelAccessorFn: (addPieChart row, _) => "${row.label}",
         id: 'addchart',
         data: Chartdata,
       ),];
@@ -131,12 +154,96 @@ class _AdminHomePageState extends State<AdminHomePage> {
         );
   }
 
+  _getUserRangeChart() async{
+    var January = 0, February = 0, March = 0, April = 0, May = 0, June = 0,
+        July = 0, August = 0, September = 0, October = 0, November = 0, December = 0;
+    List<DocumentSnapshot> Userdata = await getUserCount();
+
+    for (var i=0; i<Userdata.length; i++) {
+      if (Userdata[i]['registerDate'] == 1) {
+        January++;
+      }
+      if (Userdata[i]['registerDate'] == 2) {
+        February++;
+      }
+      if (Userdata[i]['registerDate'] == 3) {
+        March++;
+      }
+      if (Userdata[i]['registerDate'] == 4) {
+        April++;
+      }
+      if (Userdata[i]['registerDate'] == 5) {
+        May++;
+      }
+      if (Userdata[i]['registerDate'] == 6) {
+        June++;
+      }
+      if (Userdata[i]['registerDate'] == 7) {
+        July++;
+      }
+      if (Userdata[i]['registerDate'] == 8) {
+        August++;
+      }
+      if (Userdata[i]['registerDate'] == 9) {
+        September++;
+      }
+      if (Userdata[i]['registerDate'] == 10) {
+        October++;
+      }
+      if (Userdata[i]['registerDate'] == 11) {
+        November++;
+      }
+      if (Userdata[i]['registerDate'] == 12) {
+        December++;
+      }
+    }
+
+    setState(() {
+      userDates.add(January);
+      userDates.add(February);
+      userDates.add(March);
+      userDates.add(April);
+      userDates.add(May);
+      userDates.add(June);
+      userDates.add(July);
+      userDates.add(August);
+      userDates.add(September);
+      userDates.add(October);
+      userDates.add(November);
+      userDates.add(December);
+    });
+
+
+    //bar chart
+    List<addBarChart> Chartdata = [];
+    for(var i = 0; i<monthes.length; i++){
+      Chartdata.add(
+          addBarChart(monthes[i], userDates[i]));
+    }
+
+    var series = [charts.Series(
+      domainFn: (addBarChart addBarChart, _) => addBarChart.label,
+      measureFn: (addBarChart addBarChart, _) => addBarChart.value,
+      labelAccessorFn: (addBarChart row, _) => "${row.label}",
+      id: 'addBarChart',
+      data: Chartdata,
+    ),];
+
+    userChartdisplay = charts.BarChart(
+      series,
+      animationDuration: Duration(microseconds: 1500),
+      animate: true,
+    );
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getCounters();
     _getCategoriesName();
+    _getUserRangeChart();
 
   }
 
@@ -191,6 +298,24 @@ class _AdminHomePageState extends State<AdminHomePage> {
           children: [
             Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Palette.darkBlue,
+                              blurRadius: 10.0
+                          ),
+                        ]
+                    ),
+                    height: 200,
+                    child: userChartdisplay
+                  ),
+                ),
                 Row(
                   children: [
                     SizedBox(width: 5),
@@ -335,6 +460,98 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                     ),
 
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Palette.darkBlue,
+                                      blurRadius: 10.0
+                                  ),
+                                ]
+                            ),
+                            width: 170,
+                            height: 80,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.person, color: Palette.darkBlue, size: 30),
+                                    SizedBox(width: 15),
+                                    Text("Users", style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text((userCount.length-1).toString(), style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),)
+
+                                  ],
+                                )
+
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Palette.darkBlue,
+                                      blurRadius: 10.0
+                                  ),
+                                ]
+                            ),
+                            width: 170,
+                            height: 80,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.list_alt, color: Palette.darkBlue, size: 30),
+                                    SizedBox(width: 15),
+                                    Text("Orders", style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(orderCount.length.toString(), style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),)
+
+                                  ],
+                                )
+
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+
                   ],
                 )
 
@@ -347,10 +564,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 }
 
-class addChart{
+class addPieChart{
   final String label;
   final int value;
   final charts.Color color;
 
-  addChart(this.label, this.value, this.color);
+  addPieChart(this.label, this.value, this.color);
+}
+
+class addBarChart{
+  final String label;
+  final int value;
+
+  addBarChart(this.label, this.value);
 }

@@ -79,6 +79,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
       "uid": fUser.uid,
       "email": fUser.email,
       "name": _name.text.trim(),
+      "registerDate": DateTime.now().month,
       "userCart": ["garbageValue"],
     });
 
