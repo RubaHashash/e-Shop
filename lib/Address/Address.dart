@@ -404,6 +404,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
       'addressID': addressID,
       'totalAmount': totalAmount,
       'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'orderByName':shopApp.sharedPreferences.getString("name"),
       'productID': shopApp.sharedPreferences.getStringList("userCart"),
       'paymentDetails': "Cash on Delivery",
       'orderTime': DateTime
@@ -440,6 +441,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
       'addressID': addressID,
       'totalAmount': totalAmount,
       'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'orderByName':shopApp.sharedPreferences.getString("name"),
       'productID': shopApp.sharedPreferences.getStringList("userCart"),
       'paymentDetails': "Online Payment",
       'orderTime': DateTime
@@ -455,6 +457,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
       'addressID': addressID,
       'totalAmount': totalAmount,
       'orderBy': shopApp.sharedPreferences.getString("uid"),
+      'orderByName':shopApp.sharedPreferences.getString("name"),
       'productID': shopApp.sharedPreferences.getStringList("userCart"),
       'paymentDetails': "Online Payment",
       'orderTime': DateTime

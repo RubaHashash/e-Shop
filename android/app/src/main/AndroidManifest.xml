@@ -11,7 +11,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="e_shop_app"
+        android:label="Shopick"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCKwoi9Pfo0RKGdt3YtffY8nwSpK5y2JVQ"/>
