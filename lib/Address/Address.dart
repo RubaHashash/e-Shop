@@ -410,6 +410,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
+      'orderMonth': DateTime.now().month,
       'isSuccess': "Transfered",
       'AssignedDriver': ""
     });
@@ -425,6 +426,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
+      'orderMonth': DateTime.now().month,
       'isSuccess': "Transfered",
       'AssignedDriver': "",
       'isRecieved': false
@@ -444,6 +446,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
+      'orderMonth': DateTime.now().month,
       'isSuccess': "Transfered",
       'AssignedDriver': ""
     });
@@ -458,6 +461,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .now()
           .millisecondsSinceEpoch
           .toString(),
+      'orderMonth': DateTime.now().month,
       'isSuccess': "Transfered",
       'AssignedDriver': "",
     'isRecieved': false

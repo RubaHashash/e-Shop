@@ -61,7 +61,123 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         backgroundColor: Palette.darkBlue,
       ),
 
-      body: widget.chartdisplay,
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(10),
+            height: 500,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Palette.darkBlue,
+                      blurRadius: 10.0
+                  ),
+                ]
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Center(
+                  child: Text("All Categories", style: TextStyle(color: Palette.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left:40.0),
+                  child: Row(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            child: Text(".....", style: TextStyle(color: Colors.green),),
+                          ),
+                          SizedBox(width: 5,),
+                          Text("Clothes")
+                        ],
+                      ),
+                      SizedBox(width: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.pink,
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            child: Text(".....", style: TextStyle(color: Colors.pink),),
+                          ),
+                          SizedBox(width: 5,),
+                          Text("Electronics")
+                        ],
+                      ),
+                      SizedBox(width: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.cyan,
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            child: Text(".....", style: TextStyle(color: Colors.cyan),),
+                          ),
+                          SizedBox(width: 5,),
+                          Text("Souvenir")
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10,height: 10,),
+
+                Padding(
+                  padding: const EdgeInsets.only(left:60.0),
+                  child: Row(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            child: Text(".....", style: TextStyle(color: Colors.red),),
+                          ),
+                          SizedBox(width: 5,),
+                          Text("Home Decoration")
+                        ],
+                      ),
+                      SizedBox(width: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.yellow,
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            child: Text(".....", style: TextStyle(color: Colors.yellow),),
+                          ),
+                          SizedBox(width: 5,),
+                          Text("Others")
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  height: 350,
+                  child: widget.chartdisplay,
+                )
+              ],
+            ) ,
+          ),
+        ),
+      ) ,
     );
   }
 }

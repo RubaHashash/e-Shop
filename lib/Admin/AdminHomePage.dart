@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop_app/Admin/AddCategoryPage.dart';
 import 'package:e_shop_app/Admin/AdminDrivers.dart';
 import 'package:e_shop_app/Admin/AdminStores.dart';
+import 'package:e_shop_app/Admin/OrderChart.dart';
+import 'package:e_shop_app/Admin/UserChart.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/config/config.dart';
 import 'package:e_shop_app/config/palette.dart';
@@ -17,8 +19,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   var chartdisplay;
   var userChartdisplay;
+  var orderChartdisplay;
   List<int> countList = [];
   List<int> userDates = [];
+  List<int> orderDates = [];
   List<String> monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   List listColors = [charts.MaterialPalette.green.shadeDefault,charts.MaterialPalette.pink.shadeDefault,
     charts.MaterialPalette.cyan.shadeDefault, charts.MaterialPalette.red.shadeDefault,charts.MaterialPalette.yellow.shadeDefault,
@@ -224,7 +228,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     var series = [charts.Series(
       domainFn: (addBarChart addBarChart, _) => addBarChart.label,
       measureFn: (addBarChart addBarChart, _) => addBarChart.value,
-      labelAccessorFn: (addBarChart row, _) => "${row.label}",
+      // labelAccessorFn: (addBarChart row, _) => "${row.label}",
       id: 'addBarChart',
       data: Chartdata,
     ),];
@@ -234,8 +238,90 @@ class _AdminHomePageState extends State<AdminHomePage> {
       animationDuration: Duration(microseconds: 1500),
       animate: true,
     );
-
   }
+
+  _getOrderRangeChart() async{
+    var January = 0, February = 0, March = 0, April = 0, May = 0, June = 0,
+        July = 0, August = 0, September = 0, October = 0, November = 0, December = 0;
+    List<DocumentSnapshot> Orderdata = await getOrderCount();
+
+    for (var i=0; i<Orderdata.length; i++) {
+      if (Orderdata[i]['orderMonth'] == 1) {
+        January++;
+      }
+      if (Orderdata[i]['orderMonth'] == 2) {
+        February++;
+      }
+      if (Orderdata[i]['orderMonth'] == 3) {
+        March++;
+      }
+      if (Orderdata[i]['orderMonth'] == 4) {
+        April++;
+      }
+      if (Orderdata[i]['orderMonth'] == 5) {
+        May++;
+      }
+      if (Orderdata[i]['orderMonth'] == 6) {
+        June++;
+      }
+      if (Orderdata[i]['orderMonth'] == 7) {
+        July++;
+      }
+      if (Orderdata[i]['orderMonth'] == 8) {
+        August++;
+      }
+      if (Orderdata[i]['orderMonth'] == 9) {
+        September++;
+      }
+      if (Orderdata[i]['orderMonth'] == 10) {
+        October++;
+      }
+      if (Orderdata[i]['orderMonth'] == 11) {
+        November++;
+      }
+      if (Orderdata[i]['orderMonth'] == 12) {
+        December++;
+      }
+    }
+
+    setState(() {
+      orderDates.add(January);
+      orderDates.add(February);
+      orderDates.add(March);
+      orderDates.add(April);
+      orderDates.add(May);
+      orderDates.add(June);
+      orderDates.add(July);
+      orderDates.add(August);
+      orderDates.add(September);
+      orderDates.add(October);
+      orderDates.add(November);
+      orderDates.add(December);
+    });
+
+
+    //bar chart
+    List<addBarOrderChart> Chartdata = [];
+    for(var i = 0; i<monthes.length; i++){
+      Chartdata.add(
+          addBarOrderChart(monthes[i], orderDates[i]));
+    }
+
+    var series = [charts.Series(
+      domainFn: (addBarOrderChart addBarOrderChart, _) => addBarOrderChart.label,
+      measureFn: (addBarOrderChart addBarOrderChart, _) => addBarOrderChart.value,
+      labelAccessorFn: (addBarOrderChart row, _) => "${row.label}",
+      id: 'addBarOrderChart',
+      data: Chartdata,
+    ),];
+
+    orderChartdisplay = charts.BarChart(
+      series,
+      animationDuration: Duration(microseconds: 1500),
+      animate: true,
+    );
+  }
+
 
   @override
   void initState() {
@@ -244,7 +330,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     _getCounters();
     _getCategoriesName();
     _getUserRangeChart();
-
+    _getOrderRangeChart();
   }
 
   @override
@@ -300,20 +386,38 @@ class _AdminHomePageState extends State<AdminHomePage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Palette.darkBlue,
-                              blurRadius: 10.0
-                          ),
-                        ]
+                  child: InkWell(
+                    onTap: (){
+                      Route route = MaterialPageRoute(builder: (c) => UserChart(userChartdisplay: userChartdisplay));
+                      Navigator.pushReplacement(context, route);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Palette.darkBlue,
+                                blurRadius: 10.0
+                            ),
+                          ]
+                      ),
+                      height: 220,
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text("Shopick Users",
+                                  style: TextStyle(color: Palette.darkBlue, fontSize: 15, fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              height: 150,
+                              child: userChartdisplay,
+                            )
+                          ],
+                        )
                     ),
-                    height: 200,
-                    child: userChartdisplay
                   ),
                 ),
                 Row(
@@ -553,8 +657,43 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     )
 
                   ],
-                )
-
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: InkWell(
+                    onTap: (){
+                      Route route = MaterialPageRoute(builder: (c) => OrderChart(orderChartdisplay: orderChartdisplay));
+                      Navigator.pushReplacement(context, route);
+                    },
+                    child: Container(
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Palette.darkBlue,
+                                  blurRadius: 10.0
+                              ),
+                            ]
+                        ),
+                        height: 250,
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text("Orders for Year 2021",
+                                  style: TextStyle(color: Palette.darkBlue, fontSize: 15, fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              height: 180,
+                              child: orderChartdisplay,
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
@@ -577,4 +716,11 @@ class addBarChart{
   final int value;
 
   addBarChart(this.label, this.value);
+}
+
+class addBarOrderChart{
+  final String label;
+  final int value;
+
+  addBarOrderChart(this.label, this.value);
 }
