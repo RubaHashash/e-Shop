@@ -412,7 +412,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'orderMonth': DateTime.now().month,
-      'isSuccess': "Transfered",
+      'isSuccess': "Transferred",
       'AssignedDriver': ""
     });
 
@@ -428,9 +428,9 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'orderMonth': DateTime.now().month,
-      'isSuccess': "Transfered",
+      'isSuccess': "Transferred",
       'AssignedDriver': "",
-      'isRecieved': false
+      'isReceived': false
     }).whenComplete(() =>
     {
       emptyCart(context)
@@ -449,7 +449,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'orderMonth': DateTime.now().month,
-      'isSuccess': "Transfered",
+      'isSuccess': "Transferred",
       'AssignedDriver': ""
     });
 
@@ -465,9 +465,9 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'orderMonth': DateTime.now().month,
-      'isSuccess': "Transfered",
+      'isSuccess': "Transferred",
       'AssignedDriver': "",
-    'isRecieved': false
+    'isReceived': false
 
     }).whenComplete(() =>
     {

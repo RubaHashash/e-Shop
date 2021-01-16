@@ -146,10 +146,10 @@ class _CartPageState extends State<CartPage> {
             }),
           ),
 
-          // we need to recieve a sequesnce of items so we used stream builder listening to the items collection
+          // we need to receive a sequence of items so we used stream builder listening to the items collection
           StreamBuilder<QuerySnapshot>(
             stream: shopApp.firestore.collection("items")
-              .where("shortInfo", whereIn: shopApp.sharedPreferences.getStringList("userCart")).snapshots(),
+              .where("title", whereIn: shopApp.sharedPreferences.getStringList("userCart")).snapshots(),
             builder: (context, snapshot){
               return !snapshot.hasData
                   ? SliverToBoxAdapter(child: Center(child: circularProgress()))
@@ -172,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                                 Provider.of<TotalAmount>(context, listen: false).display(totalAmount);
                               });
                             }
-                            return sourceInfo(model,context, removeCartFunction: () => removeItemFromUserCart(model.shortInfo));
+                            return sourceInfo(model,context, removeCartFunction: () => removeItemFromUserCart(model.title));
                           },
 
                         childCount: snapshot.hasData ? snapshot.data.documents.length : 0,

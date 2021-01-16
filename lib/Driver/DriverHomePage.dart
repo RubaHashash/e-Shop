@@ -72,7 +72,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
         ),
 
         body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "Transfered")
+          stream: Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "Transferred")
               .where("AssignedDriver", isEqualTo: "").snapshots(),
 
           builder: (c, snapshots){
@@ -82,7 +82,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
               itemBuilder: (c, index){
                 return FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance.collection("items")
-                      .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
+                      .where("title", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
                   builder: (c, snapshot){
                     return snapshot.hasData
                         ? DriverOrderCard(

@@ -154,7 +154,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
                         FutureBuilder<QuerySnapshot>(
                           future: shopApp.firestore.collection("items")
-                              .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
+                              .where("title", whereIn: dataMap["productID"]).getDocuments(),
                           builder: (c, dataSnapshot){
                             return dataSnapshot.hasData
                                 ? OrderCardDetails(
@@ -347,7 +347,7 @@ class ShippingDetails extends StatelessWidget {
           child: Center(
             child: InkWell(
               onTap: (){
-                confirmedUserOrderRecieved(context, getOrderID);
+                confirmedUserOrderReceived(context, getOrderID);
               },
               child: orderStatus == "Delivered" ? Container(
                 decoration: BoxDecoration(
@@ -364,7 +364,7 @@ class ShippingDetails extends StatelessWidget {
                 height: 50.0,
                 child: Center(
                   child: Text(
-                    "Confirmed || Items Recieved",
+                    "Confirmed || Items Received",
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "Cabin", fontSize: 18.0),
                   ),
                 ),
@@ -376,14 +376,14 @@ class ShippingDetails extends StatelessWidget {
     );
   }
 
-  confirmedUserOrderRecieved(BuildContext context, String mOrderID){
+  confirmedUserOrderReceived(BuildContext context, String mOrderID){
 
     // shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
     //     .collection("orders").document(mOrderID).delete();
     shopApp.firestore.collection("orders").document(mOrderID)
         .updateData({
       'isSuccess': "Done",
-      'isRecieved': true
+      'isReceived': true
     });
 
     getOrderID = "";
@@ -391,6 +391,6 @@ class ShippingDetails extends StatelessWidget {
     Route route = MaterialPageRoute(builder: (c) => StoreHome());
     Navigator.pushReplacement(context, route);
 
-    Fluttertoast.showToast(msg: "Order has been Recieved. Confirmed");
+    Fluttertoast.showToast(msg: "Order has been Received. Confirmed");
   }
 }

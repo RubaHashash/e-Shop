@@ -61,7 +61,7 @@ class _MyOrdersState extends State<MyOrders> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: shopApp.firestore.collection("orders")
                     .where("orderBy", isEqualTo: shopApp.sharedPreferences.getString("uid"))
-                    .where("isRecieved", isEqualTo: false).snapshots(),
+                    .where("isReceived", isEqualTo: false).snapshots(),
 
                 builder: (c, snapshots){
                   return !snapshots.hasData
@@ -73,7 +73,7 @@ class _MyOrdersState extends State<MyOrders> {
                           itemBuilder: (c, index){
                             return FutureBuilder<QuerySnapshot>(
                               future: Firestore.instance.collection("items")
-                                  .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
+                                  .where("title", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
                               builder: (c, snapshot){
                                 return snapshot.hasData
                                     ? OrderCard(

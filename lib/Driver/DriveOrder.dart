@@ -236,7 +236,7 @@ class _DriveOrderState extends State<DriveOrder> {
 
                               FutureBuilder<QuerySnapshot>(
                                 future: shopApp.firestore.collection("items")
-                                    .where("shortInfo", whereIn: dataMap["productID"]).getDocuments(),
+                                    .where("title", whereIn: dataMap["productID"]).getDocuments(),
                                 builder: (c, dataSnapshot){
                                   return dataSnapshot.hasData
                                       ? AdminOrderCardDetails(

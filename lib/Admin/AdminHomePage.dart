@@ -3,6 +3,7 @@ import 'package:e_shop_app/Admin/AddCategoryPage.dart';
 import 'package:e_shop_app/Admin/AdminDrivers.dart';
 import 'package:e_shop_app/Admin/AdminStores.dart';
 import 'package:e_shop_app/Admin/OrderChart.dart';
+import 'package:e_shop_app/Admin/OrdersPage.dart';
 import 'package:e_shop_app/Admin/UserChart.dart';
 import 'package:e_shop_app/Authentication/MainPage.dart';
 import 'package:e_shop_app/config/config.dart';
@@ -612,44 +613,50 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                         Padding(
                           padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                            padding: EdgeInsets.all(10.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Palette.darkBlue,
-                                      blurRadius: 10.0
+                          child: InkWell(
+                            onTap: (){
+                              Route route = MaterialPageRoute(builder: (c) => OrdersPage());
+                              Navigator.pushReplacement(context, route);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Palette.darkBlue,
+                                        blurRadius: 10.0
+                                    ),
+                                  ]
+                              ),
+                              width: 170,
+                              height: 80,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.list_alt, color: Palette.darkBlue, size: 30),
+                                      SizedBox(width: 15),
+                                      Text("Orders", style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),),
+                                    ],
                                   ),
-                                ]
-                            ),
-                            width: 170,
-                            height: 80,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.list_alt, color: Palette.darkBlue, size: 30),
-                                    SizedBox(width: 15),
-                                    Text("Orders", style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(orderCount.length.toString(), style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),)
+                                  SizedBox(height: 5),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(orderCount.length.toString(), style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),)
 
-                                  ],
-                                )
+                                    ],
+                                  )
 
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),

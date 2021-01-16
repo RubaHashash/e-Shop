@@ -334,7 +334,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                             ? IconButton(
                           icon: Icon(Icons.add_shopping_cart, color: Palette.darkBlue),
                           onPressed: (){
-                            checkItemInCart(model.shortInfo, context);
+                            checkItemInCart(model.title, context);
                           },
                         )
                             : IconButton(

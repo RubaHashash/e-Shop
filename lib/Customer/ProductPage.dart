@@ -310,7 +310,7 @@ class _ProductPageState extends State<ProductPage> {
                                   onTap: () {
                                     quantityOfItems.display(1);
                                     itemQuantity >= 1 ?
-                                      checkItemInCart(widget.itemModel.shortInfo, context)
+                                      checkItemInCart(widget.itemModel.title, context)
                                         : Fluttertoast.showToast(msg: "Check the items quantity");
                                     setState(() {
                                       itemQuantity = 1;

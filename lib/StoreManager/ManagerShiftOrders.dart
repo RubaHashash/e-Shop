@@ -14,8 +14,8 @@ class ManagerShiftOrders extends StatefulWidget {
 class _ManagerShiftOrdersState extends State<ManagerShiftOrders> {
   
   final storeId = shopApp.sharedPreferences.getString("storeID");
-  final orderStatus = "Transfered";
-  
+  final orderStatus = "Transferred";
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -57,7 +57,8 @@ class _ManagerShiftOrdersState extends State<ManagerShiftOrders> {
 
         // get the list of orders from firebase collection
         body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection("orders").where("isRecieved", isEqualTo: false).snapshots(),
+          stream: Firestore.instance.collection("orders").where("store", isEqualTo: storeId)
+              .where("isReceived", isEqualTo: false).snapshots(),
 
           builder: (c, snapshots){
             return !snapshots.hasData
@@ -68,8 +69,8 @@ class _ManagerShiftOrdersState extends State<ManagerShiftOrders> {
               itemCount: snapshots.data.documents.length,
               itemBuilder: (c, index){
                 return FutureBuilder<QuerySnapshot>(
-                  future: Firestore.instance.collection("items").where("store", isEqualTo: storeId)
-                      .where("shortInfo", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
+                  future: Firestore.instance.collection("items")
+                      .where("title", whereIn: snapshots.data.documents[index].data["productID"]).getDocuments(),
                   builder: (c, snapshot){
                     return snapshot.hasData
                         ? ManagerOrderCard(
