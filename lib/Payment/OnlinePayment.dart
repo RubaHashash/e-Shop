@@ -73,6 +73,12 @@ class _OnlinePaymentState extends State<OnlinePayment> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0, left: 40, right: 40, bottom: 20),
+                child: Container(
+                    child: Image.asset("assets/images/payment.jpg")
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(top: 10.0),
                 decoration: BoxDecoration(

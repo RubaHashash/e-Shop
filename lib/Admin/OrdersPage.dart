@@ -11,13 +11,13 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
 
-  List<DocumentSnapshot> TransferedOrderCount = <DocumentSnapshot> [];
+  List<DocumentSnapshot> RequestedOrderCount = <DocumentSnapshot> [];
   List<DocumentSnapshot> InProgressOrderCount = <DocumentSnapshot> [];
   List<DocumentSnapshot> DeliveredOrderCount = <DocumentSnapshot> [];
   List<DocumentSnapshot> ReceivedOrderCount = <DocumentSnapshot> [];
 
-  Future<List> getTransferredOrderCount(){
-    return Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "Transferred").getDocuments().then((value){
+  Future<List> getRequestedOrderCount(){
+    return Firestore.instance.collection("orders").where("isSuccess", isEqualTo: "Requested").getDocuments().then((value){
       return value.documents;
     });
   }
@@ -41,13 +41,13 @@ class _OrdersPageState extends State<OrdersPage> {
   }
 
   _getCounters() async{
-    List<DocumentSnapshot> Transferreddata = await getTransferredOrderCount();
+    List<DocumentSnapshot> Requesteddata = await getRequestedOrderCount();
     List<DocumentSnapshot> InProgressdata = await getInProgressOrderCount();
     List<DocumentSnapshot> Delivereddata = await getDeliveredOrderCount();
     List<DocumentSnapshot> Receiveddata = await getReceivedOrderCount();
 
     setState(() {
-      TransferedOrderCount = Transferreddata;
+      RequestedOrderCount = Requesteddata;
       InProgressOrderCount = InProgressdata;
       DeliveredOrderCount = Delivereddata;
       ReceivedOrderCount = Receiveddata;
@@ -129,7 +129,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       children: [
                         Icon(Icons.sentiment_dissatisfied, color: Palette.darkBlue, size: 30),
                         SizedBox(width: 15),
-                        Text("Transferred Orders", style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),),
+                        Text("Requested Orders", style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),),
                       ],
                     ),
                     SizedBox(height: 5),
@@ -137,7 +137,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(TransferedOrderCount.length.toString(), style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),)
+                        Text(RequestedOrderCount.length.toString(), style: TextStyle(fontSize: 20, color: Palette.darkBlue, fontWeight: FontWeight.bold),)
 
                       ],
                     )

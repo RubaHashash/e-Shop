@@ -413,7 +413,7 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'orderMonth': DateTime.now().month,
-      'isSuccess': "Transferred",
+      'isSuccess': "Requested",
       'AssignedDriver': "",
       'isReceived': false
     }).whenComplete(() =>
@@ -435,9 +435,9 @@ addOrderDetails(context, String addressID, double totalAmount ) {
           .millisecondsSinceEpoch
           .toString(),
       'orderMonth': DateTime.now().month,
-      'isSuccess': "Transferred",
+      'isSuccess': "Requested",
       'AssignedDriver': "",
-    'isReceived': false
+      'isReceived': false
 
     }).whenComplete(() =>
     {

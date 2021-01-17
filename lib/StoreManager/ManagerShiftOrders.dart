@@ -14,7 +14,7 @@ class ManagerShiftOrders extends StatefulWidget {
 class _ManagerShiftOrdersState extends State<ManagerShiftOrders> {
   
   final storeName = shopApp.sharedPreferences.getString("adminName");
-  final orderStatus = "Transferred";
+  final orderStatus = "Requested";
 
   @override
   Widget build(BuildContext context) {
