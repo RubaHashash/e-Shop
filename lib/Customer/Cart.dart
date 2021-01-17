@@ -172,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                                 Provider.of<TotalAmount>(context, listen: false).display(totalAmount);
                               });
                             }
-                            return sourceInfo(model,context, removeCartFunction: () => removeItemFromUserCart(model.title));
+                            return sourceInfo(model,context, removeCartFunction: () => removeItemFromUserCart(model.title, model.storeName));
                           },
 
                         childCount: snapshot.hasData ? snapshot.data.documents.length : 0,
@@ -207,14 +207,18 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  removeItemFromUserCart(String shortInfoAsID){
+  removeItemFromUserCart(String shortInfoAsID, String storeName){
     List shopList = shopApp.sharedPreferences.getStringList("userCart");
     shopList.remove(shortInfoAsID);
+
+    List storeList = shopApp.sharedPreferences.getStringList("userStoreCart");
+    storeList.remove(storeName);
 
     shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
         .updateData({"userCart": shopList}).then((value) {
       Fluttertoast.showToast(msg: "Item Removed Successfully.");
       shopApp.sharedPreferences.setStringList("userCart", shopList);
+      shopApp.sharedPreferences.setStringList("userStoreCart", storeList);
 
       Provider.of<CartItemCounter>(context, listen: false).displayResult();
 

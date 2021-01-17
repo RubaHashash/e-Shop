@@ -400,28 +400,13 @@ Future writeOrderDetailsForAdmin(Map<String, dynamic> data) async{
 
 addOrderDetails(context, String addressID, double totalAmount ) {
   if (onCash == true) {
-    writeOrderDetailsForUser({
-      'addressID': addressID,
-      'totalAmount': totalAmount,
-      'orderBy': shopApp.sharedPreferences.getString("uid"),
-      'orderByName':shopApp.sharedPreferences.getString("name"),
-      'productID': shopApp.sharedPreferences.getStringList("userCart"),
-      'paymentDetails': "Cash on Delivery",
-      'orderTime': DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString(),
-      'orderMonth': DateTime.now().month,
-      'isSuccess': "Transferred",
-      'AssignedDriver': ""
-    });
-
     writeOrderDetailsForAdmin({
       'addressID': addressID,
       'totalAmount': totalAmount,
       'orderBy': shopApp.sharedPreferences.getString("uid"),
       'orderByName':shopApp.sharedPreferences.getString("name"),
       'productID': shopApp.sharedPreferences.getStringList("userCart"),
+      'storesID': shopApp.sharedPreferences.getStringList("userStoreCart"),
       'paymentDetails': "Cash on Delivery",
       'orderTime': DateTime
           .now()
@@ -437,28 +422,13 @@ addOrderDetails(context, String addressID, double totalAmount ) {
     });
   }
   else{
-    writeOrderDetailsForUser({
-      'addressID': addressID,
-      'totalAmount': totalAmount,
-      'orderBy': shopApp.sharedPreferences.getString("uid"),
-      'orderByName':shopApp.sharedPreferences.getString("name"),
-      'productID': shopApp.sharedPreferences.getStringList("userCart"),
-      'paymentDetails': "Online Payment",
-      'orderTime': DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString(),
-      'orderMonth': DateTime.now().month,
-      'isSuccess': "Transferred",
-      'AssignedDriver': ""
-    });
-
     writeOrderDetailsForAdmin({
       'addressID': addressID,
       'totalAmount': totalAmount,
       'orderBy': shopApp.sharedPreferences.getString("uid"),
       'orderByName':shopApp.sharedPreferences.getString("name"),
       'productID': shopApp.sharedPreferences.getStringList("userCart"),
+      'storesID': shopApp.sharedPreferences.getStringList("userStoreCart"),
       'paymentDetails': "Online Payment",
       'orderTime': DateTime
           .now()
@@ -481,11 +451,16 @@ emptyCart(context){
   shopApp.sharedPreferences.setStringList("userCart", ["garbageValue"]);
   List tempCartList = shopApp.sharedPreferences.getStringList("userCart");
 
+  shopApp.sharedPreferences.setStringList("userStoreCart", ["garbageValue"]);
+  List tempStoreList = shopApp.sharedPreferences.getStringList("userStoreCart");
+
   //update the list in the database
   Firestore.instance.collection("users").document(shopApp.sharedPreferences.getString("uid")).updateData({
     "userCart": tempCartList,
   }).then((value) {
     shopApp.sharedPreferences.setStringList("userCart", tempCartList);
+    shopApp.sharedPreferences.setStringList("userStoreCart", tempStoreList);
+
     Provider.of<CartItemCounter>(context, listen: false).displayResult();
   });
 

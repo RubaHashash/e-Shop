@@ -87,8 +87,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
     await shopApp.sharedPreferences.setString("email", fUser.email);
     await shopApp.sharedPreferences.setString("name", _name.text);
     await shopApp.sharedPreferences.setStringList("userCart", ["garbageValue"]);
-
-
+    await shopApp.sharedPreferences.setStringList("userStoreCart", ["garbageValue"]);
 
   }
 

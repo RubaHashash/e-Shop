@@ -334,7 +334,7 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
                             ? IconButton(
                           icon: Icon(Icons.add_shopping_cart, color: Palette.darkBlue),
                           onPressed: (){
-                            checkItemInCart(model.title, context);
+                            checkItemInCart(model.title,model.storeName, context);
                           },
                         )
                             : IconButton(
@@ -367,42 +367,45 @@ Widget sourceInfo(ItemModel model, BuildContext context, {Color background, remo
 
 }
 
-Widget card({Color primaryColor = Colors.redAccent, String imgPath}){
+// Widget card({Color primaryColor = Colors.redAccent, String imgPath}){
+//
+//   return Container(
+//     height: 150.0,
+//     width: 150.0,
+//     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+//     decoration: BoxDecoration(
+//       color: primaryColor,
+//       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+//       boxShadow: <BoxShadow>[
+//         BoxShadow(offset: Offset(0 , 5), blurRadius: 10.0, color: Palette.darkBlue)
+//       ]
+//     ),
+//   child: ClipRRect(
+//     borderRadius: BorderRadius.circular(20.0),
+//     child: Image.network(imgPath, height: 150.0, width: 150.0,fit: BoxFit.fill),
+//       ),
+//   );
+// }
 
-  return Container(
-    height: 150.0,
-    width: 150.0,
-    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-    decoration: BoxDecoration(
-      color: primaryColor,
-      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-      boxShadow: <BoxShadow>[
-        BoxShadow(offset: Offset(0 , 5), blurRadius: 10.0, color: Palette.darkBlue)
-      ]
-    ),
-  child: ClipRRect(
-    borderRadius: BorderRadius.circular(20.0),
-    child: Image.network(imgPath, height: 150.0, width: 150.0,fit: BoxFit.fill),
-      ),
-  );
-}
-
-void checkItemInCart(String shortInfoAsID, BuildContext context){
+void checkItemInCart(String shortInfoAsID, String storeName, BuildContext context){
 
   shopApp.sharedPreferences.getStringList("userCart").contains(shortInfoAsID)
       ? Fluttertoast.showToast(msg: "Item is already in Cart.")
-      : addItemToCart(shortInfoAsID, context);
+      : addItemToCart(shortInfoAsID, storeName, context);
 }
 
-addItemToCart(String shortInfoAsID, BuildContext context){
+addItemToCart(String shortInfoAsID, String storeName, BuildContext context){
 
   List shopList = shopApp.sharedPreferences.getStringList("userCart");
   shopList.add(shortInfoAsID);
+  List storeList = shopApp.sharedPreferences.getStringList("userStoreCart");
+  storeList.add(storeName);
 
   shopApp.firestore.collection("users").document(shopApp.sharedPreferences.getString("uid"))
   .updateData({"userCart": shopList}).then((value) {
     Fluttertoast.showToast(msg: "Item Added to Cart Successfully.");
     shopApp.sharedPreferences.setStringList("userCart", shopList);
+    shopApp.sharedPreferences.setStringList("userStoreCart", storeList);
 
     Provider.of<CartItemCounter>(context, listen: false).displayResult();
   });

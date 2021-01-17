@@ -74,6 +74,9 @@ class _SignInFormState extends State<SignInForm>  {
       await shopApp.sharedPreferences.setString("name", dataSnapshot.data["name"]);
       List<String> cartList = dataSnapshot.data["userCart"].cast<String>();
       await shopApp.sharedPreferences.setStringList("userCart", cartList);
+
+      List<String> storeCartList = dataSnapshot.data["userStoreCart"].cast<String>();
+      await shopApp.sharedPreferences.setStringList("userStoreCart", storeCartList);
     });
   }
 
