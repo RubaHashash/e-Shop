@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_shop_app/Admin/AdminStores.dart';
+import 'package:e_shop_app/Admin/AdminHomePage.dart';
 import 'package:e_shop_app/config/palette.dart';
 import 'package:flutter/material.dart';
 
@@ -78,7 +78,7 @@ class _OrdersPageState extends State<OrdersPage> {
               icon: Icon(Icons.arrow_back_ios),
               color: Palette.darkBlue,
               onPressed: (){
-                Route route = MaterialPageRoute(builder: (c) => AdminStores());
+                Route route = MaterialPageRoute(builder: (c) => AdminHomePage());
                 Navigator.pushReplacement(context, route);
               },
             ),

@@ -364,7 +364,7 @@ class ShippingDetails extends StatelessWidget {
                 height: 50.0,
                 child: Center(
                   child: Text(
-                    "Confirmed || Items Received",
+                    "Items Received",
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "Cabin", fontSize: 18.0),
                   ),
                 ),

@@ -374,7 +374,7 @@ class AdminShippingDetails extends StatelessWidget {
                 height: 50.0,
                 child: Center(
                   child: Text(
-                    "Confirmed || Package Shifted",
+                    "Package Shifted",
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "Cabin", fontSize: 18.0),
                   ),
                 ),
@@ -400,6 +400,6 @@ class AdminShippingDetails extends StatelessWidget {
     Route route = MaterialPageRoute(builder: (c) => ManagerHomePage());
     Navigator.pushReplacement(context, route);
 
-    Fluttertoast.showToast(msg: "Package has been Shifted. Confirmed");
+    Fluttertoast.showToast(msg: "Package has been Shifted to "+ getDriverName);
   }
 }

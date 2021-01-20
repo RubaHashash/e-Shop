@@ -137,9 +137,7 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
         child: ManagerDrawer(),
       ),
 
-      body: GridView.builder(
-        scrollDirection: Axis.vertical,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
+      body: ListView.builder(
           itemCount: categories.length,
           itemBuilder: (BuildContext context, int index){
             return ManagerCategoryCard(category_index: categories[index]['categoryName'], images: images[index], count: countList[index]);
